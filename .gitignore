@@ -1,9 +1,5 @@
-# Secrets
 .env
-# Python virtual environment
 .venv/
-# Python cache
 __pycache__/
 *.pyc
-# ADK local state
 .adk/   
