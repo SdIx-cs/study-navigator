@@ -3,3 +3,5 @@
 __pycache__/
 *.pyc
 .adk/   
+/AGENTS.md
+/BENCHMARK.md

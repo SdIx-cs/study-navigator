@@ -1,0 +1,70 @@
+{
+    "modules": {
+        "AI": {
+            "Mark distribution": {
+                "Courseworks": 40,
+                "Assesments": 60
+            }, 
+            "lectures": {
+                "taught": "7/10",
+                "learnt": "4/10"
+            },
+            "Courseworks": {
+                "cw1": {
+                    "Percentage": 30,
+                    "Deadline": "20-10-2026",
+                    "Is released": true,
+                    "Is submitted": false
+                }, 
+                "cw2": {
+                    "Percentage": 10,
+                    "Deadline": "12-1-2027",
+                    "Is released": false,
+                    "Is submitted": false
+                }
+            }, 
+            "Assesments": {
+                "Final exam": {
+                    "Percentage": 60,
+                    "Date": "20-1-2027"
+                }
+            },
+            "Not-in-scope": {},
+            "Future Relevance": "high"
+        },
+        "DB": {
+            "Mark distribution": {
+                "Courseworks": 20,
+                "Assesments": 80
+            }, 
+            "lectures": {
+                "taught": "8/10",
+                "learnt": "3/10"
+            },
+            "Courseworks": {
+                "cw1": {
+                    "Percentage": 20,
+                    "Deadline": "10-11-2026",
+                    "Is released": true,
+                    "Is submitted": false
+                }
+            }, 
+            "Assesments": {
+                "Test 1": {
+                    "Percentage": 5,
+                    "Date": "25-9-2026"
+                },
+                "Test 2": {
+                    "Percentage": 5,
+                    "Date": "1-12-2026"
+                },
+                "Final exam": {
+                    "Percentage": 70,
+                    "Date": "22-1-2027"
+                }
+            },
+            "Not-in-scope": {},
+            "Future Relevance": "low"
+        }
+    }
+}

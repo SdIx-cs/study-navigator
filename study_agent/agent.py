@@ -1,25 +1,13 @@
 from google.adk import Agent
 
-def get_study_context():
-    return {
-        "module overviews": {
-            "AI": "Artificial Intelligence and Intelligent Systems",
-            "DB": "Advanced Database Management"
-        },
-        "Lecture progress": {
-            "AI": "7/10 lectures | 2/3 courseworks",
-            "DB": "8/10 lectures | 0/1 courseworks"
-        },
-        "Current progress": {
-            "AI": "5/10 lectures | 1/3 courseworks",
-            "DB": "4/10 lectures | 0/1 courseworks"
-        }
-    }
-
+try:
+    from .tools import calculate_study_metrics, get_study_context
+except ImportError:
+    from tools import calculate_study_metrics, get_study_context
 
 root_agent = Agent(
     name="study_navigator",
-    model="gemini-3.8-flash",
+    model="gemini-3.6-flash",
     description="Helps the user decide what to study next.",
     instruction="""
     You are a study navigator.
@@ -27,8 +15,10 @@ root_agent = Agent(
     Help the user decide what to study next based on their
     learning goal and current situation.
 
+    Use calculate_study_metrics to inspect deterministic deadlines, lecture deficits,
+    and marks at risk.
     Explain things clearly when explanation is useful.
     When practice is more useful, give the user a practice task.
     """,
-    tools=[get_study_context]
+    tools=[calculate_study_metrics, get_study_context]
 )
