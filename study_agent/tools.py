@@ -27,21 +27,62 @@ def _parse_fraction(frac_str: str) -> tuple[int, int]:
         return 0, 0
 
 
-def get_study_context() -> Dict[str, Any]:
-    """Loads and returns the raw study context data from disk."""
-    if not CONTEXT_FILE.exists():
-        return {}
-    with open(CONTEXT_FILE, "r", encoding="utf-8") as f:
-        return json.load(f)
+def get_study_context(user_id: str = "default_user") -> Dict[str, Any]:
+    """Loads study context data from disk, dynamically merged with any stored student preferences and custom tasks."""
+    data = {}
+    if CONTEXT_FILE.exists():
+        with open(CONTEXT_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+    try:
+        from study_agent.db import get_custom_tasks, get_preferences
+        prefs = get_preferences(user_id)
+        if prefs:
+            data.setdefault("student_profile", {})
+            data["student_profile"].update(prefs)
+
+        custom_tasks = get_custom_tasks(user_id)
+        if custom_tasks:
+            modules = data.setdefault("modules", {})
+            for ct in custom_tasks:
+                mod_code = ct["module"]
+                if mod_code not in modules:
+                    modules[mod_code] = {
+                        "Mark distribution": {
+                            "Courseworks": 100 if ct["is_coursework"] else 0,
+                            "Assesments": 0 if ct["is_coursework"] else 100,
+                        },
+                        "lectures": {"taught": "0/0", "learnt": "0/0"},
+                        "Courseworks": {},
+                        "Assesments": {},
+                        "Future Relevance": "custom",
+                    }
+                if ct["is_coursework"]:
+                    modules[mod_code].setdefault("Courseworks", {})[ct["task_name"]] = {
+                        "Percentage": ct["percentage"],
+                        "Deadline": ct["deadline"],
+                        "Is released": True,
+                        "Is submitted": ct["is_submitted"],
+                    }
+                else:
+                    modules[mod_code].setdefault("Assesments", {})[ct["task_name"]] = {
+                        "Percentage": ct["percentage"],
+                        "Date": ct["deadline"],
+                    }
+    except Exception as e:
+        log.warning("Could not merge custom tasks from db: %s", e)
+
+    return data
 
 
-def calculate_study_metrics(ref_date_str: str = "") -> Dict[str, Any]:
+def calculate_study_metrics(ref_date_str: str = "", user_id: str = "default_user") -> Dict[str, Any]:
     """Calculates deterministic academic workload metrics, lecture deficits, and upcoming deadlines.
 
     Provides rich, interpretable decision context without imposing a prescriptive action formula.
 
     Args:
         ref_date_str: Optional reference date in DD-MM-YYYY format (defaults to current date).
+        user_id: The ID of the active student to load custom tasks and preferences for.
 
     Returns:
         dict containing per-module metrics (urgency ratings, actionable coursework weight at risk,
@@ -57,7 +98,7 @@ def calculate_study_metrics(ref_date_str: str = "") -> Dict[str, Any]:
     else:
         today = date.today()
 
-    data = get_study_context()
+    data = get_study_context(user_id=user_id)
     if not data:
         return {"status": "error", "error": f"Context file not found: {CONTEXT_FILE}"}
 
@@ -212,6 +253,7 @@ def calculate_study_metrics(ref_date_str: str = "") -> Dict[str, Any]:
     return {
         "status": "success",
         "reference_date": today.strftime("%d-%m-%Y"),
+        "student_profile": data.get("student_profile", {}),
         "modules": modules_metrics,
         "upcoming_deadlines_sorted": all_upcoming_deadlines,
         "decision_context": {
@@ -261,5 +303,103 @@ def apply_study_intervention(
         "details": details,
         "message": f"Successfully applied intervention {interv_upper} for {mod_upper}.",
     }
+
+
+def save_student_preference(
+    key: str, value: str, user_id: str = "default_user"
+) -> Dict[str, Any]:
+    """Saves or updates a persistent student preference across sessions.
+
+    Use this when the student tells you their name (e.g., key='preferred_name', value='John'),
+    preferred study block length (e.g., key='block_length', value='30 mins'), work habits,
+    fatigue sensitivities, or personal study goals.
+
+    Args:
+        key: The preference category (e.g., 'preferred_name', 'block_duration', 'fatigue_sensitivity').
+        value: The value to persist (e.g., 'John', '30 minutes', 'migraine-prone').
+        user_id: The ID of the student.
+
+    Returns:
+        Confirmation dict with the saved preference.
+    """
+    try:
+        from study_agent.db import set_preference
+        set_preference(user_id=user_id, key=key, value=value)
+        return {
+            "status": "success",
+            "message": f"Saved preference '{key}': '{value}' for {user_id}.",
+            "key": key,
+            "value": value,
+        }
+    except Exception as e:
+        return {"status": "error", "error": str(e)}
+
+
+def add_academic_task(
+    module: str,
+    task_name: str,
+    deadline: str,
+    percentage: float = 0.0,
+    is_coursework: bool = True,
+    user_id: str = "default_user",
+) -> Dict[str, Any]:
+    """Adds a new academic module or coursework/exam task to the student's persistent workload.
+
+    Use this when the student reports that they are enrolled in another module (e.g., 'Computer Networks', 'CN'),
+    or have an unlisted assignment, quiz, or exam coming up. This persists across all future sessions.
+
+    Args:
+        module: Module code or title (e.g., 'CN', 'MATH', 'NETWORKS').
+        task_name: Deliverable name (e.g., 'cw1', 'Midterm Project', 'Lab Report 2').
+        deadline: Deadline date in DD-MM-YYYY format (e.g., '25-10-2026').
+        percentage: Marks weighting percentage (e.g., 20.0 for 20%).
+        is_coursework: True for coursework/assignments, False for formal exam.
+        user_id: The ID of the student.
+
+    Returns:
+        Confirmation dict with the added task details.
+    """
+    try:
+        from study_agent.db import add_custom_task
+        task = add_custom_task(
+            user_id=user_id,
+            module=module,
+            task_name=task_name,
+            deadline=deadline,
+            percentage=percentage,
+            is_coursework=is_coursework,
+        )
+        return {
+            "status": "success",
+            "message": f"Added task '{task_name}' ({percentage}%) to module '{module.upper()}', deadline {deadline}.",
+            "task": task,
+        }
+    except Exception as e:
+        return {"status": "error", "error": str(e)}
+
+
+def get_student_memory(user_id: str = "default_user") -> Dict[str, Any]:
+    """Retrieves all stored preferences, custom modules/tasks, and intervention history for a student.
+
+    Use this at the start of a session or when recalling prior student context.
+
+    Args:
+        user_id: The ID of the student.
+
+    Returns:
+        dict containing student preferences, active custom tasks, and recent applied interventions.
+    """
+    try:
+        from study_agent.db import get_custom_tasks, get_intervention_history, get_preferences
+        return {
+            "status": "success",
+            "user_id": user_id,
+            "preferences": get_preferences(user_id),
+            "custom_tasks": get_custom_tasks(user_id),
+            "recent_interventions": get_intervention_history(limit=10, user_id=user_id),
+        }
+    except Exception as e:
+        return {"status": "error", "error": str(e)}
+
 
 

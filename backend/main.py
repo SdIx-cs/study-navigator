@@ -105,15 +105,22 @@ def health_check():
 
 
 @app.get("/api/metrics")
-def get_metrics():
-    """Returns current deterministic academic metrics."""
-    return calculate_study_metrics()
+def get_metrics(user_id: str = "student_1"):
+    """Returns current deterministic academic metrics merged with student profile."""
+    return calculate_study_metrics(user_id=user_id)
+
+
+@app.get("/api/profile")
+def get_profile(user_id: str = "student_1"):
+    """Returns cross-session student memories, preferences, and custom tasks."""
+    from study_agent.tools import get_student_memory
+    return get_student_memory(user_id=user_id)
 
 
 @app.get("/api/interventions")
-def list_interventions(limit: int = 20):
+def list_interventions(limit: int = 20, user_id: Optional[str] = None):
     """Returns historical applied interventions from SQLite store."""
-    return {"interventions": get_intervention_history(limit=limit)}
+    return {"interventions": get_intervention_history(limit=limit, user_id=user_id)}
 
 
 @app.post("/api/chat")

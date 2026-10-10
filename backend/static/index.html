@@ -174,10 +174,13 @@
     <div class="brand">
       <span>🎓 Study Navigator</span>
       <span class="badge badge-gov">Model Armor Active</span>
-      <span class="badge badge-live" id="telemetryBadge">Cloud Trace Ready</span>
+      <span class="badge badge-live" id="telemetryBadge">Memory Store Connected</span>
     </div>
-    <div style="font-size: 0.8rem; color: var(--text-muted);" id="headerInfo">
-      Session: <span style="color: var(--text); font-weight: 600;">student_1</span> | Semester 2026-2027
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <div style="font-size: 0.85rem; color: var(--text-muted);" id="headerInfo">
+        Student: <span id="studentNameDisplay" style="color: var(--accent); font-weight: 700;">student_1</span>
+      </div>
+      <button class="quick-btn" style="background: rgba(56, 189, 248, 0.15); color: var(--accent); border-color: var(--accent);" onclick="startNewSession()">+ New Session</button>
     </div>
   </header>
 
@@ -252,11 +255,44 @@
   </main>
 
   <script>
-    const sessionId = "session_" + Math.random().toString(36).substring(7);
+    let userId = localStorage.getItem("study_nav_user_id") || "student_1";
+    localStorage.setItem("study_nav_user_id", userId);
+
+    let sessionId = localStorage.getItem("study_nav_session_id");
+    if (!sessionId) {
+      sessionId = "session_" + Math.random().toString(36).substring(7);
+      localStorage.setItem("study_nav_session_id", sessionId);
+    }
+
+    async function fetchProfile() {
+      try {
+        const res = await fetch(`/api/profile?user_id=${encodeURIComponent(userId)}`);
+        const data = await res.json();
+        const prefs = data.preferences || {};
+        const nameEl = document.getElementById("studentNameDisplay");
+        if (prefs.preferred_name) {
+          nameEl.textContent = `${prefs.preferred_name} (${userId})`;
+        } else {
+          nameEl.textContent = userId;
+        }
+      } catch (e) {
+        console.error("Failed to load profile:", e);
+      }
+    }
+
+    function startNewSession() {
+      sessionId = "session_" + Math.random().toString(36).substring(7);
+      localStorage.setItem("study_nav_session_id", sessionId);
+      const chat = document.getElementById("chatMessages");
+      chat.innerHTML = `
+        <div class="msg msg-agent">🔄 Started a new study session! Your stored preferences, custom modules, and past history are preserved. Check in whenever you are ready.</div>
+      `;
+      setStage("idle");
+    }
 
     async function fetchMetrics() {
       try {
-        const res = await fetch("/api/metrics");
+        const res = await fetch(`/api/metrics?user_id=${encodeURIComponent(userId)}`);
         const data = await res.json();
         const container = document.getElementById("modulesList");
         container.innerHTML = "";
@@ -291,7 +327,7 @@
 
     async function fetchHistory() {
       try {
-        const res = await fetch("/api/interventions");
+        const res = await fetch(`/api/interventions?user_id=${encodeURIComponent(userId)}`);
         const data = await res.json();
         const container = document.getElementById("historyList");
         container.innerHTML = "";
@@ -350,7 +386,7 @@
         const res = await fetch("/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ user_id: "student_1", session_id: sessionId, message: text }),
+          body: JSON.stringify({ user_id: userId, session_id: sessionId, message: text }),
         });
         const data = await res.json();
         appendMessage(data.response, "agent");
@@ -365,6 +401,10 @@
         } else {
           setStage("idle");
         }
+
+        // Dynamically update profile and metrics in case new preferences or modules were added
+        fetchProfile();
+        fetchMetrics();
       } catch (err) {
         appendMessage("Error communicating with agent: " + err.message, "agent");
         setStage("idle");
@@ -379,7 +419,7 @@
         const res = await fetch("/api/confirm", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ user_id: "student_1", session_id: sessionId, confirmed: confirmed }),
+          body: JSON.stringify({ user_id: userId, session_id: sessionId, confirmed: confirmed }),
         });
         const data = await res.json();
         appendMessage(data.response, "agent");
@@ -410,6 +450,7 @@
     }
 
     // Initial load
+    fetchProfile();
     fetchMetrics();
     fetchHistory();
     setStage("idle");

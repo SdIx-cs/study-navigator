@@ -16,15 +16,21 @@ load_dotenv(pathlib.Path(__file__).parent / ".env", override=True)
 
 try:
     from .tools import (
+        add_academic_task,
         apply_study_intervention,
         calculate_study_metrics,
+        get_student_memory,
         get_study_context,
+        save_student_preference,
     )
 except ImportError:
     from tools import (
+        add_academic_task,
         apply_study_intervention,
         calculate_study_metrics,
+        get_student_memory,
         get_study_context,
+        save_student_preference,
     )
 
 # --- Slice stages, surfaced to session state ---
@@ -116,7 +122,7 @@ Two-Step Confirmation Protocol:
 
 2. When the user responds to your proposal:
    - If the user confirms or asks to apply the intervention (e.g., 'Yes', 'Confirm', 'Apply this', 'Proceed'): Call apply_study_intervention with the confirmed intervention and details.
-   - If the user modifies the proposal (e.g., 'Let's switch but shrink to 30 mins'): Call apply_study_intervention with the user's modified parameters.
+   - If the user modifies the proposal (e.g., 'I want to modify the proposal: let's SHRINK to 30 mins' or 'switch to DB'): You MUST call apply_study_intervention using the user's explicitly requested intervention type (e.g., intervention='SHRINK' or 'SWITCH') and their modified scope.
    - If the user rejects the proposal (e.g., 'No', 'I disagree'): Respect their choice and do NOT call apply_study_intervention.
 
 Output Format for Proposals:
@@ -130,6 +136,11 @@ When presenting a proposal, use this exact template:
 - **Wider Workload & Rationale**: [Deterministic justification from calculate_study_metrics: days remaining, marks at risk, lecture deficits]
 - **Trade-offs Considered**: [Significance, opportunity cost, or fatigue trade-off]
 - **User Confirmation Required**: [Clear yes/no question asking the user to confirm, modify, or reject this intervention before it takes effect]
+
+Cross-Session Memory & Student Profile:
+- When the student shares personal preferences (e.g., preferred name like 'John', preferred study block duration, working style, or fatigue patterns), call save_student_preference to persist it across sessions, and warmly address them by their preferred name.
+- When the student mentions they are enrolled in another module (e.g., Computer Networks, Algorithms) or have an unlisted coursework, project, or exam, call add_academic_task to permanently add it to their academic workload. Then call calculate_study_metrics so the new deliverable is included in urgency calculations.
+- Always check student_profile in calculate_study_metrics to adapt your guidance to their known preferences.
 """
 
 from study_agent.guardrails import guard_input, guard_output
@@ -186,7 +197,14 @@ root_agent = Agent(
     model=configured_model,
     description="Adaptive study navigator that guides study blocks, interprets check-ins, and proposes structured interventions.",
     instruction=INSTRUCTION,
-    tools=[calculate_study_metrics, get_study_context, apply_study_intervention_tool],
+    tools=[
+        calculate_study_metrics,
+        get_study_context,
+        apply_study_intervention_tool,
+        save_student_preference,
+        add_academic_task,
+        get_student_memory,
+    ],
     before_agent_callback=_init_stage,
     before_model_callback=guard_input,
     after_tool_callback=_track_stage,
