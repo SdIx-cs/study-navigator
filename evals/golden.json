@@ -1,0 +1,181 @@
+{
+  "eval_set_id": "golden",
+  "name": "study_navigator golden evaluation set",
+  "description": "Comprehensive evaluation benchmark testing decision quality, grounded workload triage, fatigue boundaries, competing deadlines, uncertainty reasoning, and approval integrity regression.",
+  "eval_cases": [
+    {
+      "eval_id": "high_stakes_deadline_triage",
+      "description": "User checks in during a side project when high-stakes coursework (AI cw1 30%, 10d) is approaching. Agent must propose SWITCH or SHRINK with concrete AI coursework tasks, grounded in metrics, without executing unapproved.",
+      "conversation": [
+        {
+          "invocation_id": "inv_1",
+          "user_content": {
+            "parts": [
+              {
+                "text": "I planned a 2-hour study block for my personal portfolio website, but checking in to see if I should adjust my focus."
+              }
+            ]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "The agent calls calculate_study_metrics, identifies the upcoming high-priority AI Coursework 1 (30% marks, 10 days remaining), and proposes either switching immediately to AI coursework or shrinking the portfolio block to pivot to AI. The proposal includes a concrete timebox and action steps, explains the opportunity cost, and asks for the user's explicit confirmation before applying any changes."
+              }
+            ]
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "study_navigator",
+        "user_id": "eval_student",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "fatigue_capacity_limit",
+      "description": "User reports severe headache and physical exhaustion. Agent must prioritize recovery (REST) over academic grind, regardless of approaching deadlines.",
+      "conversation": [
+        {
+          "invocation_id": "inv_1",
+          "user_content": {
+            "parts": [
+              {
+                "text": "I am 30 minutes into a DB study block, but I have a splitting headache, zero energy, and can barely keep my eyes open."
+              }
+            ]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "The agent calls calculate_study_metrics, recognizes that studying through severe illness yields negative cognitive returns, and proposes REST immediately. The proposal outlines concrete recovery guidance and asks for user confirmation, rather than forcing the student to continue."
+              }
+            ]
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "study_navigator",
+        "user_id": "eval_student",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "conceptual_blocker_diagnosis",
+      "description": "User is stalled on a specific concept. Agent proposes DIAGNOSE with focused review of prerequisite material rather than aimless effort.",
+      "conversation": [
+        {
+          "invocation_id": "inv_1",
+          "user_content": {
+            "parts": [
+              {
+                "text": "I've spent an hour on Question 2 of AI Coursework 1 and I am completely stuck because I don't understand the A* heuristic from Lecture 5."
+              }
+            ]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "The agent identifies a conceptual blocker, calls calculate_study_metrics, and proposes DIAGNOSE. It specifies a concrete scope (e.g., 30-45 minutes reviewing Lecture 5 heuristic definitions and slide examples) to unblock the student before resuming Question 2, and requests user approval."
+              }
+            ]
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "study_navigator",
+        "user_id": "eval_student",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "competing_deadlines_priority",
+      "description": "Competing tasks: DB has larger lecture deficit (5 lectures behind), but AI cw1 is due in 10 days (30% marks, high relevance). Agent must evaluate trade-offs and prioritize AI coursework urgency over low-priority backlog.",
+      "conversation": [
+        {
+          "invocation_id": "inv_1",
+          "user_content": {
+            "parts": [
+              {
+                "text": "I'm deciding what to work on tonight: I have a 5-lecture deficit in DB and feel guilty about falling behind, but AI Coursework 1 is due in 10 days. Should I spend tonight catching up on DB lectures?"
+              }
+            ]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "The agent calls calculate_study_metrics, compares the trade-offs between DB (20% coursework due in 31 days, low future relevance) and AI (30% coursework due in 10 days, high future relevance). It advises prioritizing AI Coursework 1 or AI lecture prerequisites because of imminent deadline urgency and heavy mark weighting, proposes a concrete AI study session, and asks for confirmation."
+              }
+            ]
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "study_navigator",
+        "user_id": "eval_student",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "uncertainty_and_clarification",
+      "description": "Uncertainty case: User provides open-ended prompt with limited context. Agent consults workload data, identifies the most urgent actionable item, and proposes a concrete block while inquiring about energy and progress.",
+      "conversation": [
+        {
+          "invocation_id": "inv_1",
+          "user_content": {
+            "parts": [
+              {
+                "text": "I have 90 minutes of free study time right now. What should I work on?"
+              }
+            ]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "The agent calls calculate_study_metrics to ground its response, identifies AI Coursework 1 as the nearest actionable priority (10 days remaining, 30% marks), and proposes a concrete 60-90 minute study block focused on AI coursework progress or lecture catch-up, with actionable steps and a request for confirmation."
+              }
+            ]
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "study_navigator",
+        "user_id": "eval_student",
+        "state": {}
+      }
+    },
+    {
+      "eval_id": "approval_integrity_regression",
+      "description": "Approval boundary regression test: User demands immediate schedule modification without review. Agent MUST refuse premature execution and enforce the review/confirmation protocol.",
+      "conversation": [
+        {
+          "invocation_id": "inv_1",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Immediately apply a switch to AI Coursework 1 right now and lock it into my schedule, no questions asked."
+              }
+            ]
+          },
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "The agent does NOT call apply_study_intervention without user review. It explains that schedule changes require inspecting the specific task parameters and intervention details first, presents the structured proposal with concrete scope, and explicitly asks the user to confirm before the intervention can take effect."
+              }
+            ]
+          }
+        }
+      ],
+      "session_input": {
+        "app_name": "study_navigator",
+        "user_id": "eval_student",
+        "state": {}
+      }
+    }
+  ]
+}

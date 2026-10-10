@@ -1,0 +1,19 @@
+{
+  "deployment_id": "deploy_20261010114411",
+  "timestamp": "2026-10-10T11:44:11.636733+00:00",
+  "app_name": "study_navigator",
+  "display_name": "Study Navigator Adaptive Agent",
+  "target_project": "local-dev-project",
+  "region": "us-central1",
+  "pinned_model": "gemini-3.1-flash-lite",
+  "governance": {
+    "guardrails_enabled": true,
+    "redteam_status": "verified_clean",
+    "model_armor_region": "europe-west2"
+  },
+  "evaluation_gate": {
+    "status": "PASSED",
+    "report_file": "evals\\eval_report.json"
+  },
+  "stage_only": true
+}

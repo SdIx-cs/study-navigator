@@ -1,0 +1,35 @@
+{
+  "timestamp": "2026-10-10 12:53:34",
+  "assumptions": {
+    "avg_input_tokens_per_checkin": 1450,
+    "avg_output_tokens_per_checkin": 320,
+    "avg_checkins_per_student_semester": 60,
+    "cohort_size": 1000,
+    "total_tokens_per_interaction": 1770,
+    "cohort_interactions_per_semester": 60000
+  },
+  "models": {
+    "gemini-3.1-flash-lite": {
+      "tier": "Default Production",
+      "latency": "1.2s",
+      "cost_per_checkin_usd": 0.000205,
+      "cost_per_student_semester_usd": 0.0123,
+      "cost_per_cohort_semester_usd": 12.28
+    },
+    "gemini-2.5-flash": {
+      "tier": "Complex Multi-Turn Evaluation",
+      "latency": "2.1s",
+      "cost_per_checkin_usd": 0.000409,
+      "cost_per_student_semester_usd": 0.0246,
+      "cost_per_cohort_semester_usd": 24.57
+    },
+    "gemini-1.5-pro": {
+      "tier": "Offline Complex Reasoning",
+      "latency": "4.5s",
+      "cost_per_checkin_usd": 0.003412,
+      "cost_per_student_semester_usd": 0.2047,
+      "cost_per_cohort_semester_usd": 204.75
+    }
+  },
+  "architectural_finding": "Using gemini-3.1-flash-lite delivers sub-1.5s responsive check-ins while achieving 94.0% cost savings over 1.5-pro ($ 12.28 vs $ 204.75 per 1,000 students/term). Deterministic calculation offloaded to calculate_study_metrics ensures zero degradation in mathematical precision despite using the lightweight model."
+}

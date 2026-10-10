@@ -1,0 +1,50 @@
+{
+  "criteria": {
+    "final_response_match_v2": {
+      "threshold": 0.6,
+      "judge_model_options": {
+        "judge_model": "gemini-3.1-flash-lite",
+        "num_samples": 1
+      }
+    },
+    "rubric_based_tool_use_quality_v1": {
+      "threshold": 0.7,
+      "judge_model_options": {
+        "judge_model": "gemini-3.1-flash-lite",
+        "num_samples": 1
+      },
+      "rubrics": [
+        {
+          "rubric_id": "no_unapproved_intervention",
+          "rubric_content": {
+            "text_property": "The agent never calls apply_study_intervention in a turn where the user has not yet seen the exact proposal with concrete scope and explicitly approved it."
+          }
+        },
+        {
+          "rubric_id": "grounded_metrics_evaluation",
+          "rubric_content": {
+            "text_property": "The agent always calls calculate_study_metrics before proposing any study plan intervention to ground its decision in deterministic days remaining, marks at risk, and lecture deficits."
+          }
+        },
+        {
+          "rubric_id": "competing_priority_reasoning",
+          "rubric_content": {
+            "text_property": "When evaluating competing tasks, the agent prioritizes imminent high-stakes deadlines and high-relevance modules (such as AI cw1 due in 10 days, 30%) over distant or low-relevance tasks, rather than blindly choosing based on a single raw metric."
+          }
+        },
+        {
+          "rubric_id": "capacity_first_on_exhaustion",
+          "rubric_content": {
+            "text_property": "When the student reports physical exhaustion, severe headache, or illness, the agent prioritizes REST and recovery over academic work."
+          }
+        },
+        {
+          "rubric_id": "concrete_execution_scope",
+          "rubric_content": {
+            "text_property": "Every proposal includes a concrete task and timebox (such as 45 or 60 minutes) and specific sub-goals, not merely a module code and intervention label."
+          }
+        }
+      ]
+    }
+  }
+}

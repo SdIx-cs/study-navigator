@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Study Navigator — Production Agent Dashboard</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --border: #334155;
+      --accent: #38bdf8;
+      --accent-hover: #0284c7;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+    /* Top Nav */
+    header {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand { display: flex; align-items: center; gap: 0.75rem; font-weight: 700; font-size: 1.15rem; }
+    .badge { padding: 0.25rem 0.6rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }
+    .badge-live { background: rgba(34, 197, 94, 0.2); color: var(--success); border: 1px solid var(--success); }
+    .badge-gov { background: rgba(56, 189, 248, 0.2); color: var(--accent); border: 1px solid var(--accent); }
+
+    /* Main Grid */
+    main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 320px 1fr 340px;
+      gap: 1rem;
+      padding: 1rem;
+      overflow: hidden;
+    }
+
+    .panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .panel-header {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--border);
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .panel-body { padding: 1rem; overflow-y: auto; flex: 1; }
+
+    /* Metric Cards */
+    .metric-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .metric-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.4rem; display: flex; justify-content: space-between; }
+    .stat-row { display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.25rem; }
+    .stat-val { font-weight: 600; color: var(--text); }
+    .urgent-banner {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid var(--danger);
+      color: #fca5a5;
+      padding: 0.6rem;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Chat Panel */
+    .chat-messages { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
+    .msg { max-width: 85%; padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.9rem; line-height: 1.45; white-space: pre-wrap; }
+    .msg-user { align-self: flex-end; background: var(--accent); color: #000; font-weight: 500; }
+    .msg-agent { align-self: flex-start; background: #273549; border: 1px solid var(--border); }
+    .chat-input-area { padding: 0.75rem; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 0.5rem; }
+    .quick-prompts { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.25rem; }
+    .quick-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 4px;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.75rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .quick-btn:hover { background: rgba(255, 255, 255, 0.1); color: var(--text); }
+    .input-row { display: flex; gap: 0.5rem; }
+    input[type="text"] {
+      flex: 1;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.6rem 0.8rem;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+    input[type="text"]:focus { outline: 1px solid var(--accent); border-color: var(--accent); }
+    button.btn-primary {
+      background: var(--accent);
+      color: #000;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button.btn-primary:hover { background: var(--accent-hover); }
+
+    /* Stage & Approval Panel */
+    .stepper { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      padding: 0.4rem;
+      border-radius: 4px;
+    }
+    .step-active { background: rgba(56, 189, 248, 0.1); color: var(--accent); font-weight: 600; }
+    .step-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+    .step-active .step-dot { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+
+    /* Approval Gate Box */
+    .gate-box {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid var(--warning);
+      border-radius: 6px;
+      padding: 0.85rem;
+      margin-bottom: 1rem;
+      display: none;
+    }
+    .gate-title { font-weight: 700; color: var(--warning); font-size: 0.9rem; margin-bottom: 0.4rem; }
+    .gate-desc { font-size: 0.82rem; color: #cbd5e1; margin-bottom: 0.75rem; }
+    .gate-actions { display: flex; gap: 0.5rem; }
+    .btn-approve { flex: 1; background: var(--success); color: #000; font-weight: 700; border: none; padding: 0.5rem; border-radius: 4px; cursor: pointer; }
+    .btn-reject { flex: 1; background: var(--danger); color: #fff; font-weight: 700; border: none; padding: 0.5rem; border-radius: 4px; cursor: pointer; }
+
+    /* Audit History */
+    .history-item {
+      font-size: 0.8rem;
+      border-bottom: 1px solid var(--border);
+      padding: 0.5rem 0;
+      color: #cbd5e1;
+    }
+    .history-item:last-child { border-bottom: none; }
+    .history-tag { font-weight: 700; color: var(--success); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <span>🎓 Study Navigator</span>
+      <span class="badge badge-gov">Model Armor Active</span>
+      <span class="badge badge-live" id="telemetryBadge">Cloud Trace Ready</span>
+    </div>
+    <div style="font-size: 0.8rem; color: var(--text-muted);" id="headerInfo">
+      Session: <span style="color: var(--text); font-weight: 600;">student_1</span> | Semester 2026-2027
+    </div>
+  </header>
+
+  <main>
+    <!-- Left: Workload & Deterministic Metrics -->
+    <div class="panel">
+      <div class="panel-header">
+        <span>Academic Constraints</span>
+        <button class="quick-btn" onclick="fetchMetrics()">Refresh</button>
+      </div>
+      <div class="panel-body" id="metricsContainer">
+        <div class="urgent-banner">
+          ⚠️ <strong>High Stakes Deliverable:</strong><br/>
+          AI Coursework 1 (30% marks) due in 10 days!
+        </div>
+        <div id="modulesList">Loading metrics...</div>
+      </div>
+    </div>
+
+    <!-- Center: Interactive Check-in Chat -->
+    <div class="panel">
+      <div class="panel-header">
+        <span>Check-in Dialogue</span>
+        <span id="typingIndicator" style="display:none; color: var(--accent); font-size: 0.75rem;">Evaluating situation...</span>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="msg msg-agent">👋 Hello! I am your Study Navigator. Check in whenever you start a block, feel fatigue, or need to decide what to prioritize.</div>
+      </div>
+      <div class="chat-input-area">
+        <div class="quick-prompts">
+          <button class="quick-btn" onclick="sendQuick('I planned a 2-hour portfolio block, checking in to see if I should adjust.')">Portfolio Check-in</button>
+          <button class="quick-btn" onclick="sendQuick('I have a splitting headache, zero energy, and my eyes are blurring.')">Severe Fatigue</button>
+          <button class="quick-btn" onclick="sendQuick('Stuck on AI Question 2 for an hour because of A* heuristic.')">Stuck on Concept</button>
+          <button class="quick-btn" onclick="sendQuick('Should I catch up on my 5 DB lectures or work on AI cw1 due in 10 days?')">DB Deficit vs AI cw1</button>
+        </div>
+        <form class="input-row" onsubmit="handleSend(event)">
+          <input type="text" id="userInput" placeholder="Check in: report your energy, task, and blockers..." autocomplete="off" />
+          <button type="submit" class="btn-primary" id="sendBtn">Check In</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right: Lifecycle Stage & Human Gate -->
+    <div class="panel">
+      <div class="panel-header">
+        <span>Approval Gate & Stage</span>
+      </div>
+      <div class="panel-body">
+        <div class="stepper">
+          <div class="step-item" id="step-idle"><div class="step-dot"></div><span>Idle / In Study Block</span></div>
+          <div class="step-item" id="step-evaluating"><div class="step-dot"></div><span>Evaluating Metrics & Reality</span></div>
+          <div class="step-item" id="step-awaiting"><div class="step-dot"></div><span>Awaiting Human Confirmation</span></div>
+          <div class="step-item" id="step-confirmed"><div class="step-dot"></div><span>Intervention Confirmed & Applied</span></div>
+        </div>
+
+        <!-- Human Confirmation Gate Card -->
+        <div class="gate-box" id="gateBox">
+          <div class="gate-title" id="gateTitle">⚡ Action Approval Required</div>
+          <div class="gate-desc" id="gateDesc">The agent proposes: <strong id="gateIntervention"></strong></div>
+          <div class="gate-actions">
+            <button class="btn-approve" onclick="confirmGate(true)">Confirm & Apply</button>
+            <button class="btn-reject" onclick="confirmGate(false)">Reject</button>
+          </div>
+        </div>
+
+        <div class="panel-header" style="padding-left: 0; padding-right: 0; margin-top: 1rem; border-top: 1px solid var(--border);">
+          <span>Audit Log (Persisted Interventions)</span>
+        </div>
+        <div id="historyList" style="margin-top: 0.5rem;">Loading audit records...</div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const sessionId = "session_" + Math.random().toString(36).substring(7);
+
+    async function fetchMetrics() {
+      try {
+        const res = await fetch("/api/metrics");
+        const data = await res.json();
+        const container = document.getElementById("modulesList");
+        container.innerHTML = "";
+
+        for (const [mod, info] of Object.entries(data.modules)) {
+          const card = document.createElement("div");
+          card.className = "metric-card";
+          card.innerHTML = `
+            <div class="metric-title">
+              <span>${mod}</span>
+              <span style="font-size: 0.75rem; color: var(--accent);">${info.future_relevance} relevance</span>
+            </div>
+            <div class="stat-row">
+              <span>Lecture Deficit:</span>
+              <span class="stat-val">${info.lectures.deficit} lectures (${info.lectures.estimated_catchup_hours}h catch-up)</span>
+            </div>
+            <div class="stat-row">
+              <span>Taught Completion:</span>
+              <span class="stat-val">${info.lectures.taught_completion_pct}%</span>
+            </div>
+            <div class="stat-row">
+              <span>Actionable Marks at Risk:</span>
+              <span class="stat-val" style="color: ${info.marks.actionable_coursework_marks_at_risk > 0 ? '#f87171' : '#cbd5e1'}">${info.marks.actionable_coursework_marks_at_risk}%</span>
+            </div>
+          `;
+          container.appendChild(card);
+        }
+      } catch (e) {
+        console.error("Failed to load metrics:", e);
+      }
+    }
+
+    async function fetchHistory() {
+      try {
+        const res = await fetch("/api/interventions");
+        const data = await res.json();
+        const container = document.getElementById("historyList");
+        container.innerHTML = "";
+        if (!data.interventions || data.interventions.length === 0) {
+          container.innerHTML = "<div style='font-size: 0.8rem; color: var(--text-muted);'>No interventions applied yet.</div>";
+          return;
+        }
+        data.interventions.forEach(rec => {
+          const item = document.createElement("div");
+          item.className = "history-item";
+          item.innerHTML = `
+            <div><span class="history-tag">[${rec.intervention}]</span> ${rec.target_module}: ${rec.details}</div>
+            <div style="font-size: 0.7rem; color: var(--text-muted);">${new Date(rec.timestamp).toLocaleTimeString()}</div>
+          `;
+          container.appendChild(item);
+        });
+      } catch (e) {
+        console.error("Failed to load audit history:", e);
+      }
+    }
+
+    function setStage(stage) {
+      ["idle", "evaluating", "awaiting", "confirmed"].forEach(s => {
+        const el = document.getElementById("step-" + s);
+        if (el) el.classList.remove("step-active");
+      });
+      const gate = document.getElementById("gateBox");
+
+      if (stage === "awaiting_confirmation") {
+        document.getElementById("step-awaiting").classList.add("step-active");
+        gate.style.display = "block";
+      } else if (stage === "confirmed") {
+        document.getElementById("step-confirmed").classList.add("step-active");
+        gate.style.display = "none";
+      } else if (stage === "evaluating") {
+        document.getElementById("step-evaluating").classList.add("step-active");
+        gate.style.display = "none";
+      } else {
+        document.getElementById("step-idle").classList.add("step-active");
+        gate.style.display = "none";
+      }
+    }
+
+    async function handleSend(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById("userInput");
+      const text = input.value.trim();
+      if (!text) return;
+
+      appendMessage(text, "user");
+      input.value = "";
+      setStage("evaluating");
+      document.getElementById("typingIndicator").style.display = "inline";
+
+      try {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ user_id: "student_1", session_id: sessionId, message: text }),
+        });
+        const data = await res.json();
+        appendMessage(data.response, "agent");
+
+        if (data.pending_proposal) {
+          document.getElementById("gateIntervention").textContent = data.pending_proposal + (data.proposal_details?.target ? ` on ${data.proposal_details.target}` : "");
+          document.getElementById("gateDesc").textContent = data.proposal_details?.scope ? `Scope: ${data.proposal_details.scope}` : "Requires human approval to commit.";
+          setStage("awaiting_confirmation");
+        } else if (data.slice_stage === "confirmed") {
+          setStage("confirmed");
+          fetchHistory();
+        } else {
+          setStage("idle");
+        }
+      } catch (err) {
+        appendMessage("Error communicating with agent: " + err.message, "agent");
+        setStage("idle");
+      } finally {
+        document.getElementById("typingIndicator").style.display = "none";
+      }
+    }
+
+    async function confirmGate(confirmed) {
+      setStage("evaluating");
+      try {
+        const res = await fetch("/api/confirm", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ user_id: "student_1", session_id: sessionId, confirmed: confirmed }),
+        });
+        const data = await res.json();
+        appendMessage(data.response, "agent");
+        if (confirmed) {
+          setStage("confirmed");
+          fetchHistory();
+        } else {
+          setStage("idle");
+        }
+      } catch (err) {
+        appendMessage("Error confirming: " + err.message, "agent");
+        setStage("idle");
+      }
+    }
+
+    function sendQuick(text) {
+      document.getElementById("userInput").value = text;
+      handleSend();
+    }
+
+    function appendMessage(text, role) {
+      const chat = document.getElementById("chatMessages");
+      const div = document.createElement("div");
+      div.className = `msg msg-${role}`;
+      div.textContent = text;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    // Initial load
+    fetchMetrics();
+    fetchHistory();
+    setStage("idle");
+  </script>
+</body>
+</html>
