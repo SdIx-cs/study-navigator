@@ -39,10 +39,15 @@ def init_db() -> None:
                 target_module TEXT NOT NULL,
                 details TEXT NOT NULL,
                 user_id TEXT NOT NULL,
-                session_id TEXT NOT NULL
+                session_id TEXT NOT NULL,
+                status TEXT NOT NULL DEFAULT 'applied'
             )
             """
         )
+        try:
+            conn.execute("ALTER TABLE applied_interventions ADD COLUMN status TEXT NOT NULL DEFAULT 'applied'")
+        except Exception:
+            pass
         conn.execute(
             """
             CREATE TABLE IF NOT EXISTS student_preferences (
@@ -69,6 +74,28 @@ def init_db() -> None:
             )
             """
         )
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS module_progress (
+                user_id TEXT NOT NULL,
+                module TEXT NOT NULL,
+                lectures_learnt INTEGER NOT NULL,
+                updated_at TEXT NOT NULL,
+                PRIMARY KEY (user_id, module)
+            )
+            """
+        )
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS completed_deliverables (
+                user_id TEXT NOT NULL,
+                module TEXT NOT NULL,
+                deliverable TEXT NOT NULL,
+                completed_at TEXT NOT NULL,
+                PRIMARY KEY (user_id, module, deliverable)
+            )
+            """
+        )
         conn.commit()
 
 
@@ -80,6 +107,7 @@ def record_intervention(
     details: str,
     user_id: str = "default_user",
     session_id: str = "",
+    status: str = "applied",
 ) -> Dict[str, Any]:
     """Persists an applied intervention record to the database."""
     init_db()
@@ -94,20 +122,78 @@ def record_intervention(
         "details": details,
         "user_id": user_id,
         "session_id": session_id,
+        "status": status,
     }
 
     with _get_connection() as conn:
         conn.execute(
             """
-            INSERT INTO applied_interventions (id, timestamp, intervention, target_module, details, user_id, session_id)
-            VALUES (:id, :timestamp, :intervention, :target_module, :details, :user_id, :session_id)
+            INSERT INTO applied_interventions (id, timestamp, intervention, target_module, details, user_id, session_id, status)
+            VALUES (:id, :timestamp, :intervention, :target_module, :details, :user_id, :session_id, :status)
             """,
             record,
         )
         conn.commit()
 
-    log.info("Persisted intervention record %s (%s on %s)", rec_id, intervention, target_module)
+    log.info("Persisted intervention record %s (%s on %s, status=%s)", rec_id, intervention, target_module, status)
     return record
+
+
+def update_latest_intervention_status(
+    user_id: str, new_status: str, details_suffix: str = ""
+) -> Optional[Dict[str, Any]]:
+    """Updates the status of the most recent applied intervention for a user."""
+    init_db()
+    with _get_connection() as conn:
+        cursor = conn.execute(
+            """
+            SELECT id, intervention, target_module, details, status
+            FROM applied_interventions
+            WHERE user_id = ?
+            ORDER BY timestamp DESC
+            LIMIT 1
+            """,
+            (user_id,),
+        )
+        row = cursor.fetchone()
+        if not row:
+            return None
+        rec_id = row["id"]
+        updated_details = row["details"]
+        if details_suffix:
+            updated_details = f"{updated_details} | {details_suffix}"
+        conn.execute(
+            """
+            UPDATE applied_interventions
+            SET status = ?, details = ?
+            WHERE id = ?
+            """,
+            (new_status, updated_details, rec_id),
+        )
+        conn.commit()
+        return {
+            "id": rec_id,
+            "intervention": row["intervention"],
+            "target_module": row["target_module"],
+            "status": new_status,
+        }
+
+
+def mark_custom_task_completed(user_id: str, task_or_module: str) -> bool:
+    """Marks matching custom coursework task as submitted/completed."""
+    init_db()
+    with _get_connection() as conn:
+        term = f"%{task_or_module.lower().strip()}%"
+        cursor = conn.execute(
+            """
+            UPDATE custom_academic_tasks
+            SET is_submitted = 1
+            WHERE user_id = ? AND (LOWER(task_name) LIKE ? OR LOWER(module) LIKE ?)
+            """,
+            (user_id, term, term),
+        )
+        conn.commit()
+        return cursor.rowcount > 0
 
 
 def get_intervention_history(limit: int = 50, user_id: Optional[str] = None) -> List[Dict[str, Any]]:
@@ -117,7 +203,7 @@ def get_intervention_history(limit: int = 50, user_id: Optional[str] = None) -> 
         if user_id:
             cursor = conn.execute(
                 """
-                SELECT id, timestamp, intervention, target_module, details, user_id, session_id
+                SELECT id, timestamp, intervention, target_module, details, user_id, session_id, status
                 FROM applied_interventions
                 WHERE user_id = ?
                 ORDER BY timestamp DESC
@@ -128,7 +214,7 @@ def get_intervention_history(limit: int = 50, user_id: Optional[str] = None) -> 
         else:
             cursor = conn.execute(
                 """
-                SELECT id, timestamp, intervention, target_module, details, user_id, session_id
+                SELECT id, timestamp, intervention, target_module, details, user_id, session_id, status
                 FROM applied_interventions
                 ORDER BY timestamp DESC
                 LIMIT ?
@@ -262,6 +348,75 @@ def get_custom_tasks(user_id: str = "default_user") -> List[Dict[str, Any]]:
         ]
 
 
+def update_module_lectures(user_id: str, module: str, count: int, is_delta: bool = True) -> int:
+    """Updates the number of lectures learnt for a user on a given module."""
+    init_db()
+    with _get_connection() as conn:
+        cursor = conn.execute(
+            "SELECT lectures_learnt FROM module_progress WHERE user_id = ? AND module = ?",
+            (user_id, module.upper()),
+        )
+        row = cursor.fetchone()
+        current = row["lectures_learnt"] if row else 0
+        new_val = max(0, current + count if is_delta else count)
+        conn.execute(
+            """
+            INSERT INTO module_progress (user_id, module, lectures_learnt, updated_at)
+            VALUES (?, ?, ?, ?)
+            ON CONFLICT(user_id, module) DO UPDATE SET
+                lectures_learnt = excluded.lectures_learnt,
+                updated_at = excluded.updated_at
+            """,
+            (user_id, module.upper(), new_val, datetime.datetime.now(datetime.timezone.utc).isoformat()),
+        )
+        conn.commit()
+        return new_val
+
+
+def get_all_module_progress(user_id: str) -> Dict[str, int]:
+    """Retrieves map of module -> lectures_learnt for a user."""
+    init_db()
+    with _get_connection() as conn:
+        cursor = conn.execute(
+            "SELECT module, lectures_learnt FROM module_progress WHERE user_id = ?",
+            (user_id,),
+        )
+        return {r["module"]: r["lectures_learnt"] for r in cursor.fetchall()}
+
+
+def mark_deliverable_completed(user_id: str, module: str, deliverable: str) -> None:
+    """Records that a syllabus or custom deliverable has been completed/submitted."""
+    init_db()
+    now_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    with _get_connection() as conn:
+        conn.execute(
+            """
+            INSERT INTO completed_deliverables (user_id, module, deliverable, completed_at)
+            VALUES (?, ?, ?, ?)
+            ON CONFLICT(user_id, module, deliverable) DO UPDATE SET completed_at = excluded.completed_at
+            """,
+            (user_id, module.upper().strip(), deliverable.lower().strip(), now_iso),
+        )
+        conn.commit()
+
+
+def get_completed_deliverables(user_id: str = "default_user") -> List[Dict[str, str]]:
+    """Retrieves all completed deliverables for a student."""
+    init_db()
+    with _get_connection() as conn:
+        cursor = conn.execute(
+            "SELECT module, deliverable FROM completed_deliverables WHERE user_id = ?",
+            (user_id,),
+        )
+        rows = cursor.fetchall()
+        if not rows and user_id != "default_user":
+            cursor = conn.execute(
+                "SELECT module, deliverable FROM completed_deliverables WHERE user_id = 'default_user'",
+            )
+            rows = cursor.fetchall()
+        return [dict(r) for r in rows]
+
+
 def clear_history() -> None:
     """Clears all persisted data (used for testing)."""
     init_db()
@@ -269,4 +424,6 @@ def clear_history() -> None:
         conn.execute("DELETE FROM applied_interventions")
         conn.execute("DELETE FROM student_preferences")
         conn.execute("DELETE FROM custom_academic_tasks")
+        conn.execute("DELETE FROM module_progress")
+        conn.execute("DELETE FROM completed_deliverables")
         conn.commit()

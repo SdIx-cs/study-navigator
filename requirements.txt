@@ -1,0 +1,14 @@
+fastapi>=0.115.0
+uvicorn>=0.30.0
+pydantic>=2.8.0
+python-dotenv>=1.0.0
+google-adk[db]>=2.8.0
+google-genai>=2.0.0
+ag_ui_adk>=0.9.0
+sqlalchemy>=2.0.0
+aiosqlite>=0.20.0
+greenlet>=3.0.0
+requests>=2.31.0
+python-multipart>=0.0.9
+opentelemetry-api>=1.25.0
+opentelemetry-sdk>=1.25.0

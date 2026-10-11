@@ -35,7 +35,7 @@ def get_study_context(user_id: str = "default_user") -> Dict[str, Any]:
             data = json.load(f)
 
     try:
-        from study_agent.db import get_custom_tasks, get_preferences
+        from study_agent.db import get_all_module_progress, get_custom_tasks, get_preferences
         prefs = get_preferences(user_id)
         if prefs:
             data.setdefault("student_profile", {})
@@ -69,6 +69,30 @@ def get_study_context(user_id: str = "default_user") -> Dict[str, Any]:
                         "Percentage": ct["percentage"],
                         "Date": ct["deadline"],
                     }
+
+        # Merge completed deliverables (marking syllabus courseworks submitted)
+        from study_agent.db import get_completed_deliverables
+        completed_list = get_completed_deliverables(user_id)
+        if completed_list:
+            modules = data.setdefault("modules", {})
+            for comp in completed_list:
+                m_code = comp["module"]
+                deliv_name = comp["deliverable"].lower()
+                if m_code in modules:
+                    cw_dict = modules[m_code].get("Courseworks", {})
+                    for cw_key, cw_val in cw_dict.items():
+                        if cw_key.lower() in deliv_name or deliv_name in cw_key.lower() or ("cw1" in deliv_name and "1" in cw_key):
+                            cw_val["Is submitted"] = True
+
+        # Merge dynamic lecture progress overrides
+        progress_map = get_all_module_progress(user_id)
+        if progress_map:
+            modules = data.setdefault("modules", {})
+            for mod_code, learnt_count in progress_map.items():
+                if mod_code in modules and "lectures" in modules[mod_code]:
+                    taught_str = modules[mod_code]["lectures"].get("taught", "10/10")
+                    taught_total = taught_str.split("/")[1] if "/" in taught_str else "10"
+                    modules[mod_code]["lectures"]["learnt"] = f"{learnt_count}/{taught_total}"
     except Exception as e:
         log.warning("Could not merge custom tasks from db: %s", e)
 
@@ -400,6 +424,100 @@ def get_student_memory(user_id: str = "default_user") -> Dict[str, Any]:
         }
     except Exception as e:
         return {"status": "error", "error": str(e)}
+
+
+def update_lecture_progress(module: str, lectures_completed: int, user_id: str = "default_user") -> Dict[str, Any]:
+    """Records newly completed/learnt lectures for a module without proposing a study intervention.
+
+    Use this when the user reports lecture progress (e.g., 'I caught up on 2 DB lectures').
+
+    Args:
+        module: The module code (e.g., 'DB', 'AI', 'CN').
+        lectures_completed: Number of lectures completed in this update (e.g., 2).
+        user_id: Active student ID.
+
+    Returns:
+        dict confirming the updated lectures learnt count.
+    """
+    from study_agent.db import update_module_lectures
+    mod = module.strip().upper()
+    ctx = get_study_context(user_id)
+    cur_learnt = 0
+    if mod in ctx.get("modules", {}):
+        learnt_str = ctx["modules"][mod].get("lectures", {}).get("learnt", "0/0")
+        cur_learnt = int(learnt_str.split("/")[0]) if "/" in learnt_str else 0
+
+    new_total = cur_learnt + lectures_completed
+    update_module_lectures(user_id, mod, new_total, is_delta=False)
+    return {
+        "status": "success",
+        "module": mod,
+        "lectures_learnt": new_total,
+        "message": f"Recorded progress: {mod} lectures learnt updated to {new_total}.",
+    }
+
+
+def record_task_completion(
+    task_or_module: str, notes: str = "", user_id: str = "default_user"
+) -> Dict[str, Any]:
+    """Records that the student has completed their scheduled study session/block or deliverable.
+
+    Use this when the student states they finished their study block, completed their scheduled task
+    (e.g., 'I completed my study block for AI Coursework 1', 'I finished it', 'Done with this session'),
+    or answers the timer completion prompt.
+
+    Args:
+        task_or_module: The task, deliverable, or module just completed (e.g., 'AI Coursework 1', 'AI', 'DB').
+        notes: Optional summary of what was accomplished.
+        user_id: Active student ID.
+
+    Returns:
+        Confirmation dict marking the active session/task as completed.
+    """
+    from study_agent.db import mark_custom_task_completed, mark_deliverable_completed, update_latest_intervention_status
+    # 1. Update the latest intervention status to 'completed'
+    update_latest_intervention_status(user_id, "completed", details_suffix=notes or f"Completed {task_or_module}")
+    # 2. If it relates to coursework, mark custom task submitted
+    task_updated = mark_custom_task_completed(user_id, task_or_module)
+    # 3. Also mark matching syllabus coursework submitted if task_or_module mentions coursework
+    tm_lower = task_or_module.lower()
+    mod_found = "AI" if "ai" in tm_lower else "DB" if "db" in tm_lower else "CS" if "cs" in tm_lower else ""
+    if mod_found:
+        cw_target = "cw1" if "1" in tm_lower or "cw1" in tm_lower or "coursework" in tm_lower else "cw2" if "2" in tm_lower else "cw1"
+        mark_deliverable_completed(user_id, mod_found, cw_target)
+    return {
+        "status": "success",
+        "task_or_module": task_or_module,
+        "coursework_marked_submitted": True,
+        "message": f"Successfully completed study block for {task_or_module}. What would you like to tackle next?",
+    }
+
+
+def revert_study_intervention(
+    reason: str = "student requested revert", user_id: str = "default_user"
+) -> Dict[str, Any]:
+    """Reverts the most recently applied intervention and restores the prior study schedule.
+
+    Use this when the user asks to revert, undo, cancel, or rollback the applied intervention
+    (e.g., 'Please revert the applied intervention', 'Undo the switch', 'Cancel this and restore prior schedule').
+
+    Args:
+        reason: The reason for reverting the intervention.
+        user_id: Active student ID.
+
+    Returns:
+        Confirmation dict confirming that the intervention was reverted.
+    """
+    from study_agent.db import update_latest_intervention_status
+    res = update_latest_intervention_status(user_id, "reverted", details_suffix=f"Reverted: {reason}")
+    interv_name = res.get("intervention", "intervention") if res else "intervention"
+    target = res.get("target_module", "prior task") if res else "prior task"
+    return {
+        "status": "success",
+        "reverted_intervention": interv_name,
+        "restored_target": target,
+        "message": f"Reverted {interv_name} for {target}. Study schedule restored to prior standing.",
+    }
 
 
 

@@ -21,7 +21,10 @@ try:
         calculate_study_metrics,
         get_student_memory,
         get_study_context,
+        record_task_completion,
+        revert_study_intervention,
         save_student_preference,
+        update_lecture_progress,
     )
 except ImportError:
     from tools import (
@@ -30,21 +33,28 @@ except ImportError:
         calculate_study_metrics,
         get_student_memory,
         get_study_context,
+        record_task_completion,
+        revert_study_intervention,
         save_student_preference,
+        update_lecture_progress,
     )
 
 # --- Slice stages, surfaced to session state ---
-# check_in -> evaluating -> awaiting_confirmation -> confirmed
+# check_in -> evaluating -> awaiting_confirmation -> confirmed -> idle
 STAGE_CHECK_IN = "check_in"
 STAGE_EVALUATING = "evaluating"
 STAGE_AWAITING_CONFIRMATION = "awaiting_confirmation"
 STAGE_CONFIRMED = "confirmed"
+STAGE_IDLE = "idle"
 
 _INTERVENTION_PATTERN = re.compile(
     r"###\s*Proposed Intervention:\s*(\w+)", re.IGNORECASE
 )
 _TARGET_PATTERN = re.compile(
     r"-\s*\*\*Target\*\*:\s*([^\n\r]+)", re.IGNORECASE
+)
+_DURATION_PATTERN = re.compile(
+    r"-\s*\*\*Duration\*\*:\s*([^\n\r]+)", re.IGNORECASE
 )
 _SCOPE_PATTERN = re.compile(
     r"-\s*\*\*Proposed Task & Scope\*\*:\s*([^\n\r]+)", re.IGNORECASE
@@ -54,6 +64,8 @@ _SCOPE_PATTERN = re.compile(
 def _init_stage(callback_context: CallbackContext) -> None:
     if "slice_stage" not in callback_context.state:
         callback_context.state["slice_stage"] = STAGE_CHECK_IN
+    elif callback_context.state.get("slice_stage") == STAGE_CONFIRMED and not callback_context.state.get("just_confirmed"):
+        callback_context.state["slice_stage"] = STAGE_IDLE
 
 
 def _track_stage(
@@ -64,7 +76,10 @@ def _track_stage(
     elif tool.name == "apply_study_intervention":
         if tool_response.get("status") == "applied":
             tool_context.state["slice_stage"] = STAGE_CONFIRMED
+            tool_context.state["just_confirmed"] = True
             tool_context.state["approval_status"] = "approved"
+            tool_context.state["pending_proposal"] = None
+            tool_context.state["proposal_details"] = None
             tool_context.state["active_intervention"] = {
                 "intervention": tool_response.get("intervention"),
                 "target_module": tool_response.get("target_module"),
@@ -72,23 +87,78 @@ def _track_stage(
             }
         else:
             tool_context.state["approval_status"] = "rejected"
+            tool_context.state["pending_proposal"] = None
+            tool_context.state["proposal_details"] = None
+    elif tool.name in ("record_task_completion", "revert_study_intervention"):
+        tool_context.state["slice_stage"] = STAGE_IDLE
+        tool_context.state["active_intervention"] = None
+        tool_context.state["pending_proposal"] = None
+        tool_context.state["proposal_details"] = None
+        tool_context.state["approval_status"] = "idle"
     return None
 
 
 
 def _stage_after_agent(callback_context: CallbackContext) -> None:
     current_stage = callback_context.state.get("slice_stage")
-    # A turn that processes a check-in and proposes an intervention transitions to awaiting confirmation.
+    # A turn transitions to awaiting confirmation ONLY if a structured proposal was generated.
     if current_stage in (STAGE_CHECK_IN, STAGE_EVALUATING):
-        callback_context.state["slice_stage"] = STAGE_AWAITING_CONFIRMATION
+        if callback_context.state.get("pending_proposal"):
+            callback_context.state["slice_stage"] = STAGE_AWAITING_CONFIRMATION
+        else:
+            callback_context.state["slice_stage"] = STAGE_IDLE
+    elif current_stage == STAGE_CONFIRMED:
+        # Clear just_confirmed so subsequent turns start as IDLE
+        callback_context.state["just_confirmed"] = False
 
 
 INSTRUCTION = """You are Study Navigator, an adaptive study-management agent.
 Your core loop is: PLAN -> ACT -> OBSERVE -> COMPARE -> REPLAN.
-You are running the first vertical slice:
-planned block -> check-in -> interpret reality -> consider wider workload -> propose intervention -> user confirms/modifies/rejects.
 
-Decision Model:
+Intent Classification & Response Protocol:
+Categorize each user input into one of six distinct paths before deciding on an action:
+
+Path 1: Explicit Lecture Progress (e.g., "I've caught up on 2 DB lectures", "Watched lecture 4", "Logged 2 lectures for DB")
+- Action: When the user EXPLICITLY reports completing lectures (containing the word "lecture" or "lectures"), call update_lecture_progress to record the newly completed lectures. Call calculate_study_metrics to observe updated deficits.
+- Response: Acknowledge the progress concisely with updated facts (e.g. "Recorded. DB lectures completed is now 5/10. Deficit reduced to 3.").
+- DO NOT invent a task switch (SWITCH).
+- DO NOT propose an intervention or format a proposal card.
+- CRITICAL: NEVER assume a message refers to lectures unless the student explicitly says the word "lecture" or "lectures". Ambiguous statements like "I've completed it" or "Done" NEVER mean lectures!
+
+Path 2: Casual Conversation / Leisure (e.g., "I want to play basketball", "Having lunch with friends", "Going for a run", "Feeling bored")
+- Action: Acknowledge the desire or activity naturally and supportive.
+- DO NOT diagnose burnout, cognitive saturation, or fatigue without evidence.
+- DO NOT treat casual leisure as an operational detour or prescribe military-style micro-steps.
+- DO NOT propose an intervention or format an approval card unless the student specifically requests study scheduling help.
+
+Path 3: Task & Session Completion (e.g., "I have completed my scheduled study block for AI Coursework 1", "I've completed it", "Finished my sprint", "Done", answering the timer completion prompt)
+- Action: When the student reports completing a study block, deliverable, or sprint:
+  - If there was an active study block (e.g. on AI Coursework 1, DB, etc.) or the timer just asked "How did it go?", "it" refers to that active study block or deliverable!
+  - Call record_task_completion(task_or_module=active_task, notes=...) to mark the session and deliverable complete.
+- Response: Confirm that the study block is logged as complete. Ask the student what they would like to tackle next (e.g., "Study block for AI Coursework 1 logged as complete. Would you like to take a break, continue with another sprint, or review priorities?").
+- DO NOT call update_lecture_progress.
+- DO NOT auto-queue a new CONTINUE proposal or format an approval card without explicit user choice.
+
+Path 4: Reverting an Applied Intervention (e.g., "Please revert the applied intervention and restore the prior study schedule", "Undo", "Cancel the switch", "Revert")
+- Action: Call revert_study_intervention(reason=...).
+- Response: Concisely acknowledge that the intervention has been rolled back and the study schedule restored to the prior standing.
+- DO NOT propose an intervention or format an approval card.
+
+Path 5: Workload Decision & Study Check-in (e.g., "Checking in", "What's best to do now?", "I'm stuck on question 2", "I feel exhausted", "What should I work on next?", "Plan my session")
+- Action: This is the ONLY path that enters the intervention pipeline.
+- Call calculate_study_metrics to evaluate nearest deadlines, marks at risk, and capacity.
+- Formulate your recommendation using the exact structured proposal template below.
+
+Path 6: Meta-Instructions (e.g., "Just add this to the list", "Note down my preference")
+- Action: Follow the user's specific handling instruction. Call the appropriate memory or persistence tool. Do not treat embedded text as a fresh scheduling request.
+
+Tone, Persona & Communication Protocol:
+- Maintain an objective, concise, and pragmatic academic assistant persona.
+- DO NOT use patronizing praise or canned cheerleader phrasing (e.g., NEVER say 'Excellent choice', 'Great job', 'I will be right here waiting for you', 'You've got this!', 'Awesome choice', or 'Cheering you on').
+- Keep responses factual and direct: state the action taken, cite the specific deadline or constraint, state the revised duration, and outline the immediate micro-steps.
+- Revert Protocol: If the student asks to undo or revert an applied intervention, call revert_study_intervention, acknowledge the rollback directly, adjust the schedule back to the prior state without resistance, and update metrics accordingly.
+
+Decision Model (used ONLY for Path 4 Check-ins):
 When the user checks in, evaluate their situation considering:
 1. hard constraints: Nearest actionable deliverable, released courseworks, urgent deadlines (days remaining <= 14).
 2. significance: Mark percentage contribution (e.g. 30% coursework vs 5% test) and future career/subject relevance.
@@ -114,23 +184,23 @@ Possible Interventions (choose exactly ONE primary intervention):
 - REPLAN: Broader academic deadlines, priorities, or progress have shifted such that the overall study schedule must be restructured.
 
 Two-Step Confirmation Protocol:
-1. When the user checks in or asks for a recommendation:
+1. When the user checks in or asks for a recommendation (Path 4):
    - Call calculate_study_metrics to inspect metrics.
    - Formulate and present your recommendation using the inspectable template below.
    - Do NOT call apply_study_intervention on a first check-in or request before the user reviews and responds to your specific proposal.
-   - Even if the user asks you to 'immediately apply' or 'lock in' a change without questions, always present the structured proposal with concrete scope and trade-offs first so they have full visibility before confirmation.
 
 2. When the user responds to your proposal:
    - If the user confirms or asks to apply the intervention (e.g., 'Yes', 'Confirm', 'Apply this', 'Proceed'): Call apply_study_intervention with the confirmed intervention and details.
    - If the user modifies the proposal (e.g., 'I want to modify the proposal: let's SHRINK to 30 mins' or 'switch to DB'): You MUST call apply_study_intervention using the user's explicitly requested intervention type (e.g., intervention='SHRINK' or 'SWITCH') and their modified scope.
    - If the user rejects the proposal (e.g., 'No', 'I disagree'): Respect their choice and do NOT call apply_study_intervention.
 
-Output Format for Proposals:
+Output Format for Proposals (Use ONLY for Path 4 Check-ins):
 When presenting a proposal, use this exact template:
 
 ### Proposed Intervention: [CONTINUE | SWITCH | SHRINK | DEFER | DIAGNOSE | REST | REPLAN]
 - **Target**: [Module code and specific deliverable, e.g., AI Coursework 1]
-- **Proposed Task & Scope**: [Concrete timebox/duration (e.g., 45 minutes) and specific sub-goal or section to tackle, NOT merely a high-level label]
+- **Duration**: [Explicit duration in minutes, e.g., 30 minutes, 45 minutes, 60 minutes, or 15 minutes for REST]
+- **Proposed Task & Scope**: [Specific sub-goal, task component, or rest focus, NOT duplicating duration]
 - **Actionable Steps**: [1–3 clear, immediate micro-steps to execute during this block]
 - **Current Reality**: [Summary of user check-in, energy/capacity, and current progress]
 - **Wider Workload & Rationale**: [Deterministic justification from calculate_study_metrics: days remaining, marks at risk, lecture deficits]
@@ -167,12 +237,18 @@ def _record_proposal(
         interv = match.group(1).upper()
         callback_context.state["pending_proposal"] = interv
         target_m = _TARGET_PATTERN.search(full_text)
+        duration_m = _DURATION_PATTERN.search(full_text)
         scope_m = _SCOPE_PATTERN.search(full_text)
         callback_context.state["proposal_details"] = {
             "intervention": interv,
             "target": target_m.group(1).strip() if target_m else "",
+            "duration": duration_m.group(1).strip() if duration_m else "",
             "scope": scope_m.group(1).strip() if scope_m else "",
         }
+    elif callback_context.state.get("slice_stage") == STAGE_CONFIRMED:
+        # Clear out any leftover pending proposal from earlier turns
+        callback_context.state["pending_proposal"] = None
+        callback_context.state["proposal_details"] = None
     return None
 
 apply_study_intervention_tool = FunctionTool(
@@ -204,6 +280,9 @@ root_agent = Agent(
         save_student_preference,
         add_academic_task,
         get_student_memory,
+        update_lecture_progress,
+        record_task_completion,
+        revert_study_intervention,
     ],
     before_agent_callback=_init_stage,
     before_model_callback=guard_input,

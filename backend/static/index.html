@@ -138,6 +138,154 @@
       padding: 0.4rem;
       border-radius: 4px;
     }
+    .step-active { color: var(--accent); font-weight: 600; background: rgba(56, 189, 248, 0.1); }
+    .step-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+    .step-active .step-dot { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+
+    /* A2UI Generative Components */
+    .a2ui-card {
+      background: rgba(30, 41, 59, 0.95);
+      border: 1px solid var(--accent);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-top: 0.6rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .a2ui-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .a2ui-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .a2ui-badge-switch { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; }
+    .a2ui-badge-shrink { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid #38bdf8; }
+    .a2ui-badge-rest { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .a2ui-badge-diagnose { background: rgba(168, 85, 247, 0.2); color: #c084fc; border: 1px solid #a855f7; }
+    .a2ui-badge-default { background: rgba(148, 163, 184, 0.2); color: #cbd5e1; border: 1px solid #94a3b8; }
+
+    .a2ui-steps-box {
+      background: rgba(15, 23, 42, 0.7);
+      border-radius: 6px;
+      padding: 0.6rem 0.8rem;
+      margin: 0.6rem 0;
+      font-size: 0.82rem;
+    }
+    .a2ui-step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin-bottom: 0.35rem;
+      color: #e2e8f0;
+    }
+    .a2ui-actions-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.85rem;
+      flex-wrap: wrap;
+    }
+    .a2ui-btn-confirm {
+      background: #22c55e;
+      color: #000;
+      font-weight: 700;
+      border: none;
+      border-radius: 6px;
+      padding: 0.45rem 0.9rem;
+      cursor: pointer;
+      font-size: 0.82rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .a2ui-btn-confirm:hover { background: #16a34a; color: #fff; }
+    .a2ui-btn-modify {
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      border: 1px solid #38bdf8;
+      border-radius: 6px;
+      padding: 0.45rem 0.75rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .a2ui-btn-modify:hover { background: rgba(56, 189, 248, 0.25); }
+    .a2ui-btn-reject {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid #ef4444;
+      border-radius: 6px;
+      padding: 0.45rem 0.75rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .a2ui-btn-reject:hover { background: rgba(239, 68, 68, 0.25); }
+    .a2ui-card-resolved {
+      opacity: 0.6;
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    .a2ui-card-resolved .a2ui-actions-row {
+      display: none !important;
+    }
+    .a2ui-active-card {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98));
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 0.85rem 0;
+      box-shadow: 0 4px 16px rgba(56, 189, 248, 0.15);
+    }
+    .a2ui-timer-box {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      margin: 0.75rem 0;
+      text-align: center;
+    }
+    .a2ui-timer-display {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 2rem;
+      font-weight: 800;
+      color: #38bdf8;
+      letter-spacing: 2px;
+    }
+    .a2ui-timer-progress-track {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+      margin: 0.5rem 0 0.2rem 0;
+    }
+    .a2ui-timer-progress-fill {
+      height: 100%;
+      background: #38bdf8;
+      width: 100%;
+      transition: width 1s linear;
+    }
+    .a2ui-btn-revert {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid #ef4444;
+      border-radius: 6px;
+      padding: 0.45rem 0.75rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .a2ui-btn-revert:hover { background: rgba(239, 68, 68, 0.25); }
     .step-active { background: rgba(56, 189, 248, 0.1); color: var(--accent); font-weight: 600; }
     .step-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
     .step-active .step-dot { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
@@ -174,7 +322,7 @@
     <div class="brand">
       <span>🎓 Study Navigator</span>
       <span class="badge badge-gov">Model Armor Active</span>
-      <span class="badge badge-live" id="telemetryBadge">Memory Store Connected</span>
+      <span class="badge badge-live" id="telemetryBadge">A2UI / AG-UI Active</span>
     </div>
     <div style="display: flex; align-items: center; gap: 1rem;">
       <div style="font-size: 0.85rem; color: var(--text-muted);" id="headerInfo">
@@ -239,10 +387,13 @@
         <!-- Human Confirmation Gate Card -->
         <div class="gate-box" id="gateBox">
           <div class="gate-title" id="gateTitle">⚡ Action Approval Required</div>
-          <div class="gate-desc" id="gateDesc">The agent proposes: <strong id="gateIntervention"></strong></div>
+          <div class="gate-desc">
+            The agent proposes: <strong id="gateIntervention">None</strong>
+            <div id="gateScope" style="margin-top: 0.3rem; font-size: 0.78rem; color: var(--text-muted);"></div>
+          </div>
           <div class="gate-actions">
-            <button class="btn-approve" onclick="confirmGate(true)">Confirm & Apply</button>
-            <button class="btn-reject" onclick="confirmGate(false)">Reject</button>
+            <button class="btn-approve" onclick="confirmGate(true, this)">Confirm & Apply</button>
+            <button class="btn-reject" onclick="confirmGate(false, this)">Reject</button>
           </div>
         </div>
 
@@ -357,30 +508,35 @@
       const gate = document.getElementById("gateBox");
 
       if (stage === "awaiting_confirmation") {
-        document.getElementById("step-awaiting").classList.add("step-active");
-        gate.style.display = "block";
+        const step = document.getElementById("step-awaiting");
+        if (step) step.classList.add("step-active");
+        if (gate) gate.style.display = "block";
       } else if (stage === "confirmed") {
-        document.getElementById("step-confirmed").classList.add("step-active");
-        gate.style.display = "none";
+        const step = document.getElementById("step-confirmed");
+        if (step) step.classList.add("step-active");
+        if (gate) gate.style.display = "none";
       } else if (stage === "evaluating") {
-        document.getElementById("step-evaluating").classList.add("step-active");
-        gate.style.display = "none";
+        const step = document.getElementById("step-evaluating");
+        if (step) step.classList.add("step-active");
+        if (gate) gate.style.display = "none";
       } else {
-        document.getElementById("step-idle").classList.add("step-active");
-        gate.style.display = "none";
+        const step = document.getElementById("step-idle");
+        if (step) step.classList.add("step-active");
+        if (gate) gate.style.display = "none";
       }
     }
 
     async function handleSend(e) {
       if (e) e.preventDefault();
       const input = document.getElementById("userInput");
-      const text = input.value.trim();
+      const text = input ? input.value.trim() : "";
       if (!text) return;
 
       appendMessage(text, "user");
-      input.value = "";
+      if (input) input.value = "";
       setStage("evaluating");
-      document.getElementById("typingIndicator").style.display = "inline";
+      const indicator = document.getElementById("typingIndicator");
+      if (indicator) indicator.style.display = "inline";
 
       try {
         const res = await fetch("/api/chat", {
@@ -389,15 +545,30 @@
           body: JSON.stringify({ user_id: userId, session_id: sessionId, message: text }),
         });
         const data = await res.json();
-        appendMessage(data.response, "agent");
+        appendMessage(data.response, "agent", data);
 
         if (data.pending_proposal) {
-          document.getElementById("gateIntervention").textContent = data.pending_proposal + (data.proposal_details?.target ? ` on ${data.proposal_details.target}` : "");
-          document.getElementById("gateDesc").textContent = data.proposal_details?.scope ? `Scope: ${data.proposal_details.scope}` : "Requires human approval to commit.";
+          const intervEl = document.getElementById("gateIntervention");
+          if (intervEl) {
+            intervEl.textContent = data.pending_proposal + (data.proposal_details?.target ? ` on ${data.proposal_details.target}` : "");
+          }
+          const scopeEl = document.getElementById("gateScope");
+          if (scopeEl) {
+            scopeEl.textContent = data.proposal_details?.scope ? `Scope: ${data.proposal_details.scope}` : "Requires human approval to commit.";
+          }
           setStage("awaiting_confirmation");
-        } else if (data.slice_stage === "confirmed") {
+        } else if (data.tools_called && data.tools_called.some(t => t.includes("apply_study_intervention"))) {
+          resolveAllPendingCards();
           setStage("confirmed");
           fetchHistory();
+          if (data.active_intervention) {
+            const activeCard = renderActiveSessionCard(
+              data.active_intervention.intervention,
+              data.active_intervention.target_module,
+              data.active_intervention.details
+            );
+            document.getElementById("chatMessages").appendChild(activeCard);
+          }
         } else {
           setStage("idle");
         }
@@ -409,43 +580,303 @@
         appendMessage("Error communicating with agent: " + err.message, "agent");
         setStage("idle");
       } finally {
-        document.getElementById("typingIndicator").style.display = "none";
+        if (indicator) indicator.style.display = "none";
       }
     }
 
-    async function confirmGate(confirmed) {
+    async function confirmGate(confirmed, clickedBtn, modifiedDetails = null) {
+      if (clickedBtn) {
+        clickedBtn.disabled = true;
+        clickedBtn.style.opacity = "0.6";
+        clickedBtn.textContent = confirmed ? (modifiedDetails ? "⏳ Modifying..." : "⏳ Applying...") : "⏳ Declining...";
+      }
       setStage("evaluating");
+      const indicator = document.getElementById("typingIndicator");
+      if (indicator) indicator.style.display = "inline";
+      const userText = confirmed 
+        ? (modifiedDetails ? `⚡ [Modified Approval: ${modifiedDetails}]` : "⚡ [Approved: Applying intervention to study schedule]")
+        : "❌ [Declined intervention]";
+      appendMessage(userText, "user");
+
       try {
         const res = await fetch("/api/confirm", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ user_id: userId, session_id: sessionId, confirmed: confirmed }),
+          body: JSON.stringify({
+            user_id: userId,
+            session_id: sessionId,
+            confirmed: confirmed,
+            modified_details: modifiedDetails,
+          }),
         });
         const data = await res.json();
-        appendMessage(data.response, "agent");
+        appendMessage(data.response, "agent", data);
         if (confirmed) {
+          resolveAllPendingCards();
           setStage("confirmed");
           fetchHistory();
+          if (data.active_intervention) {
+            const activeCard = renderActiveSessionCard(
+              data.active_intervention.intervention,
+              data.active_intervention.target_module,
+              data.active_intervention.details,
+              data.proposal_details?.duration
+            );
+            document.getElementById("chatMessages").appendChild(activeCard);
+          }
         } else {
           setStage("idle");
         }
+        fetchMetrics();
       } catch (err) {
         appendMessage("Error confirming: " + err.message, "agent");
         setStage("idle");
+      } finally {
+        if (indicator) indicator.style.display = "none";
       }
     }
 
     function sendQuick(text) {
-      document.getElementById("userInput").value = text;
+      const input = document.getElementById("userInput");
+      if (input) input.value = text;
       handleSend();
     }
 
-    function appendMessage(text, role) {
+    function handleSendWithText(customText, clickedBtn) {
+      if (clickedBtn) {
+        clickedBtn.disabled = true;
+        clickedBtn.style.opacity = "0.6";
+        clickedBtn.textContent = "⏳ Processing...";
+      }
+      resolveAllPendingCards();
+      const input = document.getElementById("userInput");
+      if (input) input.value = customText;
+      handleSend();
+    }
+
+    let activeTimerInterval = null;
+    let activeTimerSecondsLeft = 0;
+    let activeTimerTotalSeconds = 0;
+    let isTimerPaused = false;
+
+    function resolveAllPendingCards() {
+      document.querySelectorAll(".a2ui-card").forEach(c => {
+        c.classList.add("a2ui-card-resolved");
+      });
+    }
+
+    function startTimer(durationMinutes, targetModule, intervType) {
+      if (activeTimerInterval) clearInterval(activeTimerInterval);
+      activeTimerTotalSeconds = Math.max(1, durationMinutes) * 60;
+      activeTimerSecondsLeft = activeTimerTotalSeconds;
+      isTimerPaused = false;
+
+      const timerEl = document.getElementById("activeTimerDisplay");
+      const progressEl = document.getElementById("activeTimerProgress");
+      const statusEl = document.getElementById("activeTimerStatus");
+
+      function updateDisplay() {
+        const m = Math.floor(activeTimerSecondsLeft / 60);
+        const s = activeTimerSecondsLeft % 60;
+        const str = `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+        if (timerEl) timerEl.textContent = str;
+        if (progressEl) {
+          const pct = (activeTimerSecondsLeft / activeTimerTotalSeconds) * 100;
+          progressEl.style.width = pct + "%";
+        }
+      }
+
+      updateDisplay();
+
+      activeTimerInterval = setInterval(() => {
+        if (isTimerPaused) return;
+        activeTimerSecondsLeft--;
+        updateDisplay();
+        if (activeTimerSecondsLeft <= 0) {
+          clearInterval(activeTimerInterval);
+          activeTimerInterval = null;
+          if (statusEl) statusEl.textContent = "Time Elapsed";
+          appendMessage(`🔔 Time's up for your ${intervType} session on ${targetModule || 'your task'}! How did it go?`, "agent");
+        }
+      }, 1000);
+    }
+
+    function toggleTimerPause() {
+      isTimerPaused = !isTimerPaused;
+      const btn = document.getElementById("btnTimerPause");
+      if (btn) btn.textContent = isTimerPaused ? "▶️ Resume" : "⏸️ Pause";
+      const statusEl = document.getElementById("activeTimerStatus");
+      if (statusEl) statusEl.textContent = isTimerPaused ? "Paused" : "Running";
+    }
+
+    function completeActiveBlock(targetModule) {
+      if (activeTimerInterval) {
+        clearInterval(activeTimerInterval);
+        activeTimerInterval = null;
+      }
+      resolveAllPendingCards();
+      const activeCard = document.getElementById("activeSessionCard");
+      if (activeCard) {
+        activeCard.classList.add("a2ui-card-resolved");
+        const statusEl = document.getElementById("activeTimerStatus");
+        if (statusEl) statusEl.textContent = "Completed";
+      }
+      handleSendWithText(`I have completed my scheduled study block for ${targetModule}. Please record this task as complete.`);
+    }
+
+    function revertIntervention() {
+      if (activeTimerInterval) {
+        clearInterval(activeTimerInterval);
+        activeTimerInterval = null;
+      }
+      resolveAllPendingCards();
+      const activeCard = document.getElementById("activeSessionCard");
+      if (activeCard) {
+        activeCard.classList.add("a2ui-card-resolved");
+        const statusEl = document.getElementById("activeTimerStatus");
+        if (statusEl) statusEl.textContent = "Reverted";
+      }
+      handleSendWithText("Please revert the applied intervention and restore the prior study schedule.");
+    }
+
+    function renderActiveSessionCard(intervention, target, scope, explicitDuration) {
+      // Remove any existing active card to avoid duplication
+      const existing = document.getElementById("activeSessionCard");
+      if (existing) existing.remove();
+
+      let minutes = 30;
+      const durMatch = (explicitDuration || "").match(/(\d+)\s*(?:min|minute)\b/i);
+      if (durMatch) {
+        minutes = parseInt(durMatch[1], 10);
+      } else {
+        const numMatch = (scope || "").match(/(\d+)\s*(?:min|minute)\b/i);
+        if (numMatch) {
+          minutes = parseInt(numMatch[1], 10);
+        } else if ((scope || "").match(/1\s*hour|60\s*min/i)) {
+          minutes = 60;
+        } else if (intervention === "SHRINK") {
+          minutes = 30;
+        } else if (intervention === "REST") {
+          minutes = 15;
+        }
+      }
+
+      const card = document.createElement("div");
+      card.className = "a2ui-active-card";
+      card.id = "activeSessionCard";
+
+      const badgeClass = {
+        SWITCH: "a2ui-badge-switch",
+        SHRINK: "a2ui-badge-shrink",
+        REST: "a2ui-badge-rest",
+        DIAGNOSE: "a2ui-badge-diagnose",
+      }[intervention] || "a2ui-badge-default";
+
+      card.innerHTML = `
+        <div class="a2ui-card-header">
+          <div>
+            <span class="a2ui-badge ${badgeClass}">✅ Active Session: ${intervention}</span>
+            <span style="font-weight:700; margin-left: 0.5rem; color: var(--text);">${target || "Study Block"}</span>
+          </div>
+          <span style="font-size: 0.72rem; color: var(--accent);" id="activeTimerStatus">Running</span>
+        </div>
+        <div style="font-size: 0.82rem; color: #cbd5e1; margin-top: 0.4rem;">
+          <strong>Confirmed Duration:</strong> ${minutes} minutes ${scope ? `(${scope})` : ""}
+        </div>
+        <div class="a2ui-timer-box">
+          <div class="a2ui-timer-display" id="activeTimerDisplay">${minutes.toString().padStart(2, "0")}:00</div>
+          <div class="a2ui-timer-progress-track">
+            <div class="a2ui-timer-progress-fill" id="activeTimerProgress"></div>
+          </div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.35rem;">Time remaining in scheduled study block</div>
+        </div>
+        <div class="a2ui-actions-row">
+          <button class="a2ui-btn-modify" id="btnTimerPause" onclick="toggleTimerPause()">⏸️ Pause</button>
+          <button class="a2ui-btn-confirm" onclick="completeActiveBlock('${target || "the module"}')">✅ Complete Block</button>
+          <button class="a2ui-btn-revert" onclick="revertIntervention()">↩️ Revert Intervention</button>
+        </div>
+      `;
+
+      setTimeout(() => startTimer(minutes, target, intervention), 100);
+      return card;
+    }
+
+    function renderA2UICard(text, proposalData) {
+      const card = document.createElement("div");
+      card.className = "a2ui-card";
+
+      const interv = proposalData?.pending_proposal || (text.match(/### Proposed Intervention:\s*([A-Za-z]+)/i)?.[1] || "CONTINUE").toUpperCase();
+      const target = proposalData?.proposal_details?.target || text.match(/\*\*Target\*\*:\s*([^\n]+)/i)?.[1] || "Study Block";
+      const duration = proposalData?.proposal_details?.duration || text.match(/\*\*Duration\*\*:\s*([^\n]+)/i)?.[1] || "";
+      const scope = proposalData?.proposal_details?.scope || text.match(/\*\*Proposed Task & Scope\*\*:\s*([^\n]+)/i)?.[1] || "";
+      const stepsMatch = text.match(/\*\*Actionable Steps\*\*:\s*([\s\S]*?)(?=\n- \*\*|$)/i);
+      const rationaleMatch = text.match(/\*\*Wider Workload & Rationale\*\*:\s*([^\n]+)/i);
+
+      const badgeClass = {
+        SWITCH: "a2ui-badge-switch",
+        SHRINK: "a2ui-badge-shrink",
+        REST: "a2ui-badge-rest",
+        DIAGNOSE: "a2ui-badge-diagnose",
+      }[interv] || "a2ui-badge-default";
+
+      let stepsHtml = "";
+      if (stepsMatch) {
+        const lines = stepsMatch[1].trim().split("\n").filter(l => l.trim().length > 0);
+        stepsHtml = `
+          <div class="a2ui-steps-box">
+            <div style="font-weight:600; font-size:0.75rem; color:var(--text-muted); margin-bottom:0.3rem;">ACTIONABLE MICRO-STEPS:</div>
+            ${lines.map(l => `<div class="a2ui-step-item"><span>▫️</span><span>${l.replace(/^[\d.-]+\s*/, '')}</span></div>`).join("")}
+          </div>
+        `;
+      }
+
+      let actionsRow = `
+        <div class="a2ui-actions-row">
+          <button class="a2ui-btn-confirm" onclick="confirmGate(true, this)">⚡ Confirm & Apply</button>
+          <button class="a2ui-btn-modify" onclick="confirmGate(true, this, 'SHRINK the session to 30 minutes')">⏱️ Shrink to 30m</button>
+          <button class="a2ui-btn-reject" onclick="confirmGate(false, this)">Decline</button>
+        </div>
+      `;
+      if (interv === "REST") {
+        actionsRow = `
+          <div class="a2ui-actions-row">
+            <button class="a2ui-btn-confirm" onclick="confirmGate(true, this)">⚡ Take Break</button>
+            <button class="a2ui-btn-reject" onclick="confirmGate(false, this)">Decline</button>
+          </div>
+        `;
+      }
+
+      card.innerHTML = `
+        <div class="a2ui-card-header">
+          <div>
+            <span class="a2ui-badge ${badgeClass}">A2UI Proposal: ${interv}</span>
+            <span style="font-weight:700; margin-left: 0.5rem; color: var(--text);">${target}</span>
+          </div>
+          <span style="font-size: 0.72rem; color: var(--text-muted);">Awaiting Decision</span>
+        </div>
+        ${duration ? `<div style="font-size: 0.85rem; color: var(--accent); margin-top: 0.3rem;"><strong>Duration:</strong> ${duration}</div>` : ""}
+        ${scope ? `<div style="font-size: 0.83rem; color: #cbd5e1; margin-bottom: 0.4rem; margin-top: 0.2rem;"><strong>Scope:</strong> ${scope}</div>` : ""}
+        ${stepsHtml}
+        ${rationaleMatch ? `<div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.3rem;"><strong>Rationale:</strong> ${rationaleMatch[1]}</div>` : ""}
+        ${actionsRow}
+      `;
+      return card;
+    }
+
+    function appendMessage(text, role, meta) {
       const chat = document.getElementById("chatMessages");
+      if (!chat) return;
       const div = document.createElement("div");
       div.className = `msg msg-${role}`;
       div.textContent = text;
       chat.appendChild(div);
+
+      if (role === "agent" && text.includes("### Proposed Intervention:") && meta?.slice_stage !== "confirmed") {
+        resolveAllPendingCards();
+        const card = renderA2UICard(text, meta);
+        chat.appendChild(card);
+      }
+
       chat.scrollTop = chat.scrollHeight;
     }
 

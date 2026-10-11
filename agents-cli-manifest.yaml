@@ -1,0 +1,8 @@
+# Google Cloud Agent Runtime Deployment Manifest (DevCamp Scale Pillar)
+name: 'study-navigator'
+agent_directory: 'study_agent'
+region: 'us-central1'
+create_params:
+  root_agent_name: 'study_navigator'
+  deployment_target: 'agent_runtime'
+  is_a2a: false

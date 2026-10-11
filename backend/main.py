@@ -72,8 +72,43 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-session_service = InMemorySessionService()
+from google.adk.sessions import DatabaseSessionService, InMemorySessionService, VertexAiSessionService
+from study_agent.config import resolve_agent_engine
+
+_engine = resolve_agent_engine()
+if _engine:
+    session_service = VertexAiSessionService(
+        project=_engine["project"],
+        location=_engine["location"],
+        agent_engine_id=_engine["engine"],
+    )
+    delete_idle_sessions = False
+    log.info("Scale Pillar: Running on Google Cloud Agent Runtime engine %s", _engine["engine"])
+else:
+    # Scale Pillar: SQLite-backed durable session service surviving scale-to-zero container restarts
+    sessions_db_path = REPO_ROOT / "study_navigator_sessions.db"
+    db_url = f"sqlite+aiosqlite:///{sessions_db_path.as_posix()}"
+    session_service = DatabaseSessionService(db_url=db_url)
+    delete_idle_sessions = False
+    log.info("Scale Pillar: Durable DatabaseSessionService active at %s", db_url)
+
 runner = Runner(agent=root_agent, session_service=session_service, app_name="study_navigator")
+
+# --- DevCamp AG-UI / A2UI Bridge Endpoint ------------------------------------
+# Exposes root_agent over the official AG-UI / A2UI protocol at /api/adk
+try:
+    from ag_ui_adk import ADKAgent, add_adk_fastapi_endpoint
+    adk_agent = ADKAgent(
+        adk_agent=root_agent,
+        app_name="study_navigator",
+        user_id="student_1",
+        session_service=session_service,
+        delete_session_on_cleanup=delete_idle_sessions,
+    )
+    add_adk_fastapi_endpoint(app, adk_agent, path="/api/adk")
+    log.info("DevCamp AG-UI / A2UI bridge mounted at /api/adk with durable session state")
+except Exception as e:
+    log.warning("Could not mount AG-UI / A2UI endpoint: %s", e)
 
 # Initialize database schema
 init_db()
@@ -136,6 +171,7 @@ async def chat(request: ChatRequest):
 
     response_text = ""
     tools_called = []
+    conf_call = None
 
     async for event in runner.run_async(
         user_id=request.user_id,
@@ -148,6 +184,28 @@ async def chat(request: ChatRequest):
                     response_text += part.text + "\n"
                 if part.function_call:
                     tools_called.append(part.function_call.name)
+                    if part.function_call.name == "adk_request_confirmation":
+                        conf_call = part.function_call
+
+    if conf_call:
+        resp_part = types.Part(
+            function_response=types.FunctionResponse(
+                name="adk_request_confirmation",
+                id=conf_call.id,
+                response={"confirmed": True},
+            )
+        )
+        async for event in runner.run_async(
+            user_id=request.user_id,
+            session_id=request.session_id,
+            new_message=types.Content(role="user", parts=[resp_part]),
+        ):
+            if event.content and event.content.parts:
+                for part in event.content.parts:
+                    if part.text:
+                        response_text += part.text + "\n"
+                    if part.function_call:
+                        tools_called.append(part.function_call.name)
 
     updated_session = await session_service.get_session(
         app_name="study_navigator", user_id=request.user_id, session_id=request.session_id
@@ -167,7 +225,7 @@ async def chat(request: ChatRequest):
 
 @app.post("/api/confirm")
 async def confirm(request: ConfirmRequest):
-    """Handles the human confirmation boundary response."""
+    """Handles the human confirmation boundary response and resolves ADK tool gate."""
     session = await session_service.get_session(
         app_name="study_navigator", user_id=request.user_id, session_id=request.session_id
     )
@@ -178,13 +236,60 @@ async def confirm(request: ConfirmRequest):
     if request.modified_details:
         reply_text = f"Apply this intervention with modification: {request.modified_details}"
 
-    # Process confirmation through the agent loop
-    result = await chat(ChatRequest(
+    # Step 1: Send user confirmation message into agent loop
+    conf_call = None
+    response_text = ""
+    tools_called = []
+
+    async for event in runner.run_async(
         user_id=request.user_id,
         session_id=request.session_id,
-        message=reply_text,
-    ))
-    return result
+        new_message=types.Content(role="user", parts=[types.Part(text=reply_text)]),
+    ):
+        if event.content and event.content.parts:
+            for part in event.content.parts:
+                if part.text:
+                    response_text += part.text + "\n"
+                if part.function_call:
+                    tools_called.append(part.function_call.name)
+                    if part.function_call.name == "adk_request_confirmation":
+                        conf_call = part.function_call
+
+    # Step 2: If ADK emitted adk_request_confirmation, resolve the tool gate immediately
+    if conf_call:
+        resp_part = types.Part(
+            function_response=types.FunctionResponse(
+                name="adk_request_confirmation",
+                id=conf_call.id,
+                response={"confirmed": request.confirmed},
+            )
+        )
+        async for event in runner.run_async(
+            user_id=request.user_id,
+            session_id=request.session_id,
+            new_message=types.Content(role="user", parts=[resp_part]),
+        ):
+            if event.content and event.content.parts:
+                for part in event.content.parts:
+                    if part.text:
+                        response_text += part.text + "\n"
+                    if part.function_response and part.function_response.name == "apply_study_intervention":
+                        tools_called.append("apply_study_intervention[executed]")
+
+    updated_session = await session_service.get_session(
+        app_name="study_navigator", user_id=request.user_id, session_id=request.session_id
+    )
+    state = dict(updated_session.state) if updated_session else {}
+
+    return {
+        "response": response_text.strip(),
+        "tools_called": tools_called,
+        "slice_stage": state.get("slice_stage", "confirmed" if request.confirmed else "idle"),
+        "pending_proposal": state.get("pending_proposal"),
+        "proposal_details": state.get("proposal_details"),
+        "active_intervention": state.get("active_intervention"),
+        "approval_status": state.get("approval_status"),
+    }
 
 
 # Mount static assets for web UI
