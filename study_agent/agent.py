@@ -62,6 +62,24 @@ _SCOPE_PATTERN = re.compile(
 
 
 def _init_stage(callback_context: CallbackContext) -> None:
+    # 1. Deterministic Stage 1 (Event Extractor) + Stage 2 (State Reducer)
+    text = ""
+    if callback_context.user_content and callback_context.user_content.parts:
+        for p in callback_context.user_content.parts:
+            if p.text:
+                text += p.text + " "
+    
+    if text.strip():
+        try:
+            from study_agent.pipeline import extract_event, reduce
+            event = extract_event(text.strip(), context=callback_context.state)
+            updated_state, _ = reduce(
+                callback_context.state, event, user_id=callback_context.user_id or "default_user"
+            )
+            callback_context.state.update(updated_state)
+        except Exception:
+            pass
+
     if "slice_stage" not in callback_context.state:
         callback_context.state["slice_stage"] = STAGE_CHECK_IN
     elif callback_context.state.get("slice_stage") == STAGE_CONFIRMED and not callback_context.state.get("just_confirmed"):

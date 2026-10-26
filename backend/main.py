@@ -24,12 +24,15 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
+from google.adk.events.event import Event, EventActions
 from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
 from google.genai import types
 
 from study_agent.agent import root_agent
 from study_agent.db import get_intervention_history, init_db
+from study_agent.pipeline import process_study_message
+from study_agent.pipeline.tracer import TraceLogger
 from study_agent.tools import calculate_study_metrics
 
 logging.basicConfig(level=logging.INFO)
@@ -160,7 +163,7 @@ def list_interventions(limit: int = 20, user_id: Optional[str] = None):
 
 @app.post("/api/chat")
 async def chat(request: ChatRequest):
-    """Processes a user check-in turn through root_agent."""
+    """Processes a user check-in turn through the 4-stage pipeline."""
     session = await session_service.get_session(
         app_name="study_navigator", user_id=request.user_id, session_id=request.session_id
     )
@@ -169,127 +172,95 @@ async def chat(request: ChatRequest):
             app_name="study_navigator", user_id=request.user_id, session_id=request.session_id
         )
 
-    response_text = ""
-    tools_called = []
-    conf_call = None
+    # State object as read from durable storage, before any defaults are applied
+    raw_storage_state = dict(session.state) if session and session.state else {}
+    print(f"[STATE READ FROM STORAGE] session_id={request.session_id} state={json.dumps(raw_storage_state, default=str)}")
+    log.info("[STATE READ FROM STORAGE] session_id=%s state=%s", request.session_id, json.dumps(raw_storage_state, default=str))
 
-    async for event in runner.run_async(
+    output, final_state, mutations = process_study_message(
+        message=request.message,
+        current_state=raw_storage_state,
         user_id=request.user_id,
         session_id=request.session_id,
-        new_message=types.Content(role="user", parts=[types.Part(text=request.message)]),
-    ):
-        if event.content and event.content.parts:
-            for part in event.content.parts:
-                if part.text:
-                    response_text += part.text + "\n"
-                if part.function_call:
-                    tools_called.append(part.function_call.name)
-                    if part.function_call.name == "adk_request_confirmation":
-                        conf_call = part.function_call
-
-    if conf_call:
-        resp_part = types.Part(
-            function_response=types.FunctionResponse(
-                name="adk_request_confirmation",
-                id=conf_call.id,
-                response={"confirmed": True},
-            )
-        )
-        async for event in runner.run_async(
-            user_id=request.user_id,
-            session_id=request.session_id,
-            new_message=types.Content(role="user", parts=[resp_part]),
-        ):
-            if event.content and event.content.parts:
-                for part in event.content.parts:
-                    if part.text:
-                        response_text += part.text + "\n"
-                    if part.function_call:
-                        tools_called.append(part.function_call.name)
-
-    updated_session = await session_service.get_session(
-        app_name="study_navigator", user_id=request.user_id, session_id=request.session_id
     )
-    state = dict(updated_session.state) if updated_session else {}
+
+    # Persist updated state to DatabaseSessionService SQLite
+    if session:
+        await session_service.append_event(
+            session,
+            Event(
+                author="agent",
+                content=types.Content(parts=[types.Part(text=output.text)]),
+                actions=EventActions(state_delta=final_state),
+            ),
+        )
 
     return {
-        "response": response_text.strip(),
-        "tools_called": tools_called,
-        "slice_stage": state.get("slice_stage", "evaluating"),
-        "pending_proposal": state.get("pending_proposal"),
-        "proposal_details": state.get("proposal_details"),
-        "active_intervention": state.get("active_intervention"),
-        "approval_status": state.get("approval_status"),
+        "response": output.text,
+        "tools_called": mutations,
+        "slice_stage": final_state.get("slice_stage", "idle"),
+        "pending_proposal": final_state.get("pending_proposal"),
+        "proposal_details": final_state.get("proposal_details"),
+        "active_intervention": final_state.get("active_intervention"),
+        "approval_status": final_state.get("approval_status"),
+        "trace": output.trace,
     }
 
 
 @app.post("/api/confirm")
 async def confirm(request: ConfirmRequest):
-    """Handles the human confirmation boundary response and resolves ADK tool gate."""
+    """Handles the human confirmation boundary response via the 4-stage pipeline."""
     session = await session_service.get_session(
         app_name="study_navigator", user_id=request.user_id, session_id=request.session_id
     )
     if not session:
-        raise HTTPException(status_code=404, detail="Session not found")
+        session = await session_service.create_session(
+            app_name="study_navigator", user_id=request.user_id, session_id=request.session_id
+        )
+
+    # State object as read from durable storage, before any defaults are applied
+    raw_storage_state = dict(session.state) if session and session.state else {}
+    print(f"[STATE READ FROM STORAGE] session_id={request.session_id} state={json.dumps(raw_storage_state, default=str)}")
+    log.info("[STATE READ FROM STORAGE] session_id=%s state=%s", request.session_id, json.dumps(raw_storage_state, default=str))
 
     reply_text = "Yes, please apply this intervention." if request.confirmed else "No, I reject this intervention."
     if request.modified_details:
         reply_text = f"Apply this intervention with modification: {request.modified_details}"
 
-    # Step 1: Send user confirmation message into agent loop
-    conf_call = None
-    response_text = ""
-    tools_called = []
-
-    async for event in runner.run_async(
+    output, final_state, mutations = process_study_message(
+        message=reply_text,
+        current_state=raw_storage_state,
         user_id=request.user_id,
         session_id=request.session_id,
-        new_message=types.Content(role="user", parts=[types.Part(text=reply_text)]),
-    ):
-        if event.content and event.content.parts:
-            for part in event.content.parts:
-                if part.text:
-                    response_text += part.text + "\n"
-                if part.function_call:
-                    tools_called.append(part.function_call.name)
-                    if part.function_call.name == "adk_request_confirmation":
-                        conf_call = part.function_call
-
-    # Step 2: If ADK emitted adk_request_confirmation, resolve the tool gate immediately
-    if conf_call:
-        resp_part = types.Part(
-            function_response=types.FunctionResponse(
-                name="adk_request_confirmation",
-                id=conf_call.id,
-                response={"confirmed": request.confirmed},
-            )
-        )
-        async for event in runner.run_async(
-            user_id=request.user_id,
-            session_id=request.session_id,
-            new_message=types.Content(role="user", parts=[resp_part]),
-        ):
-            if event.content and event.content.parts:
-                for part in event.content.parts:
-                    if part.text:
-                        response_text += part.text + "\n"
-                    if part.function_response and part.function_response.name == "apply_study_intervention":
-                        tools_called.append("apply_study_intervention[executed]")
-
-    updated_session = await session_service.get_session(
-        app_name="study_navigator", user_id=request.user_id, session_id=request.session_id
     )
-    state = dict(updated_session.state) if updated_session else {}
+
+    # Persist updated state to DatabaseSessionService SQLite
+    if session:
+        await session_service.append_event(
+            session,
+            Event(
+                author="agent",
+                content=types.Content(parts=[types.Part(text=output.text)]),
+                actions=EventActions(state_delta=final_state),
+            ),
+        )
 
     return {
-        "response": response_text.strip(),
-        "tools_called": tools_called,
-        "slice_stage": state.get("slice_stage", "confirmed" if request.confirmed else "idle"),
-        "pending_proposal": state.get("pending_proposal"),
-        "proposal_details": state.get("proposal_details"),
-        "active_intervention": state.get("active_intervention"),
-        "approval_status": state.get("approval_status"),
+        "response": output.text,
+        "tools_called": mutations,
+        "slice_stage": final_state.get("slice_stage", "confirmed" if request.confirmed else "idle"),
+        "pending_proposal": final_state.get("pending_proposal"),
+        "proposal_details": final_state.get("proposal_details"),
+        "active_intervention": final_state.get("active_intervention"),
+        "approval_status": final_state.get("approval_status"),
+        "trace": output.trace,
     }
+
+
+@app.get("/api/traces/{session_id}")
+def get_session_trace(session_id: str):
+    """Returns the full JSON trace log for a session."""
+    return TraceLogger().load_trace(session_id)
 
 
 # Mount static assets for web UI

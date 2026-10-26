@@ -6,3 +6,4 @@ __pycache__/
 /AGENTS.md
 /BENCHMARK.md
 /ANOMALIES.md
+/test_harness.py

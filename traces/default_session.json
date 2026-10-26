@@ -1,0 +1,106 @@
+{
+  "session_id": "default_session",
+  "user_id": "default_user",
+  "created_at": "2026-10-17T15:48:30.564459+00:00",
+  "turns": [
+    {
+      "turn_index": 1,
+      "timestamp": "2026-10-17T15:48:30.564488+00:00",
+      "raw_input": "Yes, please apply this intervention.",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "Yes, please apply this intervention.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": null
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": null
+        }
+      },
+      "planner_decision": {
+        "action_type": "propose_intervention",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "Yes, please apply this intervention.",
+          "extra": {}
+        },
+        "proposal": {
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+          "micro_steps": [
+            "Set up the test harness for task 1.",
+            "Implement the core heuristic function.",
+            "Run assertions against baseline cases."
+          ],
+          "rationale": "AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort."
+        },
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": null
+      },
+      "final_output": {
+        "text": "I recommend a structured study intervention based on your current deadlines and workload:\n\n### Proposed Intervention: SWITCH\n- **Target**: AI Coursework 1\n- **Duration**: 60 minutes\n- **Proposed Task & Scope**: Focus on AI Coursework 1 implementation (30% module marks due soon).\n- **Actionable Steps**:\n1. Set up the test harness for task 1.\n2. Implement the core heuristic function.\n3. Run assertions against baseline cases.\n- **Rationale**: AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort.\n- **User Confirmation Required**: Please confirm, modify, or decline this proposed intervention.",
+        "a2ui_card": {
+          "type": "intervention_proposal",
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+          "micro_steps": [
+            "Set up the test harness for task 1.",
+            "Implement the core heuristic function.",
+            "Run assertions against baseline cases."
+          ],
+          "rationale": "AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort.",
+          "actions": [
+            "confirm",
+            "shrink_30",
+            "decline"
+          ]
+        },
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": "SWITCH",
+        "proposal_details": {
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon)."
+        },
+        "active_intervention": null,
+        "approval_status": null,
+        "trace": null
+      }
+    }
+  ],
+  "updated_at": "2026-10-17T15:48:30.564481+00:00"
+}
