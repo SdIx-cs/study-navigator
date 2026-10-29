@@ -139,6 +139,14 @@ What's live today:
 - Some casual phrasing ("yeah let's go") and non-numeric durations ("half an
   hour") aren't reliably recognized — these degrade safely to a clarifying
   question to avoid a wrong action
+- No weighted decision mechanism: the objective calls for balancing immediate
+  mark impact against future subject relevance, but the planner's priority
+  order is a fixed if/elif chain (urgent coursework marks at risk, then lecture
+  deficit) that never actually weighs the two against each other. A module
+  with low marks at risk but high future relevance will never be prioritized
+  over one with marks at risk but low relevance — the "future value" half of
+  the stated objective isn't implemented as a weighing mechanism, only
+  referenced in generated rationale text.
 
 ## Feedbacks I would appreciate having on
 
