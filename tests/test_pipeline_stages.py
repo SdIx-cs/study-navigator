@@ -76,19 +76,43 @@ class TestPipelineStages(unittest.TestCase):
         self.assertEqual(event.type, EventType.INTERVENTION_REVERTED)
 
     # --- Stage 2: State Reducer Tests (Deterministic, Zero LLM) ---
-    def test_stage_2_state_reducer_applies_lecture_progress_to_db(self):
+    def test_stage_2_state_reducer_stages_and_confirms_lecture_progress(self):
         event = AcademicEvent(
             type=EventType.LECTURE_PROGRESS,
             module="DB",
             delta=3,
         )
         initial_state = {"slice_stage": "idle"}
-        new_state, mutations = reduce(initial_state, event, user_id="test_student")
-        
-        # Verify SQLite DB was deterministically mutated
+        staged_state, mutations = reduce(initial_state, event, user_id="test_student")
+
+        # Verify it is staged and not yet written to DB
+        self.assertEqual(staged_state.get("pending_progress_update"), {"module": "DB", "delta": 3})
+        self.assertEqual(staged_state.get("slice_stage"), "awaiting_confirmation")
+        self.assertEqual(len(mutations), 0)
         progress = get_all_module_progress("test_student")
-        self.assertEqual(progress.get("DB"), 3)
-        self.assertTrue(any("Recorded progress: DB" in m for m in mutations))
+        self.assertNotIn("DB", progress)
+
+        # Confirm the progress update
+        confirm_event = AcademicEvent(type=EventType.INTERVENTION_CONFIRMED)
+        final_state, confirm_mutations = reduce(staged_state, confirm_event, user_id="test_student")
+        progress_after = get_all_module_progress("test_student")
+        # 3 baseline from study_context + 3 delta = 6
+        self.assertEqual(progress_after.get("DB"), 6)
+        self.assertTrue(any("Recorded progress: DB" in m for m in confirm_mutations))
+        self.assertEqual(final_state.get("slice_stage"), "idle")
+
+    def test_stage_2_state_reducer_rejects_pending_lecture_progress(self):
+        staged_state = {
+            "slice_stage": "awaiting_confirmation",
+            "pending_progress_update": {"module": "DB", "delta": 3},
+        }
+        reject_event = AcademicEvent(type=EventType.INTERVENTION_REJECTED)
+        final_state, mutations = reduce(staged_state, reject_event, user_id="test_student")
+        self.assertIsNone(final_state.get("pending_progress_update"))
+        self.assertEqual(final_state.get("slice_stage"), "idle")
+        progress = get_all_module_progress("test_student")
+        self.assertNotIn("DB", progress)
+        self.assertTrue(any("Discarded" in m for m in mutations))
 
     def test_stage_2_state_reducer_applies_coursework_completed_to_db(self):
         event = AcademicEvent(
@@ -121,6 +145,16 @@ class TestPipelineStages(unittest.TestCase):
         self.assertEqual(prefs.get("preferred_name"), "Elena")
 
     # --- Stage 3: Policy / Planner Tests ---
+    def test_stage_3_policy_planner_handles_lecture_progress(self):
+        event = AcademicEvent(
+            type=EventType.LECTURE_PROGRESS,
+            module="DB",
+            delta=2,
+        )
+        decision = plan_decision({}, event, user_id="test_student")
+        self.assertEqual(decision.action_type, ActionType.ANSWER_QUERY)
+        self.assertIn("logging 2 lecture(s) for DB as completed. Confirm?", decision.guidance_message)
+
     def test_stage_3_policy_planner_handles_coursework_completion(self):
         # When coursework is completed, it should acknowledge and direct focus to next priorities
         event = AcademicEvent(
@@ -172,7 +206,7 @@ class TestPipelineStages(unittest.TestCase):
             proposal=proposal,
         )
         output = format_presentation(decision, state={})
-        
+
         self.assertEqual(output.slice_stage, "awaiting_confirmation")
         self.assertEqual(output.pending_proposal, "SWITCH")
         self.assertIsNotNone(output.a2ui_card)
@@ -188,38 +222,42 @@ class TestPipelineStages(unittest.TestCase):
         from study_agent.pipeline.tracer import TraceLogger
         session_id = "test_trace_session_99"
         orchestrator = PipelineOrchestrator()
-        
-        # Turn 1: User reports DB progress
+
+        # Turn 1: User reports DB progress -> Staged awaiting confirmation
         out1, state1, mut1 = orchestrator.process(
             "I've caught up on 2 DB lectures", user_id="student_e2e", session_id=session_id
         )
-        self.assertIn("DB lectures completed is now 2/", out1.text)
-        self.assertEqual(get_all_module_progress("student_e2e")["DB"], 2)
+        self.assertIn("logging 2 lecture(s) for DB as completed", out1.text)
+        self.assertEqual(state1.get("pending_progress_update"), {"module": "DB", "delta": 2})
         self.assertIsNotNone(out1.trace)
         self.assertEqual(out1.trace["turn_index"], 1)
-        self.assertEqual(out1.trace["raw_input"], "I've caught up on 2 DB lectures")
-        self.assertEqual(out1.trace["extracted_event"]["type"], "lecture_progress_updated")
-        self.assertIn("mutations", out1.trace["state_diff_applied"])
+
+        # Turn 1b: User confirms -> Writes to DB (3 baseline + 2 = 5)
+        out1b, state1b, mut1b = orchestrator.process(
+            "yes", current_state=state1, user_id="student_e2e", session_id=session_id
+        )
+        self.assertEqual(get_all_module_progress("student_e2e")["DB"], 5)
+        self.assertEqual(out1b.trace["turn_index"], 2)
 
         # Turn 2: User completes AI coursework 1
         out2, state2, mut2 = orchestrator.process(
             "I have completed my scheduled study block for AI Coursework 1",
-            current_state=state1,
+            current_state=state1b,
             user_id="student_e2e",
             session_id=session_id,
         )
         self.assertIn("Successfully recorded completion of AI CW1", out2.text)
         self.assertEqual(len(get_completed_deliverables("student_e2e")), 1)
         self.assertIsNotNone(out2.trace)
-        self.assertEqual(out2.trace["turn_index"], 2)
+        self.assertEqual(out2.trace["turn_index"], 3)
 
         # Verify trace file dumped as JSON per session
         tracer = TraceLogger()
         dumped = tracer.load_trace(session_id)
         self.assertEqual(dumped["session_id"], session_id)
         self.assertEqual(dumped["user_id"], "student_e2e")
-        self.assertEqual(len(dumped["turns"]), 2)
-        
+        self.assertEqual(len(dumped["turns"]), 3)
+
         turn1 = dumped["turns"][0]
         self.assertIn("raw_input", turn1)
         self.assertIn("extracted_event", turn1)

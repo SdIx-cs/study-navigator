@@ -1,0 +1,510 @@
+{
+  "session_id": "session_brks8g",
+  "user_id": "student_1",
+  "created_at": "2026-10-29T14:15:59.182289+00:00",
+  "turns": [
+    {
+      "turn_index": 1,
+      "timestamp": "2026-10-29T14:15:59.182315+00:00",
+      "raw_input": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+      "extracted_event": {
+        "type": "checkin_requested",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "modified_details": null,
+        "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": null,
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": null
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": null
+        }
+      },
+      "planner_decision": {
+        "action_type": "propose_intervention",
+        "event": {
+          "type": "checkin_requested",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "modified_details": null,
+          "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "extra": {}
+        },
+        "proposal": {
+          "intervention": "SWITCH",
+          "target": "DB Lectures",
+          "duration": "45 minutes",
+          "scope": "Catch up on 2 Database lectures to close deficit.",
+          "micro_steps": [
+            "Review lecture slides and key ER diagrams.",
+            "Work through the practice query examples.",
+            "Log completed lectures in navigator."
+          ],
+          "rationale": "Database systems carries high future subject relevance. Closing the current 5-lecture deficit prevents compounding exam pressure."
+        },
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": null
+      },
+      "final_output": {
+        "text": "I recommend a structured study intervention based on your current deadlines and workload:\n\n### Proposed Intervention: SWITCH\n- **Target**: DB Lectures\n- **Duration**: 45 minutes\n- **Proposed Task & Scope**: Catch up on 2 Database lectures to close deficit.\n- **Actionable Steps**:\n1. Review lecture slides and key ER diagrams.\n2. Work through the practice query examples.\n3. Log completed lectures in navigator.\n- **Rationale**: Database systems carries high future subject relevance. Closing the current 5-lecture deficit prevents compounding exam pressure.\n- **User Confirmation Required**: Please confirm, modify, or decline this proposed intervention.",
+        "a2ui_card": {
+          "type": "intervention_proposal",
+          "intervention": "SWITCH",
+          "target": "DB Lectures",
+          "duration": "45 minutes",
+          "scope": "Catch up on 2 Database lectures to close deficit.",
+          "micro_steps": [
+            "Review lecture slides and key ER diagrams.",
+            "Work through the practice query examples.",
+            "Log completed lectures in navigator."
+          ],
+          "rationale": "Database systems carries high future subject relevance. Closing the current 5-lecture deficit prevents compounding exam pressure.",
+          "actions": [
+            "confirm",
+            "shrink_30",
+            "decline"
+          ]
+        },
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": "SWITCH",
+        "proposal_details": {
+          "intervention": "SWITCH",
+          "target": "DB Lectures",
+          "duration": "45 minutes",
+          "scope": "Catch up on 2 Database lectures to close deficit."
+        },
+        "active_intervention": null,
+        "approval_status": null,
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 2,
+      "timestamp": "2026-10-29T14:16:37.582308+00:00",
+      "raw_input": "Yes, please apply this intervention.",
+      "extracted_event": {
+        "type": "intervention_confirmed",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "Yes, please apply this intervention.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Recorded confirmed intervention: SWITCH for DB Lectures."
+        ],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": null
+        },
+        "after": {
+          "slice_stage": "confirmed",
+          "active_intervention": {
+            "intervention": "SWITCH",
+            "target_module": "DB Lectures",
+            "details": "Catch up on 2 Database lectures to close deficit.",
+            "duration": "45 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "intervention_confirmed",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "Yes, please apply this intervention.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "Confirmed! Your intervention (SWITCH) is now active for DB Lectures (45 minutes). I've updated your schedule. Let me know when you've finished or if you need to adjust."
+      },
+      "final_output": {
+        "text": "Confirmed! Your intervention (SWITCH) is now active for DB Lectures (45 minutes). I've updated your schedule. Let me know when you've finished or if you need to adjust.",
+        "a2ui_card": null,
+        "slice_stage": "confirmed",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SWITCH",
+          "target_module": "DB Lectures",
+          "details": "Catch up on 2 Database lectures to close deficit.",
+          "duration": "45 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 3,
+      "timestamp": "2026-10-29T14:16:39.895902+00:00",
+      "raw_input": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+      "extracted_event": {
+        "type": "checkin_requested",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "modified_details": null,
+        "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "confirmed",
+          "active_intervention": {
+            "intervention": "SWITCH",
+            "target_module": "DB Lectures",
+            "details": "Catch up on 2 Database lectures to close deficit.",
+            "duration": "45 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SWITCH",
+            "target_module": "DB Lectures",
+            "details": "Catch up on 2 Database lectures to close deficit.",
+            "duration": "45 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "checkin_requested",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "modified_details": null,
+          "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "You have an active session on DB Lectures. Please finish it or tell me to revert it."
+      },
+      "final_output": {
+        "text": "You have an active session on DB Lectures. Please finish it or tell me to revert it.",
+        "a2ui_card": null,
+        "slice_stage": "evaluating",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SWITCH",
+          "target_module": "DB Lectures",
+          "details": "Catch up on 2 Database lectures to close deficit.",
+          "duration": "45 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 4,
+      "timestamp": "2026-10-29T14:17:05.273708+00:00",
+      "raw_input": "Please revert the applied intervention and restore the prior study schedule.",
+      "extracted_event": {
+        "type": "intervention_reverted",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "Please revert the applied intervention and restore the prior study schedule.",
+        "modified_details": null,
+        "raw_text": "Please revert the applied intervention and restore the prior study schedule.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Reverted intervention: Please revert the applied intervention and restore the prior study schedule.."
+        ],
+        "before": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SWITCH",
+            "target_module": "DB Lectures",
+            "details": "Catch up on 2 Database lectures to close deficit.",
+            "duration": "45 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        }
+      },
+      "planner_decision": {
+        "action_type": "acknowledge_revert",
+        "event": {
+          "type": "intervention_reverted",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "Please revert the applied intervention and restore the prior study schedule.",
+          "modified_details": null,
+          "raw_text": "Please revert the applied intervention and restore the prior study schedule.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "Understood. The applied intervention has been reverted and your previous study schedule is restored."
+      },
+      "final_output": {
+        "text": "Understood. The applied intervention has been reverted and your previous study schedule is restored.",
+        "a2ui_card": null,
+        "slice_stage": "idle",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "idle",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 5,
+      "timestamp": "2026-10-29T14:17:12.913433+00:00",
+      "raw_input": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+      "extracted_event": {
+        "type": "checkin_requested",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "modified_details": null,
+        "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": "idle"
+        }
+      },
+      "planner_decision": {
+        "action_type": "propose_intervention",
+        "event": {
+          "type": "checkin_requested",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "modified_details": null,
+          "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "extra": {}
+        },
+        "proposal": {
+          "intervention": "SWITCH",
+          "target": "DB Lectures",
+          "duration": "45 minutes",
+          "scope": "Catch up on 2 Database lectures to close deficit.",
+          "micro_steps": [
+            "Review lecture slides and key ER diagrams.",
+            "Work through the practice query examples.",
+            "Log completed lectures in navigator."
+          ],
+          "rationale": "Database systems carries high future subject relevance. Closing the current 5-lecture deficit prevents compounding exam pressure."
+        },
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": null
+      },
+      "final_output": {
+        "text": "I recommend a structured study intervention based on your current deadlines and workload:\n\n### Proposed Intervention: SWITCH\n- **Target**: DB Lectures\n- **Duration**: 45 minutes\n- **Proposed Task & Scope**: Catch up on 2 Database lectures to close deficit.\n- **Actionable Steps**:\n1. Review lecture slides and key ER diagrams.\n2. Work through the practice query examples.\n3. Log completed lectures in navigator.\n- **Rationale**: Database systems carries high future subject relevance. Closing the current 5-lecture deficit prevents compounding exam pressure.\n- **User Confirmation Required**: Please confirm, modify, or decline this proposed intervention.",
+        "a2ui_card": {
+          "type": "intervention_proposal",
+          "intervention": "SWITCH",
+          "target": "DB Lectures",
+          "duration": "45 minutes",
+          "scope": "Catch up on 2 Database lectures to close deficit.",
+          "micro_steps": [
+            "Review lecture slides and key ER diagrams.",
+            "Work through the practice query examples.",
+            "Log completed lectures in navigator."
+          ],
+          "rationale": "Database systems carries high future subject relevance. Closing the current 5-lecture deficit prevents compounding exam pressure.",
+          "actions": [
+            "confirm",
+            "shrink_30",
+            "decline"
+          ]
+        },
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": "SWITCH",
+        "proposal_details": {
+          "intervention": "SWITCH",
+          "target": "DB Lectures",
+          "duration": "45 minutes",
+          "scope": "Catch up on 2 Database lectures to close deficit."
+        },
+        "active_intervention": null,
+        "approval_status": "idle",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 6,
+      "timestamp": "2026-10-29T14:17:16.859668+00:00",
+      "raw_input": "Yes, please apply this intervention.",
+      "extracted_event": {
+        "type": "intervention_confirmed",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "Yes, please apply this intervention.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Recorded confirmed intervention: SWITCH for DB Lectures."
+        ],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": "idle"
+        },
+        "after": {
+          "slice_stage": "confirmed",
+          "active_intervention": {
+            "intervention": "SWITCH",
+            "target_module": "DB Lectures",
+            "details": "Catch up on 2 Database lectures to close deficit.",
+            "duration": "45 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "intervention_confirmed",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "Yes, please apply this intervention.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "Confirmed! Your intervention (SWITCH) is now active for DB Lectures (45 minutes). I've updated your schedule. Let me know when you've finished or if you need to adjust."
+      },
+      "final_output": {
+        "text": "Confirmed! Your intervention (SWITCH) is now active for DB Lectures (45 minutes). I've updated your schedule. Let me know when you've finished or if you need to adjust.",
+        "a2ui_card": null,
+        "slice_stage": "confirmed",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SWITCH",
+          "target_module": "DB Lectures",
+          "details": "Catch up on 2 Database lectures to close deficit.",
+          "duration": "45 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    }
+  ],
+  "updated_at": "2026-10-29T14:17:16.859615+00:00"
+}

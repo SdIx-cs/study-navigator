@@ -37,6 +37,23 @@ def _serialize(obj: Any) -> Any:
     return obj
 
 
+class _TraceTurnEntry(dict):
+    """Dict representing a turn entry that automatically re-persists when updated."""
+
+    def __init__(self, logger: "TraceLogger", session_id: str, trace_obj: Dict[str, Any], *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._logger = logger
+        self._session_id = session_id
+        self._trace_obj = trace_obj
+
+    def __setitem__(self, key: str, value: Any) -> None:
+        super().__setitem__(key, value)
+        try:
+            self._logger.save_trace(self._session_id, self._trace_obj)
+        except Exception as e:
+            log.warning("Failed to auto-persist updated trace for session %s: %s", self._session_id, e)
+
+
 class TraceLogger:
     """Logs per-turn pipeline traces and saves them to session-scoped JSON files."""
 
@@ -49,6 +66,11 @@ class TraceLogger:
         if not safe_id:
             safe_id = "default_session"
         return self.trace_dir / f"{safe_id}.json"
+
+    def save_trace(self, session_id: str, trace: Dict[str, Any]) -> None:
+        path = self.get_session_file(session_id)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(trace, f, indent=2)
 
     def load_trace(self, session_id: str) -> Dict[str, Any]:
         path = self.get_session_file(session_id)
@@ -86,21 +108,25 @@ class TraceLogger:
             "after": {k: state_after.get(k) for k in ("slice_stage", "active_intervention", "pending_proposal", "approval_status")},
         }
 
-        turn_entry = {
-            "turn_index": turn_index,
-            "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-            "raw_input": raw_input,
-            "extracted_event": _serialize(extracted_event),
-            "state_diff_applied": state_diff,
-            "planner_decision": _serialize(planner_decision),
-            "final_output": _serialize(final_output),
-        }
+        turn_entry = _TraceTurnEntry(
+            self,
+            session_id,
+            trace,
+            {
+                "turn_index": turn_index,
+                "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                "raw_input": raw_input,
+                "elapsed_time_ms": None,
+                "extraction_method": getattr(extracted_event, "extraction_method", None) or "regex",
+                "extracted_event": _serialize(extracted_event),
+                "state_diff_applied": state_diff,
+                "planner_decision": _serialize(planner_decision),
+                "final_output": _serialize(final_output),
+            },
+        )
 
         trace["turns"].append(turn_entry)
-
-        path = self.get_session_file(session_id)
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump(trace, f, indent=2)
+        self.save_trace(session_id, trace)
 
         return turn_entry
 

@@ -17,11 +17,11 @@ log = logging.getLogger(__name__)
 
 # Regex patterns for fast-path extraction
 _LECTURE_RE = re.compile(
-    r"(?:caught\s+up\s+on|completed|watched|finished|did|logged|studied)\s+(\d+)\s+([a-zA-Z0-9]+)\s+lectures?",
+    r"(?:caught\s+up\s+on|completed|watched|finished|did|logged|studied)\s+(\d+)\s+([a-zA-Z0-9]+(?:\s+[a-zA-Z0-9]+){0,2})\s+lectures?",
     re.IGNORECASE,
 )
 _LECTURE_RE_ALT = re.compile(
-    r"(\d+)\s+([a-zA-Z0-9]+)\s+lectures?(?:\s+completed|\s+done)?",
+    r"(\d+)\s+([a-zA-Z0-9]+(?:\s+[a-zA-Z0-9]+){0,2})\s+lectures?(?:\s+completed|\s+done)?",
     re.IGNORECASE,
 )
 _NAME_RE = re.compile(
@@ -89,7 +89,7 @@ class EventExtractor:
                 raw_text=text,
             )
         m = _LECTURE_RE_ALT.search(text)
-        if m and "lecture" in text.lower():
+        if m and "lecture" in text.lower() and "?" not in text and "should i" not in text.lower():
             delta = int(m.group(1))
             module = m.group(2).upper()
             return AcademicEvent(
@@ -151,6 +151,14 @@ class EventExtractor:
 
         # 5. Coursework / Task completion
         if _COMPLETION_RE.search(text) or text.lower() in ("done", "finished", "it's done"):
+            explicit_coursework = any(k in text.lower() for k in ("cw1", "cw2", "coursework"))
+            if active_interv and not explicit_coursework:
+                return AcademicEvent(
+                    type=EventType.STUDY_BLOCK_COMPLETED,
+                    module=active_interv.get("target_module"),
+                    notes=text,
+                    raw_text=text,
+                )
             # Extract module if mentioned in text, otherwise fall back to active intervention
             mod = "AI" if "ai" in text.lower() else "DB" if "db" in text.lower() else (
                 "AI" if "ai" in target_mod.lower() else "DB" if "db" in target_mod.lower() else target_mod
@@ -210,7 +218,8 @@ class EventExtractor:
             prompt = (
                 "You are an Academic Event Extractor. Extract a single structured JSON event from the student's message.\n"
                 "Allowed types: 'lecture_progress_updated', 'coursework_completed', 'task_added', 'preference_updated', "
-                "'checkin_requested', 'casual_conversation', 'intervention_reverted', 'general_query'.\n\n"
+                "'checkin_requested', 'casual_conversation', 'intervention_reverted', 'intervention_confirmed', "
+                "'intervention_rejected', 'intervention_modified', 'general_query'.\n\n"
                 f"Student message: \"{text}\"\n\n"
                 "Return ONLY a JSON object with keys: type, module, item, delta, key, value, notes, reason."
             )
@@ -241,9 +250,10 @@ class EventExtractor:
                     notes=data.get("notes"),
                     reason=data.get("reason"),
                     raw_text=text,
+                    extraction_method="llm_fallback",
                 )
         except Exception as e:
-            log.debug("LLM extraction skipped or failed: %s", e)
+            log.error("LLM extraction skipped or failed: %s", e)
         return None
 
 

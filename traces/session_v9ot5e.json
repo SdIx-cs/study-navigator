@@ -10320,7 +10320,5317 @@
         "approval_status": "idle",
         "trace": null
       }
+    },
+    {
+      "turn_index": 120,
+      "timestamp": "2026-10-26T17:20:41.413696+00:00",
+      "raw_input": "call me suicidal",
+      "extracted_event": {
+        "type": "preference_updated",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": "preferred_name",
+        "value": "Suicidal",
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "call me suicidal",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Saved student preference: preferred_name = Suicidal."
+        ],
+        "before": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        },
+        "after": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "preference_updated",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": "preferred_name",
+          "value": "Suicidal",
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "call me suicidal",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I'm here to help guide your study sessions. What would you like to work on?"
+      },
+      "final_output": {
+        "text": "I'm here to help guide your study sessions. What would you like to work on?",
+        "a2ui_card": null,
+        "slice_stage": "idle",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "idle",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 121,
+      "timestamp": "2026-10-26T17:20:56.472661+00:00",
+      "raw_input": "study 5 min",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "study 5 min",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        },
+        "after": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "study 5 min",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "idle",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "idle",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 122,
+      "timestamp": "2026-10-26T17:20:59.611487+00:00",
+      "raw_input": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+      "extracted_event": {
+        "type": "checkin_requested",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "modified_details": null,
+        "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": "idle"
+        }
+      },
+      "planner_decision": {
+        "action_type": "propose_intervention",
+        "event": {
+          "type": "checkin_requested",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "modified_details": null,
+          "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "extra": {}
+        },
+        "proposal": {
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+          "micro_steps": [
+            "Set up the test harness for task 1.",
+            "Implement the core heuristic function.",
+            "Run assertions against baseline cases."
+          ],
+          "rationale": "AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort."
+        },
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": null
+      },
+      "final_output": {
+        "text": "I recommend a structured study intervention based on your current deadlines and workload:\n\n### Proposed Intervention: SWITCH\n- **Target**: AI Coursework 1\n- **Duration**: 60 minutes\n- **Proposed Task & Scope**: Focus on AI Coursework 1 implementation (30% module marks due soon).\n- **Actionable Steps**:\n1. Set up the test harness for task 1.\n2. Implement the core heuristic function.\n3. Run assertions against baseline cases.\n- **Rationale**: AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort.\n- **User Confirmation Required**: Please confirm, modify, or decline this proposed intervention.",
+        "a2ui_card": {
+          "type": "intervention_proposal",
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+          "micro_steps": [
+            "Set up the test harness for task 1.",
+            "Implement the core heuristic function.",
+            "Run assertions against baseline cases."
+          ],
+          "rationale": "AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort.",
+          "actions": [
+            "confirm",
+            "shrink_30",
+            "decline"
+          ]
+        },
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": "SWITCH",
+        "proposal_details": {
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon)."
+        },
+        "active_intervention": null,
+        "approval_status": "idle",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 123,
+      "timestamp": "2026-10-26T17:21:14.363251+00:00",
+      "raw_input": "Yes, please apply this intervention.",
+      "extracted_event": {
+        "type": "intervention_confirmed",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "Yes, please apply this intervention.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Recorded confirmed intervention: SWITCH for AI Coursework 1."
+        ],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": "idle"
+        },
+        "after": {
+          "slice_stage": "confirmed",
+          "active_intervention": {
+            "intervention": "SWITCH",
+            "target_module": "AI Coursework 1",
+            "details": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+            "duration": "60 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "intervention_confirmed",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "Yes, please apply this intervention.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "Confirmed! Your intervention (SWITCH) is now active for AI Coursework 1 (60 minutes). I've updated your schedule. Let me know when you've finished or if you need to adjust."
+      },
+      "final_output": {
+        "text": "Confirmed! Your intervention (SWITCH) is now active for AI Coursework 1 (60 minutes). I've updated your schedule. Let me know when you've finished or if you need to adjust.",
+        "a2ui_card": null,
+        "slice_stage": "confirmed",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SWITCH",
+          "target_module": "AI Coursework 1",
+          "details": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+          "duration": "60 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 124,
+      "timestamp": "2026-10-26T17:21:36.674341+00:00",
+      "raw_input": "i want to study something else",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "i want to study something else",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "confirmed",
+          "active_intervention": {
+            "intervention": "SWITCH",
+            "target_module": "AI Coursework 1",
+            "details": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+            "duration": "60 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "confirmed",
+          "active_intervention": {
+            "intervention": "SWITCH",
+            "target_module": "AI Coursework 1",
+            "details": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+            "duration": "60 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "i want to study something else",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "confirmed",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SWITCH",
+          "target_module": "AI Coursework 1",
+          "details": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+          "duration": "60 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 125,
+      "timestamp": "2026-10-26T17:21:53.439512+00:00",
+      "raw_input": "Give me my list of pending tasks weighed by priority and why",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "Give me my list of pending tasks weighed by priority and why",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "confirmed",
+          "active_intervention": {
+            "intervention": "SWITCH",
+            "target_module": "AI Coursework 1",
+            "details": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+            "duration": "60 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "confirmed",
+          "active_intervention": {
+            "intervention": "SWITCH",
+            "target_module": "AI Coursework 1",
+            "details": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+            "duration": "60 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "Give me my list of pending tasks weighed by priority and why",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "confirmed",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SWITCH",
+          "target_module": "AI Coursework 1",
+          "details": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+          "duration": "60 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 126,
+      "timestamp": "2026-10-26T17:22:12.464674+00:00",
+      "raw_input": "I have completed my scheduled study block for AI Coursework 1. Please record this task as complete.",
+      "extracted_event": {
+        "type": "coursework_completed",
+        "module": "AI",
+        "item": "cw1",
+        "delta": null,
+        "total": null,
+        "notes": "I have completed my scheduled study block for AI Coursework 1. Please record this task as complete.",
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "I have completed my scheduled study block for AI Coursework 1. Please record this task as complete.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Marked deliverable AI cw1 as completed in database.",
+          "Closed active intervention and reset stage to idle."
+        ],
+        "before": {
+          "slice_stage": "confirmed",
+          "active_intervention": {
+            "intervention": "SWITCH",
+            "target_module": "AI Coursework 1",
+            "details": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+            "duration": "60 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        }
+      },
+      "planner_decision": {
+        "action_type": "acknowledge_completion",
+        "event": {
+          "type": "coursework_completed",
+          "module": "AI",
+          "item": "cw1",
+          "delta": null,
+          "total": null,
+          "notes": "I have completed my scheduled study block for AI Coursework 1. Please record this task as complete.",
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "I have completed my scheduled study block for AI Coursework 1. Please record this task as complete.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {
+          "completed_module": "AI",
+          "completed_item": "cw1",
+          "db_deficit": 5,
+          "preferred_name": "Suicidal"
+        },
+        "guidance_message": "Successfully recorded completion of AI CW1. Actionable marks at risk for AI are resolved. Your next potential priority is DB (deficit: 5 lectures). Would you like to take a break, tackle DB lectures, or review your schedule?"
+      },
+      "final_output": {
+        "text": "Suicidal, Successfully recorded completion of AI CW1. Actionable marks at risk for AI are resolved. Your next potential priority is DB (deficit: 5 lectures). Would you like to take a break, tackle DB lectures, or review your schedule?",
+        "a2ui_card": null,
+        "slice_stage": "idle",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "idle",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 127,
+      "timestamp": "2026-10-26T17:22:39.889632+00:00",
+      "raw_input": "I\u2019m studying another module called Advanced Networking",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "I\u2019m studying another module called Advanced Networking",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        },
+        "after": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "I\u2019m studying another module called Advanced Networking",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "idle",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "idle",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 128,
+      "timestamp": "2026-10-26T18:10:32.219869+00:00",
+      "raw_input": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+      "extracted_event": {
+        "type": "checkin_requested",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "modified_details": null,
+        "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": "idle"
+        }
+      },
+      "planner_decision": {
+        "action_type": "propose_intervention",
+        "event": {
+          "type": "checkin_requested",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "modified_details": null,
+          "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "extra": {}
+        },
+        "proposal": {
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+          "micro_steps": [
+            "Set up the test harness for task 1.",
+            "Implement the core heuristic function.",
+            "Run assertions against baseline cases."
+          ],
+          "rationale": "AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort."
+        },
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": null
+      },
+      "final_output": {
+        "text": "I recommend a structured study intervention based on your current deadlines and workload:\n\n### Proposed Intervention: SWITCH\n- **Target**: AI Coursework 1\n- **Duration**: 60 minutes\n- **Proposed Task & Scope**: Focus on AI Coursework 1 implementation (30% module marks due soon).\n- **Actionable Steps**:\n1. Set up the test harness for task 1.\n2. Implement the core heuristic function.\n3. Run assertions against baseline cases.\n- **Rationale**: AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort.\n- **User Confirmation Required**: Please confirm, modify, or decline this proposed intervention.",
+        "a2ui_card": {
+          "type": "intervention_proposal",
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+          "micro_steps": [
+            "Set up the test harness for task 1.",
+            "Implement the core heuristic function.",
+            "Run assertions against baseline cases."
+          ],
+          "rationale": "AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort.",
+          "actions": [
+            "confirm",
+            "shrink_30",
+            "decline"
+          ]
+        },
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": "SWITCH",
+        "proposal_details": {
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon)."
+        },
+        "active_intervention": null,
+        "approval_status": "idle",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 129,
+      "timestamp": "2026-10-26T18:10:38.858908+00:00",
+      "raw_input": "no thanks",
+      "extracted_event": {
+        "type": "intervention_rejected",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "no thanks",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Declined intervention proposal."
+        ],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": "idle"
+        },
+        "after": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "intervention_rejected",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "no thanks",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "Understood. The proposed intervention was declined. Your schedule remains as is. What would you like to work on instead?"
+      },
+      "final_output": {
+        "text": "Understood. The proposed intervention was declined. Your schedule remains as is. What would you like to work on instead?",
+        "a2ui_card": null,
+        "slice_stage": "idle",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "rejected",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 130,
+      "timestamp": "2026-10-26T18:10:52.511775+00:00",
+      "raw_input": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+      "extracted_event": {
+        "type": "checkin_requested",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "modified_details": null,
+        "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": "rejected"
+        }
+      },
+      "planner_decision": {
+        "action_type": "propose_intervention",
+        "event": {
+          "type": "checkin_requested",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "modified_details": null,
+          "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "extra": {}
+        },
+        "proposal": {
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+          "micro_steps": [
+            "Set up the test harness for task 1.",
+            "Implement the core heuristic function.",
+            "Run assertions against baseline cases."
+          ],
+          "rationale": "AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort."
+        },
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": null
+      },
+      "final_output": {
+        "text": "I recommend a structured study intervention based on your current deadlines and workload:\n\n### Proposed Intervention: SWITCH\n- **Target**: AI Coursework 1\n- **Duration**: 60 minutes\n- **Proposed Task & Scope**: Focus on AI Coursework 1 implementation (30% module marks due soon).\n- **Actionable Steps**:\n1. Set up the test harness for task 1.\n2. Implement the core heuristic function.\n3. Run assertions against baseline cases.\n- **Rationale**: AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort.\n- **User Confirmation Required**: Please confirm, modify, or decline this proposed intervention.",
+        "a2ui_card": {
+          "type": "intervention_proposal",
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+          "micro_steps": [
+            "Set up the test harness for task 1.",
+            "Implement the core heuristic function.",
+            "Run assertions against baseline cases."
+          ],
+          "rationale": "AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort.",
+          "actions": [
+            "confirm",
+            "shrink_30",
+            "decline"
+          ]
+        },
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": "SWITCH",
+        "proposal_details": {
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon)."
+        },
+        "active_intervention": null,
+        "approval_status": "rejected",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 131,
+      "timestamp": "2026-10-26T18:10:57.841214+00:00",
+      "raw_input": "i want to do something else",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "i want to do something else",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": "rejected"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "i want to do something else",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "rejected",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 132,
+      "timestamp": "2026-10-26T18:18:25.461279+00:00",
+      "raw_input": "call me angel",
+      "extracted_event": {
+        "type": "preference_updated",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": "preferred_name",
+        "value": "Angel",
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "call me angel",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Saved student preference: preferred_name = Angel."
+        ],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "preference_updated",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": "preferred_name",
+          "value": "Angel",
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "call me angel",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I'm here to help guide your study sessions. What would you like to work on?"
+      },
+      "final_output": {
+        "text": "I'm here to help guide your study sessions. What would you like to work on?",
+        "a2ui_card": null,
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "rejected",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 133,
+      "timestamp": "2026-10-26T18:18:34.709930+00:00",
+      "raw_input": "call me suicidal",
+      "extracted_event": {
+        "type": "preference_updated",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": "preferred_name",
+        "value": "Suicidal",
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "call me suicidal",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Saved student preference: preferred_name = Suicidal."
+        ],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "preference_updated",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": "preferred_name",
+          "value": "Suicidal",
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "call me suicidal",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I'm here to help guide your study sessions. What would you like to work on?"
+      },
+      "final_output": {
+        "text": "I'm here to help guide your study sessions. What would you like to work on?",
+        "a2ui_card": null,
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "rejected",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 134,
+      "timestamp": "2026-10-26T18:19:49.071448+00:00",
+      "raw_input": "i want to rest",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "i want to rest",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "i want to rest",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "rejected",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 135,
+      "timestamp": "2026-10-26T18:20:01.181986+00:00",
+      "raw_input": "Give me my list of pending tasks weighed by priority and why",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "Give me my list of pending tasks weighed by priority and why",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "Give me my list of pending tasks weighed by priority and why",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "rejected",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 136,
+      "timestamp": "2026-10-26T18:20:31.410742+00:00",
+      "raw_input": "I\u2019m studying another module called Advanced Networking",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "I\u2019m studying another module called Advanced Networking",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "I\u2019m studying another module called Advanced Networking",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "rejected",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 137,
+      "timestamp": "2026-10-26T18:20:49.177932+00:00",
+      "raw_input": "I have a splitting headache, zero energy, and my eyes are blurring.",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "I have a splitting headache, zero energy, and my eyes are blurring.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "I have a splitting headache, zero energy, and my eyes are blurring.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "rejected",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 138,
+      "timestamp": "2026-10-26T18:20:58.586637+00:00",
+      "raw_input": "Stuck on AI Question 2 for an hour because of A* heuristic.",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "Stuck on AI Question 2 for an hour because of A* heuristic.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "Stuck on AI Question 2 for an hour because of A* heuristic.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "rejected",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 139,
+      "timestamp": "2026-10-26T18:20:58.857437+00:00",
+      "raw_input": "Stuck on AI Question 2 for an hour because of A* heuristic.",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "Stuck on AI Question 2 for an hour because of A* heuristic.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "Stuck on AI Question 2 for an hour because of A* heuristic.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "rejected",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 140,
+      "timestamp": "2026-10-26T18:21:10.303321+00:00",
+      "raw_input": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+      "extracted_event": {
+        "type": "checkin_requested",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "modified_details": null,
+        "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": "rejected"
+        }
+      },
+      "planner_decision": {
+        "action_type": "propose_intervention",
+        "event": {
+          "type": "checkin_requested",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "modified_details": null,
+          "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "extra": {}
+        },
+        "proposal": {
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+          "micro_steps": [
+            "Set up the test harness for task 1.",
+            "Implement the core heuristic function.",
+            "Run assertions against baseline cases."
+          ],
+          "rationale": "AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort."
+        },
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": null
+      },
+      "final_output": {
+        "text": "I recommend a structured study intervention based on your current deadlines and workload:\n\n### Proposed Intervention: SWITCH\n- **Target**: AI Coursework 1\n- **Duration**: 60 minutes\n- **Proposed Task & Scope**: Focus on AI Coursework 1 implementation (30% module marks due soon).\n- **Actionable Steps**:\n1. Set up the test harness for task 1.\n2. Implement the core heuristic function.\n3. Run assertions against baseline cases.\n- **Rationale**: AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort.\n- **User Confirmation Required**: Please confirm, modify, or decline this proposed intervention.",
+        "a2ui_card": {
+          "type": "intervention_proposal",
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+          "micro_steps": [
+            "Set up the test harness for task 1.",
+            "Implement the core heuristic function.",
+            "Run assertions against baseline cases."
+          ],
+          "rationale": "AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort.",
+          "actions": [
+            "confirm",
+            "shrink_30",
+            "decline"
+          ]
+        },
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": "SWITCH",
+        "proposal_details": {
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon)."
+        },
+        "active_intervention": null,
+        "approval_status": "rejected",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 141,
+      "timestamp": "2026-10-26T18:22:10.605781+00:00",
+      "raw_input": "I have a splitting headache, zero energy, and my eyes are blurring.",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "I have a splitting headache, zero energy, and my eyes are blurring.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": "rejected"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "I have a splitting headache, zero energy, and my eyes are blurring.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "rejected",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 142,
+      "timestamp": "2026-10-26T18:22:29.685046+00:00",
+      "raw_input": "Stuck on AI Question 2 for an hour because of A* heuristic.",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "Stuck on AI Question 2 for an hour because of A* heuristic.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "Stuck on AI Question 2 for an hour because of A* heuristic.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "rejected",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 143,
+      "timestamp": "2026-10-26T18:22:56.433192+00:00",
+      "raw_input": "Should I catch up on my 5 DB lectures or work on AI cw1 due in 10 days?",
+      "extracted_event": {
+        "type": "lecture_progress_updated",
+        "module": "DB",
+        "item": null,
+        "delta": 5,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "Should I catch up on my 5 DB lectures or work on AI cw1 due in 10 days?",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Recorded progress: DB lectures updated to 5 (+5)."
+        ],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        }
+      },
+      "planner_decision": {
+        "action_type": "acknowledge_progress",
+        "event": {
+          "type": "lecture_progress_updated",
+          "module": "DB",
+          "item": null,
+          "delta": 5,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "Should I catch up on my 5 DB lectures or work on AI cw1 due in 10 days?",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {
+          "module": "DB",
+          "learnt": 5,
+          "taught": 8,
+          "deficit": 3,
+          "preferred_name": "Suicidal"
+        },
+        "guidance_message": "Recorded. DB lectures completed is now 5/8. Your lecture deficit for DB is now 3."
+      },
+      "final_output": {
+        "text": "Suicidal, Recorded. DB lectures completed is now 5/8. Your lecture deficit for DB is now 3.",
+        "a2ui_card": null,
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "rejected",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 144,
+      "timestamp": "2026-10-26T18:30:15.357781+00:00",
+      "raw_input": "what to do now'",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "what to do now'",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "what to do now'",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "rejected",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 145,
+      "timestamp": "2026-10-26T18:34:10.860440+00:00",
+      "raw_input": "I'm also studying Advanced Network module",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "I'm also studying Advanced Network module",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "I'm also studying Advanced Network module",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "rejected",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 146,
+      "timestamp": "2026-10-26T21:51:13.051435+00:00",
+      "raw_input": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+      "extracted_event": {
+        "type": "checkin_requested",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "modified_details": null,
+        "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": "rejected"
+        }
+      },
+      "planner_decision": {
+        "action_type": "propose_intervention",
+        "event": {
+          "type": "checkin_requested",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "modified_details": null,
+          "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "extra": {}
+        },
+        "proposal": {
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+          "micro_steps": [
+            "Set up the test harness for task 1.",
+            "Implement the core heuristic function.",
+            "Run assertions against baseline cases."
+          ],
+          "rationale": "AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort."
+        },
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": null
+      },
+      "final_output": {
+        "text": "I recommend a structured study intervention based on your current deadlines and workload:\n\n### Proposed Intervention: SWITCH\n- **Target**: AI Coursework 1\n- **Duration**: 60 minutes\n- **Proposed Task & Scope**: Focus on AI Coursework 1 implementation (30% module marks due soon).\n- **Actionable Steps**:\n1. Set up the test harness for task 1.\n2. Implement the core heuristic function.\n3. Run assertions against baseline cases.\n- **Rationale**: AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort.\n- **User Confirmation Required**: Please confirm, modify, or decline this proposed intervention.",
+        "a2ui_card": {
+          "type": "intervention_proposal",
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+          "micro_steps": [
+            "Set up the test harness for task 1.",
+            "Implement the core heuristic function.",
+            "Run assertions against baseline cases."
+          ],
+          "rationale": "AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort.",
+          "actions": [
+            "confirm",
+            "shrink_30",
+            "decline"
+          ]
+        },
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": "SWITCH",
+        "proposal_details": {
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon)."
+        },
+        "active_intervention": null,
+        "approval_status": "rejected",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 147,
+      "timestamp": "2026-10-26T21:51:18.712632+00:00",
+      "raw_input": "no",
+      "extracted_event": {
+        "type": "intervention_rejected",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "no",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Declined intervention proposal."
+        ],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": "rejected"
+        },
+        "after": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "intervention_rejected",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "no",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "Understood. The proposed intervention was declined. Your schedule remains as is. What would you like to work on instead?"
+      },
+      "final_output": {
+        "text": "Understood. The proposed intervention was declined. Your schedule remains as is. What would you like to work on instead?",
+        "a2ui_card": null,
+        "slice_stage": "idle",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "rejected",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 148,
+      "timestamp": "2026-10-27T10:55:56.573840+00:00",
+      "raw_input": "Call me Steve",
+      "extracted_event": {
+        "type": "preference_updated",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": "preferred_name",
+        "value": "Steve",
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "Call me Steve",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Saved student preference: preferred_name = Steve."
+        ],
+        "before": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        },
+        "after": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "preference_updated",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": "preferred_name",
+          "value": "Steve",
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "Call me Steve",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "Got it \u2014 I'll call you Steve from now on."
+      },
+      "final_output": {
+        "text": "Got it \u2014 I'll call you Steve from now on.",
+        "a2ui_card": null,
+        "slice_stage": "idle",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "rejected",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 149,
+      "timestamp": "2026-10-27T10:56:32.233762+00:00",
+      "raw_input": "Whenever you propose something, say 'Hehehehe here I comeeee'",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "Whenever you propose something, say 'Hehehehe here I comeeee'",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        },
+        "after": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "Whenever you propose something, say 'Hehehehe here I comeeee'",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "idle",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "rejected",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 150,
+      "timestamp": "2026-10-27T10:56:44.441101+00:00",
+      "raw_input": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+      "extracted_event": {
+        "type": "checkin_requested",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "modified_details": null,
+        "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "rejected"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": "rejected"
+        }
+      },
+      "planner_decision": {
+        "action_type": "propose_intervention",
+        "event": {
+          "type": "checkin_requested",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "modified_details": null,
+          "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "extra": {}
+        },
+        "proposal": {
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+          "micro_steps": [
+            "Set up the test harness for task 1.",
+            "Implement the core heuristic function.",
+            "Run assertions against baseline cases."
+          ],
+          "rationale": "AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort."
+        },
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": null
+      },
+      "final_output": {
+        "text": "I recommend a structured study intervention based on your current deadlines and workload:\n\n### Proposed Intervention: SWITCH\n- **Target**: AI Coursework 1\n- **Duration**: 60 minutes\n- **Proposed Task & Scope**: Focus on AI Coursework 1 implementation (30% module marks due soon).\n- **Actionable Steps**:\n1. Set up the test harness for task 1.\n2. Implement the core heuristic function.\n3. Run assertions against baseline cases.\n- **Rationale**: AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort.\n- **User Confirmation Required**: Please confirm, modify, or decline this proposed intervention.",
+        "a2ui_card": {
+          "type": "intervention_proposal",
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+          "micro_steps": [
+            "Set up the test harness for task 1.",
+            "Implement the core heuristic function.",
+            "Run assertions against baseline cases."
+          ],
+          "rationale": "AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort.",
+          "actions": [
+            "confirm",
+            "shrink_30",
+            "decline"
+          ]
+        },
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": "SWITCH",
+        "proposal_details": {
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon)."
+        },
+        "active_intervention": null,
+        "approval_status": "rejected",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 151,
+      "timestamp": "2026-10-27T10:56:51.504482+00:00",
+      "raw_input": "Yes, please apply this intervention.",
+      "extracted_event": {
+        "type": "intervention_confirmed",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "Yes, please apply this intervention.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Recorded confirmed intervention: SWITCH for AI Coursework 1."
+        ],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": "rejected"
+        },
+        "after": {
+          "slice_stage": "confirmed",
+          "active_intervention": {
+            "intervention": "SWITCH",
+            "target_module": "AI Coursework 1",
+            "details": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+            "duration": "60 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "intervention_confirmed",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "Yes, please apply this intervention.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "Confirmed! Your intervention (SWITCH) is now active for AI Coursework 1 (60 minutes). I've updated your schedule. Let me know when you've finished or if you need to adjust."
+      },
+      "final_output": {
+        "text": "Confirmed! Your intervention (SWITCH) is now active for AI Coursework 1 (60 minutes). I've updated your schedule. Let me know when you've finished or if you need to adjust.",
+        "a2ui_card": null,
+        "slice_stage": "confirmed",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SWITCH",
+          "target_module": "AI Coursework 1",
+          "details": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+          "duration": "60 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 152,
+      "timestamp": "2026-10-27T10:56:59.744486+00:00",
+      "raw_input": "I have completed my scheduled study block for AI Coursework 1. Please record this task as complete.",
+      "extracted_event": {
+        "type": "coursework_completed",
+        "module": "AI",
+        "item": "cw1",
+        "delta": null,
+        "total": null,
+        "notes": "I have completed my scheduled study block for AI Coursework 1. Please record this task as complete.",
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "I have completed my scheduled study block for AI Coursework 1. Please record this task as complete.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Marked deliverable AI cw1 as completed in database.",
+          "Closed active intervention and reset stage to idle."
+        ],
+        "before": {
+          "slice_stage": "confirmed",
+          "active_intervention": {
+            "intervention": "SWITCH",
+            "target_module": "AI Coursework 1",
+            "details": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+            "duration": "60 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        }
+      },
+      "planner_decision": {
+        "action_type": "acknowledge_completion",
+        "event": {
+          "type": "coursework_completed",
+          "module": "AI",
+          "item": "cw1",
+          "delta": null,
+          "total": null,
+          "notes": "I have completed my scheduled study block for AI Coursework 1. Please record this task as complete.",
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "I have completed my scheduled study block for AI Coursework 1. Please record this task as complete.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {
+          "completed_module": "AI",
+          "completed_item": "cw1",
+          "db_deficit": 3,
+          "preferred_name": "Steve"
+        },
+        "guidance_message": "Successfully recorded completion of AI CW1. Actionable marks at risk for AI are resolved. Your next potential priority is DB (deficit: 3 lectures). Would you like to take a break, tackle DB lectures, or review your schedule?"
+      },
+      "final_output": {
+        "text": "Steve, Successfully recorded completion of AI CW1. Actionable marks at risk for AI are resolved. Your next potential priority is DB (deficit: 3 lectures). Would you like to take a break, tackle DB lectures, or review your schedule?",
+        "a2ui_card": null,
+        "slice_stage": "idle",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "idle",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 153,
+      "timestamp": "2026-10-27T10:57:20.493864+00:00",
+      "raw_input": "take a break",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "take a break",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        },
+        "after": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "take a break",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "idle",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "idle",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 154,
+      "timestamp": "2026-10-27T10:57:30.750046+00:00",
+      "raw_input": "what to do next",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "what to do next",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        },
+        "after": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "what to do next",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "idle",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "idle",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 155,
+      "timestamp": "2026-10-27T10:57:54.934072+00:00",
+      "raw_input": "I am also studying Advanced Networking module, add that to my modules in the database",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "I am also studying Advanced Networking module, add that to my modules in the database",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        },
+        "after": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "I am also studying Advanced Networking module, add that to my modules in the database",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "idle",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "idle",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 156,
+      "timestamp": "2026-10-27T10:58:04.075742+00:00",
+      "raw_input": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+      "extracted_event": {
+        "type": "checkin_requested",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "modified_details": null,
+        "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": "idle"
+        }
+      },
+      "planner_decision": {
+        "action_type": "propose_intervention",
+        "event": {
+          "type": "checkin_requested",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "modified_details": null,
+          "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "extra": {}
+        },
+        "proposal": {
+          "intervention": "SWITCH",
+          "target": "DB Lectures",
+          "duration": "45 minutes",
+          "scope": "Catch up on 2 Database lectures to close deficit.",
+          "micro_steps": [
+            "Review lecture slides and key ER diagrams.",
+            "Work through the practice query examples.",
+            "Log completed lectures in navigator."
+          ],
+          "rationale": "Database systems carries high future subject relevance. Closing the current 3-lecture deficit prevents compounding exam pressure."
+        },
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": null
+      },
+      "final_output": {
+        "text": "I recommend a structured study intervention based on your current deadlines and workload:\n\n### Proposed Intervention: SWITCH\n- **Target**: DB Lectures\n- **Duration**: 45 minutes\n- **Proposed Task & Scope**: Catch up on 2 Database lectures to close deficit.\n- **Actionable Steps**:\n1. Review lecture slides and key ER diagrams.\n2. Work through the practice query examples.\n3. Log completed lectures in navigator.\n- **Rationale**: Database systems carries high future subject relevance. Closing the current 3-lecture deficit prevents compounding exam pressure.\n- **User Confirmation Required**: Please confirm, modify, or decline this proposed intervention.",
+        "a2ui_card": {
+          "type": "intervention_proposal",
+          "intervention": "SWITCH",
+          "target": "DB Lectures",
+          "duration": "45 minutes",
+          "scope": "Catch up on 2 Database lectures to close deficit.",
+          "micro_steps": [
+            "Review lecture slides and key ER diagrams.",
+            "Work through the practice query examples.",
+            "Log completed lectures in navigator."
+          ],
+          "rationale": "Database systems carries high future subject relevance. Closing the current 3-lecture deficit prevents compounding exam pressure.",
+          "actions": [
+            "confirm",
+            "shrink_30",
+            "decline"
+          ]
+        },
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": "SWITCH",
+        "proposal_details": {
+          "intervention": "SWITCH",
+          "target": "DB Lectures",
+          "duration": "45 minutes",
+          "scope": "Catch up on 2 Database lectures to close deficit."
+        },
+        "active_intervention": null,
+        "approval_status": "idle",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 157,
+      "timestamp": "2026-10-27T10:58:16.939374+00:00",
+      "raw_input": "Apply this intervention with modification: SHRINK the session to 30 minutes",
+      "extracted_event": {
+        "type": "intervention_modified",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": "SHRINK the session to 30 minutes",
+        "raw_text": "Apply this intervention with modification: SHRINK the session to 30 minutes",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Recorded modified intervention: SHRINK for DB Lectures (SHRINK the session to 30 minutes)."
+        ],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": "idle"
+        },
+        "after": {
+          "slice_stage": "confirmed",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "intervention_modified",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": "SHRINK the session to 30 minutes",
+          "raw_text": "Apply this intervention with modification: SHRINK the session to 30 minutes",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "Adjusted! Intervention modified to SHRINK (30 minutes) on DB Lectures. Timer and schedule updated. Let me know when you complete this sprint."
+      },
+      "final_output": {
+        "text": "Adjusted! Intervention modified to SHRINK (30 minutes) on DB Lectures. Timer and schedule updated. Let me know when you complete this sprint.",
+        "a2ui_card": null,
+        "slice_stage": "confirmed",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SHRINK",
+          "target_module": "DB Lectures",
+          "details": "SHRINK the session to 30 minutes",
+          "duration": "30 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 158,
+      "timestamp": "2026-10-27T10:58:22.219342+00:00",
+      "raw_input": "Please revert the applied intervention and restore the prior study schedule.",
+      "extracted_event": {
+        "type": "intervention_reverted",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "Please revert the applied intervention and restore the prior study schedule.",
+        "modified_details": null,
+        "raw_text": "Please revert the applied intervention and restore the prior study schedule.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Ignored confirm/modify \u2014 nothing was pending."
+        ],
+        "before": {
+          "slice_stage": "confirmed",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "confirmed",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "acknowledge_revert",
+        "event": {
+          "type": "intervention_reverted",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "Please revert the applied intervention and restore the prior study schedule.",
+          "modified_details": null,
+          "raw_text": "Please revert the applied intervention and restore the prior study schedule.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "Understood. The applied intervention has been reverted and your previous study schedule is restored."
+      },
+      "final_output": {
+        "text": "Understood. The applied intervention has been reverted and your previous study schedule is restored.",
+        "a2ui_card": null,
+        "slice_stage": "confirmed",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SHRINK",
+          "target_module": "DB Lectures",
+          "details": "SHRINK the session to 30 minutes",
+          "duration": "30 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 159,
+      "timestamp": "2026-10-27T10:58:26.587638+00:00",
+      "raw_input": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+      "extracted_event": {
+        "type": "checkin_requested",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "modified_details": null,
+        "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "confirmed",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "checkin_requested",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "modified_details": null,
+          "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "You have an active session on DB Lectures. Please finish it or tell me to revert it."
+      },
+      "final_output": {
+        "text": "You have an active session on DB Lectures. Please finish it or tell me to revert it.",
+        "a2ui_card": null,
+        "slice_stage": "evaluating",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SHRINK",
+          "target_module": "DB Lectures",
+          "details": "SHRINK the session to 30 minutes",
+          "duration": "30 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 160,
+      "timestamp": "2026-10-27T10:58:41.311122+00:00",
+      "raw_input": "Should I catch up on my 5 DB lectures or work on AI cw1 due in 10 days?",
+      "extracted_event": {
+        "type": "lecture_progress_updated",
+        "module": "DB",
+        "item": null,
+        "delta": 5,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "Should I catch up on my 5 DB lectures or work on AI cw1 due in 10 days?",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Recorded progress: DB lectures updated to 10 (+5)."
+        ],
+        "before": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "acknowledge_progress",
+        "event": {
+          "type": "lecture_progress_updated",
+          "module": "DB",
+          "item": null,
+          "delta": 5,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "Should I catch up on my 5 DB lectures or work on AI cw1 due in 10 days?",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {
+          "module": "DB",
+          "learnt": 10,
+          "taught": 8,
+          "deficit": 0,
+          "preferred_name": "Steve"
+        },
+        "guidance_message": "Recorded. DB lectures completed is now 10/8. Your lecture deficit for DB is now 0."
+      },
+      "final_output": {
+        "text": "Steve, Recorded. DB lectures completed is now 10/8. Your lecture deficit for DB is now 0.",
+        "a2ui_card": null,
+        "slice_stage": "evaluating",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SHRINK",
+          "target_module": "DB Lectures",
+          "details": "SHRINK the session to 30 minutes",
+          "duration": "30 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 161,
+      "timestamp": "2026-10-27T10:58:56.210854+00:00",
+      "raw_input": "Stuck on AI Question 2 for an hour because of A* heuristic.",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "Stuck on AI Question 2 for an hour because of A* heuristic.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "Stuck on AI Question 2 for an hour because of A* heuristic.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "evaluating",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SHRINK",
+          "target_module": "DB Lectures",
+          "details": "SHRINK the session to 30 minutes",
+          "duration": "30 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 162,
+      "timestamp": "2026-10-27T10:59:00.660140+00:00",
+      "raw_input": "I have a splitting headache, zero energy, and my eyes are blurring.",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "I have a splitting headache, zero energy, and my eyes are blurring.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "I have a splitting headache, zero energy, and my eyes are blurring.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "evaluating",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SHRINK",
+          "target_module": "DB Lectures",
+          "details": "SHRINK the session to 30 minutes",
+          "duration": "30 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 163,
+      "timestamp": "2026-10-27T10:59:10.449733+00:00",
+      "raw_input": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+      "extracted_event": {
+        "type": "checkin_requested",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "modified_details": null,
+        "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "checkin_requested",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "modified_details": null,
+          "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "You have an active session on DB Lectures. Please finish it or tell me to revert it."
+      },
+      "final_output": {
+        "text": "You have an active session on DB Lectures. Please finish it or tell me to revert it.",
+        "a2ui_card": null,
+        "slice_stage": "evaluating",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SHRINK",
+          "target_module": "DB Lectures",
+          "details": "SHRINK the session to 30 minutes",
+          "duration": "30 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 164,
+      "timestamp": "2026-10-27T10:59:18.338689+00:00",
+      "raw_input": "ive reverted it",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "ive reverted it",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "ive reverted it",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "evaluating",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SHRINK",
+          "target_module": "DB Lectures",
+          "details": "SHRINK the session to 30 minutes",
+          "duration": "30 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 165,
+      "timestamp": "2026-10-28T09:44:01.383521+00:00",
+      "raw_input": "Call me Ad#m",
+      "extracted_event": {
+        "type": "preference_updated",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": "preferred_name",
+        "value": "Ad",
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "Call me Ad#m",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Saved student preference: preferred_name = Ad."
+        ],
+        "before": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "preference_updated",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": "preferred_name",
+          "value": "Ad",
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "Call me Ad#m",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "Got it \u2014 I'll call you Ad from now on."
+      },
+      "final_output": {
+        "text": "Got it \u2014 I'll call you Ad from now on.",
+        "a2ui_card": null,
+        "slice_stage": "evaluating",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SHRINK",
+          "target_module": "DB Lectures",
+          "details": "SHRINK the session to 30 minutes",
+          "duration": "30 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 166,
+      "timestamp": "2026-10-28T09:44:15.809282+00:00",
+      "raw_input": "call me Adam",
+      "extracted_event": {
+        "type": "preference_updated",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": "preferred_name",
+        "value": "Adam",
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "call me Adam",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Saved student preference: preferred_name = Adam."
+        ],
+        "before": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "preference_updated",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": "preferred_name",
+          "value": "Adam",
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "call me Adam",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "Got it \u2014 I'll call you Adam from now on."
+      },
+      "final_output": {
+        "text": "Got it \u2014 I'll call you Adam from now on.",
+        "a2ui_card": null,
+        "slice_stage": "evaluating",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SHRINK",
+          "target_module": "DB Lectures",
+          "details": "SHRINK the session to 30 minutes",
+          "duration": "30 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 167,
+      "timestamp": "2026-10-28T09:44:25.070960+00:00",
+      "raw_input": "What should i do now",
+      "extracted_event": {
+        "type": "checkin_requested",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "What should i do now",
+        "modified_details": null,
+        "raw_text": "What should i do now",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "checkin_requested",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "What should i do now",
+          "modified_details": null,
+          "raw_text": "What should i do now",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "You have an active session on DB Lectures. Please finish it or tell me to revert it."
+      },
+      "final_output": {
+        "text": "You have an active session on DB Lectures. Please finish it or tell me to revert it.",
+        "a2ui_card": null,
+        "slice_stage": "evaluating",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SHRINK",
+          "target_module": "DB Lectures",
+          "details": "SHRINK the session to 30 minutes",
+          "duration": "30 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 168,
+      "timestamp": "2026-10-28T09:44:43.167149+00:00",
+      "raw_input": "there's no active session",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "there's no active session",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "there's no active session",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "evaluating",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SHRINK",
+          "target_module": "DB Lectures",
+          "details": "SHRINK the session to 30 minutes",
+          "duration": "30 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 169,
+      "timestamp": "2026-10-28T09:44:53.785924+00:00",
+      "raw_input": "revert db session",
+      "extracted_event": {
+        "type": "intervention_reverted",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "revert db session",
+        "modified_details": null,
+        "raw_text": "revert db session",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Ignored confirm/modify \u2014 nothing was pending."
+        ],
+        "before": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "acknowledge_revert",
+        "event": {
+          "type": "intervention_reverted",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "revert db session",
+          "modified_details": null,
+          "raw_text": "revert db session",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "Understood. The applied intervention has been reverted and your previous study schedule is restored."
+      },
+      "final_output": {
+        "text": "Understood. The applied intervention has been reverted and your previous study schedule is restored.",
+        "a2ui_card": null,
+        "slice_stage": "evaluating",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SHRINK",
+          "target_module": "DB Lectures",
+          "details": "SHRINK the session to 30 minutes",
+          "duration": "30 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 170,
+      "timestamp": "2026-10-28T09:45:03.420635+00:00",
+      "raw_input": "What should i do now",
+      "extracted_event": {
+        "type": "checkin_requested",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "What should i do now",
+        "modified_details": null,
+        "raw_text": "What should i do now",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "checkin_requested",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "What should i do now",
+          "modified_details": null,
+          "raw_text": "What should i do now",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "You have an active session on DB Lectures. Please finish it or tell me to revert it."
+      },
+      "final_output": {
+        "text": "You have an active session on DB Lectures. Please finish it or tell me to revert it.",
+        "a2ui_card": null,
+        "slice_stage": "evaluating",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SHRINK",
+          "target_module": "DB Lectures",
+          "details": "SHRINK the session to 30 minutes",
+          "duration": "30 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 171,
+      "timestamp": "2026-10-28T09:45:11.395513+00:00",
+      "raw_input": "pending tasks",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "pending tasks",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "pending tasks",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "evaluating",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SHRINK",
+          "target_module": "DB Lectures",
+          "details": "SHRINK the session to 30 minutes",
+          "duration": "30 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 172,
+      "timestamp": "2026-10-28T10:03:09.433902+00:00",
+      "raw_input": "d",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "d",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "d",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "evaluating",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SHRINK",
+          "target_module": "DB Lectures",
+          "details": "SHRINK the session to 30 minutes",
+          "duration": "30 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 173,
+      "timestamp": "2026-10-28T12:52:06.391849+00:00",
+      "raw_input": "rzwfgtehzbsgtja353hh",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "rzwfgtehzbsgtja353hh",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "rzwfgtehzbsgtja353hh",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "evaluating",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SHRINK",
+          "target_module": "DB Lectures",
+          "details": "SHRINK the session to 30 minutes",
+          "duration": "30 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 174,
+      "timestamp": "2026-10-28T15:32:13.991166+00:00",
+      "raw_input": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+      "extracted_event": {
+        "type": "checkin_requested",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "modified_details": null,
+        "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "checkin_requested",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "modified_details": null,
+          "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "You have an active session on DB Lectures. Please finish it or tell me to revert it."
+      },
+      "final_output": {
+        "text": "You have an active session on DB Lectures. Please finish it or tell me to revert it.",
+        "a2ui_card": null,
+        "slice_stage": "evaluating",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SHRINK",
+          "target_module": "DB Lectures",
+          "details": "SHRINK the session to 30 minutes",
+          "duration": "30 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 175,
+      "timestamp": "2026-10-28T15:35:52.606981+00:00",
+      "raw_input": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+      "extracted_event": {
+        "type": "checkin_requested",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "modified_details": null,
+        "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "checkin_requested",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "modified_details": null,
+          "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "You have an active session on DB Lectures. Please finish it or tell me to revert it."
+      },
+      "final_output": {
+        "text": "You have an active session on DB Lectures. Please finish it or tell me to revert it.",
+        "a2ui_card": null,
+        "slice_stage": "evaluating",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SHRINK",
+          "target_module": "DB Lectures",
+          "details": "SHRINK the session to 30 minutes",
+          "duration": "30 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 176,
+      "timestamp": "2026-10-28T15:45:27.816718+00:00",
+      "raw_input": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+      "extracted_event": {
+        "type": "checkin_requested",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "modified_details": null,
+        "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "checkin_requested",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "modified_details": null,
+          "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "You have an active session on DB Lectures. Please finish it or tell me to revert it."
+      },
+      "final_output": {
+        "text": "You have an active session on DB Lectures. Please finish it or tell me to revert it.",
+        "a2ui_card": null,
+        "slice_stage": "evaluating",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SHRINK",
+          "target_module": "DB Lectures",
+          "details": "SHRINK the session to 30 minutes",
+          "duration": "30 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 177,
+      "timestamp": "2026-10-28T15:45:31.682983+00:00",
+      "raw_input": "finished",
+      "extracted_event": {
+        "type": "coursework_completed",
+        "module": "DB",
+        "item": "cw1",
+        "delta": null,
+        "total": null,
+        "notes": "finished",
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "finished",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Marked deliverable DB cw1 as completed in database.",
+          "Closed active intervention and reset stage to idle."
+        ],
+        "before": {
+          "slice_stage": "evaluating",
+          "active_intervention": {
+            "intervention": "SHRINK",
+            "target_module": "DB Lectures",
+            "details": "SHRINK the session to 30 minutes",
+            "duration": "30 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        }
+      },
+      "planner_decision": {
+        "action_type": "acknowledge_completion",
+        "event": {
+          "type": "coursework_completed",
+          "module": "DB",
+          "item": "cw1",
+          "delta": null,
+          "total": null,
+          "notes": "finished",
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "finished",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {
+          "completed_module": "DB",
+          "completed_item": "cw1",
+          "db_deficit": 5,
+          "preferred_name": "Adam"
+        },
+        "guidance_message": "Successfully recorded completion of DB CW1. Actionable marks at risk for DB are resolved. Your next potential priority is DB (deficit: 5 lectures). Would you like to take a break, tackle DB lectures, or review your schedule?"
+      },
+      "final_output": {
+        "text": "Adam, Successfully recorded completion of DB CW1. Actionable marks at risk for DB are resolved. Your next potential priority is DB (deficit: 5 lectures). Would you like to take a break, tackle DB lectures, or review your schedule?",
+        "a2ui_card": null,
+        "slice_stage": "idle",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "idle",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 178,
+      "timestamp": "2026-10-28T15:45:39.719914+00:00",
+      "raw_input": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+      "extracted_event": {
+        "type": "checkin_requested",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "modified_details": null,
+        "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": "idle"
+        }
+      },
+      "planner_decision": {
+        "action_type": "propose_intervention",
+        "event": {
+          "type": "checkin_requested",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "modified_details": null,
+          "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "extra": {}
+        },
+        "proposal": {
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+          "micro_steps": [
+            "Set up the test harness for task 1.",
+            "Implement the core heuristic function.",
+            "Run assertions against baseline cases."
+          ],
+          "rationale": "AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort."
+        },
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": null
+      },
+      "final_output": {
+        "text": "I recommend a structured study intervention based on your current deadlines and workload:\n\n### Proposed Intervention: SWITCH\n- **Target**: AI Coursework 1\n- **Duration**: 60 minutes\n- **Proposed Task & Scope**: Focus on AI Coursework 1 implementation (30% module marks due soon).\n- **Actionable Steps**:\n1. Set up the test harness for task 1.\n2. Implement the core heuristic function.\n3. Run assertions against baseline cases.\n- **Rationale**: AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort.\n- **User Confirmation Required**: Please confirm, modify, or decline this proposed intervention.",
+        "a2ui_card": {
+          "type": "intervention_proposal",
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+          "micro_steps": [
+            "Set up the test harness for task 1.",
+            "Implement the core heuristic function.",
+            "Run assertions against baseline cases."
+          ],
+          "rationale": "AI Coursework 1 represents 30% of total module marks with the nearest deadline. Maximises expected academic mark per unit of study effort.",
+          "actions": [
+            "confirm",
+            "shrink_30",
+            "decline"
+          ]
+        },
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": "SWITCH",
+        "proposal_details": {
+          "intervention": "SWITCH",
+          "target": "AI Coursework 1",
+          "duration": "60 minutes",
+          "scope": "Focus on AI Coursework 1 implementation (30% module marks due soon)."
+        },
+        "active_intervention": null,
+        "approval_status": "idle",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 179,
+      "timestamp": "2026-10-28T15:46:16.101806+00:00",
+      "raw_input": "Yes, please apply this intervention.",
+      "extracted_event": {
+        "type": "intervention_confirmed",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "Yes, please apply this intervention.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Recorded confirmed intervention: SWITCH for AI Coursework 1."
+        ],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": "idle"
+        },
+        "after": {
+          "slice_stage": "confirmed",
+          "active_intervention": {
+            "intervention": "SWITCH",
+            "target_module": "AI Coursework 1",
+            "details": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+            "duration": "60 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "intervention_confirmed",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "Yes, please apply this intervention.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "Confirmed! Your intervention (SWITCH) is now active for AI Coursework 1 (60 minutes). I've updated your schedule. Let me know when you've finished or if you need to adjust."
+      },
+      "final_output": {
+        "text": "Confirmed! Your intervention (SWITCH) is now active for AI Coursework 1 (60 minutes). I've updated your schedule. Let me know when you've finished or if you need to adjust.",
+        "a2ui_card": null,
+        "slice_stage": "confirmed",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SWITCH",
+          "target_module": "AI Coursework 1",
+          "details": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+          "duration": "60 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 180,
+      "timestamp": "2026-10-28T15:46:24.167086+00:00",
+      "raw_input": "I have completed my scheduled study block for AI Coursework 1. Please record this task as complete.",
+      "extracted_event": {
+        "type": "coursework_completed",
+        "module": "AI",
+        "item": "cw1",
+        "delta": null,
+        "total": null,
+        "notes": "I have completed my scheduled study block for AI Coursework 1. Please record this task as complete.",
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "I have completed my scheduled study block for AI Coursework 1. Please record this task as complete.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Marked deliverable AI cw1 as completed in database.",
+          "Closed active intervention and reset stage to idle."
+        ],
+        "before": {
+          "slice_stage": "confirmed",
+          "active_intervention": {
+            "intervention": "SWITCH",
+            "target_module": "AI Coursework 1",
+            "details": "Focus on AI Coursework 1 implementation (30% module marks due soon).",
+            "duration": "60 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        }
+      },
+      "planner_decision": {
+        "action_type": "acknowledge_completion",
+        "event": {
+          "type": "coursework_completed",
+          "module": "AI",
+          "item": "cw1",
+          "delta": null,
+          "total": null,
+          "notes": "I have completed my scheduled study block for AI Coursework 1. Please record this task as complete.",
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "I have completed my scheduled study block for AI Coursework 1. Please record this task as complete.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {
+          "completed_module": "AI",
+          "completed_item": "cw1",
+          "db_deficit": 5,
+          "preferred_name": "Adam"
+        },
+        "guidance_message": "Successfully recorded completion of AI CW1. Actionable marks at risk for AI are resolved. Your next potential priority is DB (deficit: 5 lectures). Would you like to take a break, tackle DB lectures, or review your schedule?"
+      },
+      "final_output": {
+        "text": "Adam, Successfully recorded completion of AI CW1. Actionable marks at risk for AI are resolved. Your next potential priority is DB (deficit: 5 lectures). Would you like to take a break, tackle DB lectures, or review your schedule?",
+        "a2ui_card": null,
+        "slice_stage": "idle",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "idle",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 181,
+      "timestamp": "2026-10-28T15:48:15.214322+00:00",
+      "raw_input": "take a break",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "take a break",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        },
+        "after": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "take a break",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "idle",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "idle",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 182,
+      "timestamp": "2026-10-28T15:48:25.324425+00:00",
+      "raw_input": "tackle db lectures",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "tackle db lectures",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        },
+        "after": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "tackle db lectures",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "idle",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "idle",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 183,
+      "timestamp": "2026-10-28T15:48:44.603864+00:00",
+      "raw_input": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+      "extracted_event": {
+        "type": "checkin_requested",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "modified_details": null,
+        "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": "idle"
+        }
+      },
+      "planner_decision": {
+        "action_type": "propose_intervention",
+        "event": {
+          "type": "checkin_requested",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "modified_details": null,
+          "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "extra": {}
+        },
+        "proposal": {
+          "intervention": "SWITCH",
+          "target": "DB Lectures",
+          "duration": "45 minutes",
+          "scope": "Catch up on 2 Database lectures to close deficit.",
+          "micro_steps": [
+            "Review lecture slides and key ER diagrams.",
+            "Work through the practice query examples.",
+            "Log completed lectures in navigator."
+          ],
+          "rationale": "Database systems carries high future subject relevance. Closing the current 5-lecture deficit prevents compounding exam pressure."
+        },
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": null
+      },
+      "final_output": {
+        "text": "I recommend a structured study intervention based on your current deadlines and workload:\n\n### Proposed Intervention: SWITCH\n- **Target**: DB Lectures\n- **Duration**: 45 minutes\n- **Proposed Task & Scope**: Catch up on 2 Database lectures to close deficit.\n- **Actionable Steps**:\n1. Review lecture slides and key ER diagrams.\n2. Work through the practice query examples.\n3. Log completed lectures in navigator.\n- **Rationale**: Database systems carries high future subject relevance. Closing the current 5-lecture deficit prevents compounding exam pressure.\n- **User Confirmation Required**: Please confirm, modify, or decline this proposed intervention.",
+        "a2ui_card": {
+          "type": "intervention_proposal",
+          "intervention": "SWITCH",
+          "target": "DB Lectures",
+          "duration": "45 minutes",
+          "scope": "Catch up on 2 Database lectures to close deficit.",
+          "micro_steps": [
+            "Review lecture slides and key ER diagrams.",
+            "Work through the practice query examples.",
+            "Log completed lectures in navigator."
+          ],
+          "rationale": "Database systems carries high future subject relevance. Closing the current 5-lecture deficit prevents compounding exam pressure.",
+          "actions": [
+            "confirm",
+            "shrink_30",
+            "decline"
+          ]
+        },
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": "SWITCH",
+        "proposal_details": {
+          "intervention": "SWITCH",
+          "target": "DB Lectures",
+          "duration": "45 minutes",
+          "scope": "Catch up on 2 Database lectures to close deficit."
+        },
+        "active_intervention": null,
+        "approval_status": "idle",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 184,
+      "timestamp": "2026-10-28T15:48:48.858893+00:00",
+      "raw_input": "Yes, please apply this intervention.",
+      "extracted_event": {
+        "type": "intervention_confirmed",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "Yes, please apply this intervention.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Recorded confirmed intervention: SWITCH for DB Lectures."
+        ],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": "idle"
+        },
+        "after": {
+          "slice_stage": "confirmed",
+          "active_intervention": {
+            "intervention": "SWITCH",
+            "target_module": "DB Lectures",
+            "details": "Catch up on 2 Database lectures to close deficit.",
+            "duration": "45 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "intervention_confirmed",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "Yes, please apply this intervention.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "Confirmed! Your intervention (SWITCH) is now active for DB Lectures (45 minutes). I've updated your schedule. Let me know when you've finished or if you need to adjust."
+      },
+      "final_output": {
+        "text": "Confirmed! Your intervention (SWITCH) is now active for DB Lectures (45 minutes). I've updated your schedule. Let me know when you've finished or if you need to adjust.",
+        "a2ui_card": null,
+        "slice_stage": "confirmed",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SWITCH",
+          "target_module": "DB Lectures",
+          "details": "Catch up on 2 Database lectures to close deficit.",
+          "duration": "45 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 185,
+      "timestamp": "2026-10-28T15:48:52.493731+00:00",
+      "raw_input": "Please revert the applied intervention and restore the prior study schedule.",
+      "extracted_event": {
+        "type": "intervention_reverted",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "Please revert the applied intervention and restore the prior study schedule.",
+        "modified_details": null,
+        "raw_text": "Please revert the applied intervention and restore the prior study schedule.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Reverted intervention: Please revert the applied intervention and restore the prior study schedule.."
+        ],
+        "before": {
+          "slice_stage": "confirmed",
+          "active_intervention": {
+            "intervention": "SWITCH",
+            "target_module": "DB Lectures",
+            "details": "Catch up on 2 Database lectures to close deficit.",
+            "duration": "45 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        }
+      },
+      "planner_decision": {
+        "action_type": "acknowledge_revert",
+        "event": {
+          "type": "intervention_reverted",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "Please revert the applied intervention and restore the prior study schedule.",
+          "modified_details": null,
+          "raw_text": "Please revert the applied intervention and restore the prior study schedule.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "Understood. The applied intervention has been reverted and your previous study schedule is restored."
+      },
+      "final_output": {
+        "text": "Understood. The applied intervention has been reverted and your previous study schedule is restored.",
+        "a2ui_card": null,
+        "slice_stage": "idle",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "idle",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 186,
+      "timestamp": "2026-10-28T15:48:56.092146+00:00",
+      "raw_input": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+      "extracted_event": {
+        "type": "checkin_requested",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "modified_details": null,
+        "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        },
+        "after": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": "idle"
+        }
+      },
+      "planner_decision": {
+        "action_type": "propose_intervention",
+        "event": {
+          "type": "checkin_requested",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "modified_details": null,
+          "raw_text": "I planned a 2-hour portfolio block, checking in to see if I should adjust.",
+          "extra": {}
+        },
+        "proposal": {
+          "intervention": "SWITCH",
+          "target": "DB Lectures",
+          "duration": "45 minutes",
+          "scope": "Catch up on 2 Database lectures to close deficit.",
+          "micro_steps": [
+            "Review lecture slides and key ER diagrams.",
+            "Work through the practice query examples.",
+            "Log completed lectures in navigator."
+          ],
+          "rationale": "Database systems carries high future subject relevance. Closing the current 5-lecture deficit prevents compounding exam pressure."
+        },
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": null
+      },
+      "final_output": {
+        "text": "I recommend a structured study intervention based on your current deadlines and workload:\n\n### Proposed Intervention: SWITCH\n- **Target**: DB Lectures\n- **Duration**: 45 minutes\n- **Proposed Task & Scope**: Catch up on 2 Database lectures to close deficit.\n- **Actionable Steps**:\n1. Review lecture slides and key ER diagrams.\n2. Work through the practice query examples.\n3. Log completed lectures in navigator.\n- **Rationale**: Database systems carries high future subject relevance. Closing the current 5-lecture deficit prevents compounding exam pressure.\n- **User Confirmation Required**: Please confirm, modify, or decline this proposed intervention.",
+        "a2ui_card": {
+          "type": "intervention_proposal",
+          "intervention": "SWITCH",
+          "target": "DB Lectures",
+          "duration": "45 minutes",
+          "scope": "Catch up on 2 Database lectures to close deficit.",
+          "micro_steps": [
+            "Review lecture slides and key ER diagrams.",
+            "Work through the practice query examples.",
+            "Log completed lectures in navigator."
+          ],
+          "rationale": "Database systems carries high future subject relevance. Closing the current 5-lecture deficit prevents compounding exam pressure.",
+          "actions": [
+            "confirm",
+            "shrink_30",
+            "decline"
+          ]
+        },
+        "slice_stage": "awaiting_confirmation",
+        "pending_proposal": "SWITCH",
+        "proposal_details": {
+          "intervention": "SWITCH",
+          "target": "DB Lectures",
+          "duration": "45 minutes",
+          "scope": "Catch up on 2 Database lectures to close deficit."
+        },
+        "active_intervention": null,
+        "approval_status": "idle",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 187,
+      "timestamp": "2026-10-28T15:48:58.894624+00:00",
+      "raw_input": "Yes, please apply this intervention.",
+      "extracted_event": {
+        "type": "intervention_confirmed",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "Yes, please apply this intervention.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Recorded confirmed intervention: SWITCH for DB Lectures."
+        ],
+        "before": {
+          "slice_stage": "awaiting_confirmation",
+          "active_intervention": null,
+          "pending_proposal": "SWITCH",
+          "approval_status": "idle"
+        },
+        "after": {
+          "slice_stage": "confirmed",
+          "active_intervention": {
+            "intervention": "SWITCH",
+            "target_module": "DB Lectures",
+            "details": "Catch up on 2 Database lectures to close deficit.",
+            "duration": "45 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "intervention_confirmed",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "Yes, please apply this intervention.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "Confirmed! Your intervention (SWITCH) is now active for DB Lectures (45 minutes). I've updated your schedule. Let me know when you've finished or if you need to adjust."
+      },
+      "final_output": {
+        "text": "Confirmed! Your intervention (SWITCH) is now active for DB Lectures (45 minutes). I've updated your schedule. Let me know when you've finished or if you need to adjust.",
+        "a2ui_card": null,
+        "slice_stage": "confirmed",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": {
+          "intervention": "SWITCH",
+          "target_module": "DB Lectures",
+          "details": "Catch up on 2 Database lectures to close deficit.",
+          "duration": "45 minutes"
+        },
+        "approval_status": "approved",
+        "trace": null
+      }
+    },
+    {
+      "turn_index": 188,
+      "timestamp": "2026-10-28T15:49:01.709087+00:00",
+      "raw_input": "I have completed my scheduled study block for DB Lectures. Please record this task as complete.",
+      "extracted_event": {
+        "type": "coursework_completed",
+        "module": "DB",
+        "item": "cw1",
+        "delta": null,
+        "total": null,
+        "notes": "I have completed my scheduled study block for DB Lectures. Please record this task as complete.",
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "I have completed my scheduled study block for DB Lectures. Please record this task as complete.",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [
+          "Marked deliverable DB cw1 as completed in database.",
+          "Closed active intervention and reset stage to idle."
+        ],
+        "before": {
+          "slice_stage": "confirmed",
+          "active_intervention": {
+            "intervention": "SWITCH",
+            "target_module": "DB Lectures",
+            "details": "Catch up on 2 Database lectures to close deficit.",
+            "duration": "45 minutes"
+          },
+          "pending_proposal": null,
+          "approval_status": "approved"
+        },
+        "after": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": "idle"
+        }
+      },
+      "planner_decision": {
+        "action_type": "acknowledge_completion",
+        "event": {
+          "type": "coursework_completed",
+          "module": "DB",
+          "item": "cw1",
+          "delta": null,
+          "total": null,
+          "notes": "I have completed my scheduled study block for DB Lectures. Please record this task as complete.",
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "I have completed my scheduled study block for DB Lectures. Please record this task as complete.",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {
+          "completed_module": "DB",
+          "completed_item": "cw1",
+          "db_deficit": 5,
+          "preferred_name": "Adam"
+        },
+        "guidance_message": "Successfully recorded completion of DB CW1. Actionable marks at risk for DB are resolved. Your next potential priority is DB (deficit: 5 lectures). Would you like to take a break, tackle DB lectures, or review your schedule?"
+      },
+      "final_output": {
+        "text": "Adam, Successfully recorded completion of DB CW1. Actionable marks at risk for DB are resolved. Your next potential priority is DB (deficit: 5 lectures). Would you like to take a break, tackle DB lectures, or review your schedule?",
+        "a2ui_card": null,
+        "slice_stage": "idle",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": "idle",
+        "trace": null
+      }
     }
   ],
-  "updated_at": "2026-10-26T16:35:37.506947+00:00"
+  "updated_at": "2026-10-28T15:49:01.708818+00:00"
 }

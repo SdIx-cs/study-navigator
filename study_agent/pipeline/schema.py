@@ -24,6 +24,7 @@ class EventType(str, Enum):
     INTERVENTION_REJECTED = "intervention_rejected"
     INTERVENTION_REVERTED = "intervention_reverted"
     GENERAL_QUERY = "general_query"
+    STUDY_BLOCK_COMPLETED = "study_block_completed"
 
 
 @dataclass
@@ -41,6 +42,7 @@ class AcademicEvent:
     modified_details: Optional[str] = None
     raw_text: str = ""
     extra: Dict[str, Any] = field(default_factory=dict)
+    extraction_method: str = "regex"
 
 
 class ActionType(str, Enum):

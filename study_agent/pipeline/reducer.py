@@ -12,6 +12,7 @@ from typing import Any, Dict, List, Tuple
 
 from study_agent.db import (
     add_custom_task,
+    get_all_module_progress,
     mark_deliverable_completed,
     record_intervention,
     set_preference,
@@ -19,8 +20,22 @@ from study_agent.db import (
     update_module_lectures,
 )
 from study_agent.pipeline.schema import AcademicEvent, EventType
+from study_agent.tools import get_study_context
 
 log = logging.getLogger(__name__)
+
+
+def _apply_lecture_progress(user_id: str, mod: str, delta: int) -> str:
+    """Helper to update module lectures in database, seeding from baseline if first time."""
+    existing = get_all_module_progress(user_id)
+    if mod not in existing:
+        ctx = get_study_context(user_id)
+        baseline_str = ctx.get("modules", {}).get(mod, {}).get("lectures", {}).get("learnt", "0/0")
+        baseline_learnt = int(baseline_str.split("/")[0]) if "/" in baseline_str else 0
+        new_total = update_module_lectures(user_id, mod, baseline_learnt + delta, is_delta=False)
+    else:
+        new_total = update_module_lectures(user_id, mod, delta, is_delta=True)
+    return f"Recorded progress: {mod} lectures updated to {new_total} (+{delta})."
 
 
 def reduce(
@@ -51,8 +66,9 @@ def reduce(
     if event.type == EventType.LECTURE_PROGRESS:
         mod = (event.module or "DB").upper()
         delta = event.delta or 1
-        new_total = update_module_lectures(user_id, mod, delta, is_delta=True)
-        mutations.append(f"Recorded progress: {mod} lectures updated to {new_total} (+{delta}).")
+        state["pending_progress_update"] = {"module": mod, "delta": delta}
+        state["slice_stage"] = "awaiting_confirmation"
+        return state, mutations
 
     elif event.type == EventType.COURSEWORK_COMPLETED:
         mod = (event.module or "AI").upper()
@@ -84,9 +100,19 @@ def reduce(
         mutations.append(f"Added custom academic task: {mod} {task_name} ({pct}% due {deadline}).")
 
     elif event.type == EventType.INTERVENTION_CONFIRMED:
+        if state.get("pending_progress_update"):
+            pending = state.pop("pending_progress_update")
+            mod = pending.get("module", "DB")
+            delta = pending.get("delta", 1)
+            msg = _apply_lecture_progress(user_id, mod, delta)
+            state["slice_stage"] = "idle"
+            mutations.append(msg)
+            return state, mutations
+
         if current_state.get("slice_stage") != "awaiting_confirmation":
-                mutations.append("Ignored confirm/modify — nothing was pending.")
-                return state, mutations
+            mutations.append("Ignored confirm/modify — nothing was pending.")
+            return state, mutations
+
         details = state.get("proposal_details") or {}
         interv = details.get("intervention") or state.get("pending_proposal") or "CONTINUE"
         target = details.get("target") or "Study Task"
@@ -107,8 +133,9 @@ def reduce(
 
     elif event.type == EventType.INTERVENTION_MODIFIED:
         if current_state.get("slice_stage") != "awaiting_confirmation":
-                mutations.append("Ignored confirm/modify — nothing was pending.")
-                return state, mutations
+            mutations.append("Ignored confirm/modify — nothing was pending.")
+            return state, mutations
+
         mod_details = event.modified_details or "SHRINK the session to 30 minutes"
         details = state.get("proposal_details") or {}
         target = details.get("target") or "Current Task"
@@ -127,9 +154,10 @@ def reduce(
         mutations.append(f"Recorded modified intervention: SHRINK for {target} ({mod_details}).")
 
     elif event.type == EventType.INTERVENTION_REVERTED:
-        if current_state.get("slice_stage") != "awaiting_confirmation":
-                mutations.append("Ignored confirm/modify — nothing was pending.")
-                return state, mutations
+        if not current_state.get("active_intervention"):
+            mutations.append("Ignored revert — nothing active to revert.")
+            return state, mutations
+
         reason = event.reason or "Student requested rollback"
         update_latest_intervention_status(user_id, "reverted", details_suffix=reason)
         state["slice_stage"] = "idle"
@@ -140,12 +168,32 @@ def reduce(
         mutations.append(f"Reverted intervention: {reason}.")
 
     elif event.type == EventType.INTERVENTION_REJECTED:
+        if state.get("pending_progress_update"):
+            state.pop("pending_progress_update", None)
+            state["slice_stage"] = "idle"
+            mutations.append("Discarded unconfirmed progress update.")
+            return state, mutations
+
+        if current_state.get("slice_stage") != "awaiting_confirmation":
+            mutations.append("Ignored decline — nothing was pending.")
+            return state, mutations
+
         state["slice_stage"] = "idle"
         state["pending_proposal"] = None
         state["proposal_details"] = None
         state["approval_status"] = "rejected"
         mutations.append("Declined intervention proposal.")
 
+    elif event.type == EventType.STUDY_BLOCK_COMPLETED:
+        target = event.module or (state.get("active_intervention") or {}).get("target_module") or "your task"
+        update_latest_intervention_status(user_id, "completed", details_suffix=event.notes or f"Completed session on {target}")
+        state["active_intervention"] = {}
+        state["pending_proposal"] = ""
+        state["proposal_details"] = {}
+        state["slice_stage"] = "idle"
+        state["approval_status"] = "idle"
+        mutations.append(f"Closed study block on {target} (no coursework marked submitted).")
+        
     elif event.type == EventType.CHECKIN_REQUESTED:
         state["slice_stage"] = "evaluating"
 

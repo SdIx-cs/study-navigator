@@ -8,6 +8,7 @@ Coordinates:
 """
 
 import logging
+import time
 from typing import Any, Dict, List, Optional, Tuple
 
 from study_agent.pipeline.extractor import EventExtractor
@@ -42,6 +43,7 @@ class PipelineOrchestrator:
         """
         state = current_state or {}
         state_before = dict(state)
+        start_time = time.perf_counter()
 
         # Stage 1: Event Extractor (Turns raw message into structured event and NOTHING else)
         event: AcademicEvent = self.extractor.extract(message, context=state)
@@ -54,6 +56,8 @@ class PipelineOrchestrator:
 
         # Stage 4: Presenter (Formats output for chat and A2UI)
         output: PresenterOutput = self.presenter.present(decision, state=reduced_state)
+
+        elapsed_time_ms = (time.perf_counter() - start_time) * 1000.0
 
         # Final state sync
         final_state = dict(reduced_state)
@@ -75,6 +79,9 @@ class PipelineOrchestrator:
             planner_decision=decision,
             final_output=output,
         )
+        if isinstance(turn_trace, dict):
+            turn_trace["elapsed_time_ms"] = round(elapsed_time_ms, 2)
+            turn_trace["extraction_method"] = getattr(event, "extraction_method", "regex")
         output.trace = turn_trace
 
         return output, final_state, mutations

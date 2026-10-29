@@ -17,6 +17,18 @@
       --warning: #f59e0b;
       --danger: #ef4444;
     }
+    [data-theme="halloween"] {
+      --bg: #0b0712;
+      --card-bg: #1a1026;
+      --border: #4a2b66;
+      --accent: #f97316;
+      --accent-hover: #ea580c;
+      --text: #fef08a;
+      --text-muted: #c084fc;
+      --success: #4ade80;
+      --warning: #fb923c;
+      --danger: #f43f5e;
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
     body { background-color: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
@@ -328,6 +340,7 @@
       <div style="font-size: 0.85rem; color: var(--text-muted);" id="headerInfo">
         Student: <span id="studentNameDisplay" style="color: var(--accent); font-weight: 700;">student_1</span>
       </div>
+      <button class="quick-btn" style="background: rgba(249, 115, 22, 0.15); color: var(--accent); border-color: var(--accent);" onclick="toggleTheme()" id="themeToggleBtn">🎃 Theme</button>
       <button class="quick-btn" style="background: rgba(56, 189, 248, 0.15); color: var(--accent); border-color: var(--accent);" onclick="startNewSession()">+ New Session</button>
     </div>
   </header>
@@ -337,13 +350,8 @@
     <div class="panel">
       <div class="panel-header">
         <span>Academic Constraints</span>
-        <button class="quick-btn" onclick="fetchMetrics()">Refresh</button>
       </div>
       <div class="panel-body" id="metricsContainer">
-        <div class="urgent-banner">
-          ⚠️ <strong>High Stakes Deliverable:</strong><br/>
-          AI Coursework 1 (30% marks) due in 10 days!
-        </div>
         <div id="modulesList">Loading metrics...</div>
       </div>
     </div>
@@ -565,7 +573,8 @@
             const activeCard = renderActiveSessionCard(
               data.active_intervention.intervention,
               data.active_intervention.target_module,
-              data.active_intervention.details
+              data.active_intervention.details,
+              data.active_intervention.duration || data.proposal_details?.duration
             );
             document.getElementById("chatMessages").appendChild(activeCard);
           }
@@ -620,7 +629,7 @@
               data.active_intervention.intervention,
               data.active_intervention.target_module,
               data.active_intervention.details,
-              data.proposal_details?.duration
+              data.active_intervention.duration || data.proposal_details?.duration
             );
             document.getElementById("chatMessages").appendChild(activeCard);
           }
@@ -745,19 +754,11 @@
       if (existing) existing.remove();
 
       let minutes = 30;
-      const durMatch = (explicitDuration || "").match(/(\d+)\s*(?:min|minute)\b/i);
+      const durMatch = (explicitDuration || "").match(/(\d+)/);
       if (durMatch) {
-        minutes = parseInt(durMatch[1], 10);
-      } else {
-        const numMatch = (scope || "").match(/(\d+)\s*(?:min|minute)\b/i);
-        if (numMatch) {
-          minutes = parseInt(numMatch[1], 10);
-        } else if ((scope || "").match(/1\s*hour|60\s*min/i)) {
-          minutes = 60;
-        } else if (intervention === "SHRINK") {
-          minutes = 30;
-        } else if (intervention === "REST") {
-          minutes = 15;
+        const parsed = parseInt(durMatch[1], 10);
+        if (!isNaN(parsed) && parsed > 0) {
+          minutes = parsed;
         }
       }
 
@@ -880,11 +881,32 @@
       chat.scrollTop = chat.scrollHeight;
     }
 
-    // Initial load
-    fetchProfile();
-    fetchMetrics();
-    fetchHistory();
-    setStage("idle");
+    function applySavedTheme() {
+      const savedTheme = localStorage.getItem("study_nav_theme") || "default";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute("data-theme") === "halloween" ? "default" : "halloween";
+      document.documentElement.setAttribute("data-theme", current);
+      localStorage.setItem("study_nav_theme", current);
+    }
+
+    function initDashboard() {
+      applySavedTheme();
+      fetchProfile();
+      fetchMetrics();
+      fetchHistory();
+      setStage("idle");
+    }
+
+    applySavedTheme();
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initDashboard);
+    } else {
+      initDashboard();
+    }
   </script>
 </body>
 </html>

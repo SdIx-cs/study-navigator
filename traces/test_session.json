@@ -1,0 +1,73 @@
+{
+  "session_id": "test_session",
+  "user_id": "student_1",
+  "created_at": "2026-10-29T13:24:25.396232+00:00",
+  "turns": [
+    {
+      "turn_index": 1,
+      "timestamp": "2026-10-29T13:24:25.396263+00:00",
+      "raw_input": "Hi, what should I study today?",
+      "extracted_event": {
+        "type": "general_query",
+        "module": null,
+        "item": null,
+        "delta": null,
+        "total": null,
+        "notes": null,
+        "key": null,
+        "value": null,
+        "reason": null,
+        "modified_details": null,
+        "raw_text": "Hi, what should I study today?",
+        "extra": {}
+      },
+      "state_diff_applied": {
+        "mutations": [],
+        "before": {
+          "slice_stage": null,
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": null
+        },
+        "after": {
+          "slice_stage": "idle",
+          "active_intervention": null,
+          "pending_proposal": null,
+          "approval_status": null
+        }
+      },
+      "planner_decision": {
+        "action_type": "answer_query",
+        "event": {
+          "type": "general_query",
+          "module": null,
+          "item": null,
+          "delta": null,
+          "total": null,
+          "notes": null,
+          "key": null,
+          "value": null,
+          "reason": null,
+          "modified_details": null,
+          "raw_text": "Hi, what should I study today?",
+          "extra": {}
+        },
+        "proposal": null,
+        "diagnostic_question": null,
+        "response_facts": {},
+        "guidance_message": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?"
+      },
+      "final_output": {
+        "text": "I didn't quite catch that \u2014 are you checking in, reporting progress, or asking something else?",
+        "a2ui_card": null,
+        "slice_stage": "idle",
+        "pending_proposal": null,
+        "proposal_details": null,
+        "active_intervention": null,
+        "approval_status": null,
+        "trace": null
+      }
+    }
+  ],
+  "updated_at": "2026-10-29T13:24:25.396256+00:00"
+}

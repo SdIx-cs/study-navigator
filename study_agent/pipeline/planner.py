@@ -41,6 +41,18 @@ class PolicyPlanner:
         modules = metrics.get("modules", {})
         pref_name = metrics.get("student_profile", {}).get("preferred_name", "")
 
+        if event.type == EventType.PREFERENCE_UPDATED:
+            if reduced_state.get("safety_flag_triggered"):
+                return PlanDecision(
+                    action_type=ActionType.ANSWER_QUERY, event=event,
+                    guidance_message="That sounds serious, and I'm not the right place to help with it — please reach out to a crisis line or someone you trust.",
+                )
+            if (event.key or "preferred_name") == "preferred_name":
+                return PlanDecision(action_type=ActionType.ANSWER_QUERY, event=event,
+                    guidance_message=f"Got it — I'll call you {event.value or 'that'} from now on.")
+            return PlanDecision(action_type=ActionType.ANSWER_QUERY, event=event,
+                guidance_message=f"Noted — I'll remember that preference ({event.key}: {event.value}).")
+
         # 1. Coursework / Task Completed
         if event.type == EventType.COURSEWORK_COMPLETED:
             mod = event.module or "AI"
@@ -69,26 +81,11 @@ class PolicyPlanner:
         # 2. Lecture Progress Updated
         if event.type == EventType.LECTURE_PROGRESS:
             mod = (event.module or "DB").upper()
-            mod_data = modules.get(mod, {})
-            lectures_info = mod_data.get("lectures", {})
-            learnt = lectures_info.get("learnt", 0)
-            taught = lectures_info.get("taught", 10)
-            deficit = lectures_info.get("deficit", 0)
-            facts = {
-                "module": mod,
-                "learnt": learnt,
-                "taught": taught,
-                "deficit": deficit,
-                "preferred_name": pref_name,
-            }
+            delta = event.delta or 1
             return PlanDecision(
-                action_type=ActionType.ACKNOWLEDGE_PROGRESS,
+                action_type=ActionType.ANSWER_QUERY,
                 event=event,
-                response_facts=facts,
-                guidance_message=(
-                    f"Recorded. {mod} lectures completed is now {learnt}/{taught}. "
-                    f"Your lecture deficit for {mod} is now {deficit}."
-                ),
+                guidance_message=f"Got it — logging {delta} lecture(s) for {mod} as completed. Confirm?",
             )
 
         # 3. Casual Conversation / Leisure
@@ -135,8 +132,9 @@ class PolicyPlanner:
                 action_type=ActionType.ANSWER_QUERY,
                 event=event,
                 guidance_message=(
-                    "Understood. The proposed intervention was declined. "
-                    "Your schedule remains as is. What would you like to work on instead?"
+                    "There's nothing pending to decline right now."
+                    if not reduced_state.get("pending_proposal") and not reduced_state.get("proposal_details")
+                    else "Understood. The proposed intervention was declined. Your schedule remains as is. What would you like to work on instead?"
                 ),
             )
 
@@ -150,15 +148,19 @@ class PolicyPlanner:
                 ),
             )
 
-        if event.type == EventType.GENERAL_QUERY:
+        if event.type == EventType.STUDY_BLOCK_COMPLETED:
+            target = event.module or "your study task"
             return PlanDecision(
                 action_type=ActionType.ANSWER_QUERY,
                 event=event,
-                guidance_message="I didn't quite catch that — are you checking in, reporting progress, or asking something else?",
+                guidance_message=f"Nice work — study block on {target} marked complete. Let me know when you're ready for what's next.",
             )
 
-        # 5. Check-in or Workload Decision Request
-        if event.type == EventType.CHECKIN_REQUESTED:
+        if event.type in (EventType.GENERAL_QUERY, EventType.CHECKIN_REQUESTED):
+            text_lower = (event.raw_text or "").lower()
+
+            # 1. Active-session guard FIRST — move this to the top of the merged block,
+            #    so it now also covers GENERAL_QUERY, not just CHECKIN_REQUESTED.
             if reduced_state.get("active_intervention"):
                 active = reduced_state["active_intervention"]
                 target_mod = active.get("target_module", "your current task") if isinstance(active, dict) else "your current task"
@@ -171,9 +173,8 @@ class PolicyPlanner:
                     ),
                 )
 
-            text_lower = (event.raw_text or "").lower()
-
-            # A. Reluctance / Burnout / Stuck Diagnostic Check (Fixes B1 & B2)
+            # 2. Existing "don't feel like studying / not motivated / struggling / stuck"
+            #    check — unchanged, keep exactly as-is.
             if any(p in text_lower for p in ["don't feel like studying", "not motivated", "struggling", "stuck"]):
                 if "stuck" in text_lower:
                     # Conceptual blocker -> DIAGNOSE
@@ -206,7 +207,8 @@ class PolicyPlanner:
                         ),
                     )
 
-            if any(p in text_lower for p in ["exhausted", "tired", "headache", "burnout"]):
+            # 3. Existing "exhausted / tired / headache / burnout" check — unchanged.
+            if any(p in text_lower for p in ["exhausted", "tired", "headache", "burnout", "rest"]):
                 return PlanDecision(
                     action_type=ActionType.PROPOSE_INTERVENTION,
                     event=event,
@@ -224,65 +226,78 @@ class PolicyPlanner:
                     ),
                 )
 
-            # B. Pacing & Academic Mark Maximization:
-            # Objective: Maximise expected academic mark per unit of effort,
-            # while investing deeper understanding when it has meaningful future value.
-            ai_data = modules.get("AI", {})
-            ai_marks = ai_data.get("marks", {}).get("actionable_coursework_marks_at_risk", 0)
-            db_data = modules.get("DB", {})
-            db_deficit = db_data.get("lectures", {}).get("deficit", 0)
-
-            if ai_marks > 0:
-                # High-stakes imminent coursework (30% marks at risk)
-                return PlanDecision(
-                    action_type=ActionType.PROPOSE_INTERVENTION,
-                    event=event,
-                    proposal=InterventionProposal(
-                        intervention="SWITCH",
-                        target="AI Coursework 1",
-                        duration="60 minutes",
-                        scope="Focus on AI Coursework 1 implementation (30% module marks due soon).",
-                        micro_steps=[
-                            "Set up the test harness for task 1.",
-                            "Implement the core heuristic function.",
-                            "Run assertions against baseline cases.",
-                        ],
-                        rationale=(
-                            f"AI Coursework 1 represents {ai_marks}% of total module marks with the nearest deadline. "
-                            f"Maximises expected academic mark per unit of study effort."
-                        ),
-                    ),
-                )
-            elif db_deficit > 0:
-                # Lecture deficit on foundational module
-                return PlanDecision(
-                    action_type=ActionType.PROPOSE_INTERVENTION,
-                    event=event,
-                    proposal=InterventionProposal(
-                        intervention="SWITCH",
-                        target="DB Lectures",
-                        duration="45 minutes",
-                        scope=f"Catch up on {min(db_deficit, 2)} Database lectures to close deficit.",
-                        micro_steps=[
-                            "Review lecture slides and key ER diagrams.",
-                            "Work through the practice query examples.",
-                            "Log completed lectures in navigator.",
-                        ],
-                        rationale=(
-                            f"Database systems carries high future subject relevance. "
-                            f"Closing the current {db_deficit}-lecture deficit prevents compounding exam pressure."
-                        ),
-                    ),
-                )
-            else:
+            # 4. If event.type == EventType.GENERAL_QUERY at this point (nothing above
+            #    matched), return the existing clarifying-question ANSWER_QUERY exactly
+            #    as it is now worded. Do not let GENERAL_QUERY fall through past this.
+            if event.type == EventType.GENERAL_QUERY:
                 return PlanDecision(
                     action_type=ActionType.ANSWER_QUERY,
                     event=event,
-                    guidance_message=(
-                        "All critical deadlines and lecture pacing deficits are currently up to date! "
-                        "What topic would you like to explore or review next?"
-                    ),
+                    guidance_message="I didn't quite catch that — are you checking in, reporting progress, or asking something else?",
                 )
+
+            # 5. Everything below this point (the AI/DB pacing logic that proposes
+            #    SWITCH) should only execute for event.type == EventType.CHECKIN_REQUESTED
+            if event.type == EventType.CHECKIN_REQUESTED:
+                # B. Pacing & Academic Mark Maximization:
+                # Objective: Maximise expected academic mark per unit of effort,
+                # while investing deeper understanding when it has meaningful future value.
+                ai_data = modules.get("AI", {})
+                ai_marks = ai_data.get("marks", {}).get("actionable_coursework_marks_at_risk", 0)
+                db_data = modules.get("DB", {})
+                db_deficit = db_data.get("lectures", {}).get("deficit", 0)
+
+                if ai_marks > 0:
+                    # High-stakes imminent coursework (30% marks at risk)
+                    return PlanDecision(
+                        action_type=ActionType.PROPOSE_INTERVENTION,
+                        event=event,
+                        proposal=InterventionProposal(
+                            intervention="SWITCH",
+                            target="AI Coursework 1",
+                            duration="60 minutes",
+                            scope="Focus on AI Coursework 1 implementation (30% module marks due soon).",
+                            micro_steps=[
+                                "Set up the test harness for task 1.",
+                                "Implement the core heuristic function.",
+                                "Run assertions against baseline cases.",
+                            ],
+                            rationale=(
+                                f"AI Coursework 1 represents {ai_marks}% of total module marks with the nearest deadline. "
+                                f"Maximises expected academic mark per unit of study effort."
+                            ),
+                        ),
+                    )
+                elif db_deficit > 0:
+                    # Lecture deficit on foundational module
+                    return PlanDecision(
+                        action_type=ActionType.PROPOSE_INTERVENTION,
+                        event=event,
+                        proposal=InterventionProposal(
+                            intervention="SWITCH",
+                            target="DB Lectures",
+                            duration="45 minutes",
+                            scope=f"Catch up on {min(db_deficit, 2)} Database lectures to close deficit.",
+                            micro_steps=[
+                                "Review lecture slides and key ER diagrams.",
+                                "Work through the practice query examples.",
+                                "Log completed lectures in navigator.",
+                            ],
+                            rationale=(
+                                f"Database systems carries high future subject relevance. "
+                                f"Closing the current {db_deficit}-lecture deficit prevents compounding exam pressure."
+                            ),
+                        ),
+                    )
+                else:
+                    return PlanDecision(
+                        action_type=ActionType.ANSWER_QUERY,
+                        event=event,
+                        guidance_message=(
+                            "All critical deadlines and lecture pacing deficits are currently up to date! "
+                            "What topic would you like to explore or review next?"
+                        ),
+                    )
 
         # Default fallback
         return PlanDecision(
